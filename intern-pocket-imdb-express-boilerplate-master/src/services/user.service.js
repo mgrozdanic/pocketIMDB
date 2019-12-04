@@ -5,6 +5,7 @@ const { User } = require('./../models');
 const me = token => token.user;
 
 const register = async ({ email, password, name }) => {
+  console.log("Register usao");
   if (!email || !password || !name) {
     return { err: 'Malformed request data' };
   }
