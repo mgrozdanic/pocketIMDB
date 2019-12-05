@@ -7,9 +7,9 @@ const {
 } = require('./../services/movies.service');
 
 router.get('/movies', async (req, res) => res.send(await index()));
-router.get('/movies/:id', async (req, res) => res.send(await show()));
-router.delete('/movies/:id', async (req, res) => res.send(await destroy()));
-router.put('/movies/:id', async (req, res) => res.send(await update()));
-router.post('/movies', async (req, res) => res.send(await store()));
+router.get('/movies/:id', async (req, res) => res.send(await show(req.params.id)));
+router.delete('/movies/:id', async (req, res) => res.send(await destroy(req.params.id)));
+router.put('/movies/:id', async (req, res) => res.send(await update(req.params.id, req.body)));
+router.post('/movies', async (req, res) => res.send(await store(req.body)));
 
 module.exports = router;
