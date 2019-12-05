@@ -11,7 +11,7 @@ const show = (id) => {
     if (err) throw err;
     console.log('1 movie found.')
   })
-  // Done
+  // Done, no changes necessary
 };
 
 const store = ({title, description, imageUrl}) => {
@@ -20,7 +20,7 @@ const store = ({title, description, imageUrl}) => {
   }
   const movie = new Movie({title, description, imageUrl});
   return movie.save();
-  // Done
+  // Done, probably needs changes when adding new fields, also change model
 };
 
 const update = (id, movie) => {
@@ -28,7 +28,7 @@ const update = (id, movie) => {
     if (err) throw err;
     console.log('1 movie updated');
   })
-  // Done
+  // Done, no changes necessary
 };
 
 const destroy = (id) => {
@@ -36,7 +36,7 @@ const destroy = (id) => {
     if (err) throw err;
     console.log('1 movie deleted.');
   });
-  // Done?
+  // Done, no changes necessary
 };
 
 module.exports = {

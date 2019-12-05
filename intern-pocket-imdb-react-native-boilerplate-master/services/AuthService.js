@@ -33,6 +33,7 @@ class AuthService extends ApiService {
 
   createSession = async user => {
     await AsyncStorage.setItem("user", JSON.stringify(user));
+    console.log('set token', user)
     await this.setAuthorizationHeader();
   };
 
@@ -61,7 +62,7 @@ class AuthService extends ApiService {
 
   getToken = async () => {
     const user = await AsyncStorage.getItem("user");
-    return user ? JSON.parse(user).access_token : undefined;
+    return user ? JSON.parse(user).token : undefined;
   };
 
   getUser = async () => {

@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
 
 import { logIn } from "../../store/actions/AuthActions";
+import { getMovies } from "../../store/actions/MovieActions";
 
 const SignIn = ({ navigation }) => {
   navigationOptions = {
@@ -43,6 +44,11 @@ const SignIn = ({ navigation }) => {
       <TouchableOpacity onPress={handleNavigateToRegister}>
         <Text>Register </Text>
       </TouchableOpacity>
+
+      {/* <TouchableOpacity onPress={() => dispatch(getMovies())}>
+        <Text>Movies</Text>
+      </TouchableOpacity> */}
+
     </View>
   );
 };
