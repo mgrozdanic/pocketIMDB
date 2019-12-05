@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
 import { register } from "../../store/actions/AuthActions";
+import { validateEmail, validatePassword } from "./validators";
 
 const SignUp = () => {
   navigationOptions = {
@@ -14,12 +15,19 @@ const SignUp = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
 
   const handleLogin = data => dispatch(register(data));
 
   const submitLogin = () => {
-    handleLogin({ email, password, name });
+    if (validateEmail(email) && validatePassword(password, confirmPassword)){
+      if (name.length < 255){
+        handleLogin({ email, password, name });
+        return;
+      }
+      alert('Name must be shorter than 255 characters.');
+    }
   };
   return (
     <View style={styles.container}>
@@ -32,6 +40,11 @@ const SignUp = () => {
         placeholder="password"
         value={password}
         onChangeText={setPassword}
+      ></TextInput>
+      <TextInput
+        placeholder="confirm password"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
       ></TextInput>
       <TextInput
         placeholder="name"

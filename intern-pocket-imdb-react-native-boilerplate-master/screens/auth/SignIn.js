@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import PropTypes from "prop-types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
-
+import {validateEmail} from './validators';
 import { logIn } from "../../store/actions/AuthActions";
 import { getMovies } from "../../store/actions/MovieActions";
 
@@ -20,7 +20,9 @@ const SignIn = ({ navigation }) => {
   const handleLogin = data => dispatch(logIn(data));
 
   const submitLogin = () => {
-    handleLogin({ email, password });
+    if (validateEmail(email)){
+      handleLogin({ email, password });
+    }
   };
 
   const handleNavigateToRegister = () => {
