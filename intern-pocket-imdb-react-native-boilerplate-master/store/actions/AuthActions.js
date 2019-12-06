@@ -1,4 +1,4 @@
-import { LOGIN, AUTH_USER, REGISTER, LOGIN_ERROR, REGISTER_ERROR } from './ActionTypes';
+import { LOGIN, AUTH_USER, REGISTER, LOGIN_ERROR, REGISTER_ERROR, CHCK_UNIQUE, CHECK_UNIQUE_SUCCESS } from './ActionTypes';
 
 export const logIn = logInData => {
   return {
@@ -13,6 +13,24 @@ export const register = registerData => {
     payload: registerData
   };
 };
+
+// checking if email is unique
+
+export const unique = email => {
+  return {
+    type: CHCK_UNIQUE,
+    payload: email
+  }
+}
+
+export const updateUnique = payload => {
+  return {
+    type: CHECK_UNIQUE_SUCCESS,
+    payload
+  }
+}
+
+// end
 
 export const authUser = payload => {
   return {

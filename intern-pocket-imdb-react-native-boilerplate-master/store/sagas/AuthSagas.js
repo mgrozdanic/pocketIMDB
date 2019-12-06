@@ -1,6 +1,6 @@
 import { call, put } from "redux-saga/effects";
 
-import { authUser, loginError, registerError } from "../actions/AuthActions";
+import { authUser, loginError, registerError, updateUnique } from "../actions/AuthActions";
 import AuthService from "../../services/AuthService";
 import NavigationService from "../../services/NavigationService";
 
@@ -14,6 +14,15 @@ export function* userLogin({ payload }) {
     yield put(loginError(true));
   }
 }
+
+// check if email is unique
+export function* userUnique({payload}) {
+  
+  const response = yield call(AuthService.unique, payload);
+  yield put(updateUnique(response));
+}
+
+//end
 
 export function* userRegister({ payload }) {
   try {

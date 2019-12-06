@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 const jwtAuth = expressJwt({
   secret: process.env.JWT_SECRET,
-}).unless({ path: ['/auth/register', '/auth/login'] });
+}).unless({ path: ['/auth/register', '/auth/login', '/auth/unique'] });
 
 app.use(jwtAuth);
 

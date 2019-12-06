@@ -5,7 +5,6 @@ const { User } = require('./../models');
 const me = token => token.user;
 
 const register = async ({ email, password, name }) => {
-  console.log("Register usao");
   if (!email || !password || !name) {
     return { err: 'Malformed request data' };
   }
@@ -51,6 +50,14 @@ const refresh = () => {
   // Todo
 };
 
+const checkUnique = async(email) => {
+  const users = await User.findOne({email:email}, function(err, obj){
+    if (err) throw err;
+  });
+  console.log({unique:users === null});
+  return {unique:users === null};
+}
+
 module.exports = {
-  me, register, login, logout, refresh,
+  me, register, login, logout, refresh, checkUnique
 };

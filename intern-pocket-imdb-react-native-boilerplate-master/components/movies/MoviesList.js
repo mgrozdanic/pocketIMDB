@@ -4,16 +4,17 @@ import PropTypes from "prop-types";
 
 import MovieItem from "./MoviesItem";
 
-const MoviesList = ({ movies }) => {
+const MoviesList = ({ movies, navigation }) => {
   const renderMovie = movie => (
-    <MovieItem key={movie.id} movie={movie}></MovieItem>
+    <MovieItem navigation={navigation} key={movie.id} movie={movie}></MovieItem>
   );
 
   return <ScrollView>{movies.map(renderMovie)}</ScrollView>;
 };
 
 MoviesList.propTypes = {
-  movies: PropTypes.array
+  movies: PropTypes.array,
+  navigation: PropTypes.object
 };
 
 export default MoviesList;

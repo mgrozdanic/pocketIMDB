@@ -5,7 +5,8 @@ import config from "../config";
 const ENDPOINTS = {
   LOGIN: "/auth/login",
   REGISTER: "/auth/register",
-  LOGOUT: "/logout"
+  LOGOUT: "/logout",
+  UNIQUE: "/auth/unique"
 };
 
 class AuthService extends ApiService {
@@ -33,7 +34,6 @@ class AuthService extends ApiService {
 
   createSession = async user => {
     await AsyncStorage.setItem("user", JSON.stringify(user));
-    console.log('set token', user)
     await this.setAuthorizationHeader();
   };
 
@@ -47,7 +47,12 @@ class AuthService extends ApiService {
     await this.createSession(data);
     return data;
   };
-
+  // checking if email is unique
+  unique = async email => {
+    const { data } = await this.apiClient.post(ENDPOINTS.UNIQUE, {email});
+    return data.unique;
+  }
+  // end
   logout = async () => {
     const { data } = await this.apiClient.post(ENDPOINTS.LOGOUT);
     await this.destroySession();
@@ -55,8 +60,7 @@ class AuthService extends ApiService {
   };
 
   signup = async signupData => {
-    const { data } = await this.apiClient.post(ENDPOINTS.REGISTER, signupData);
-
+    const {data} = await this.apiClient.post(ENDPOINTS.REGISTER, signupData);
     return data;
   };
 

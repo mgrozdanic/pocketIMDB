@@ -3,8 +3,10 @@ import { StyleSheet, Text, View, TextInput } from "react-native";
 import PropTypes from "prop-types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
-import { register } from "../../store/actions/AuthActions";
+import { register, unique } from "../../store/actions/AuthActions";
 import { validateEmail, validatePassword } from "./validators";
+import { getUniqueUserSelector } from "../../store/selectors/UniqueUserSelector";
+import authService from "../../services/AuthService";
 
 const SignUp = () => {
   navigationOptions = {
@@ -20,8 +22,20 @@ const SignUp = () => {
 
   const handleLogin = data => dispatch(register(data));
 
+  const checkEmailUnique = async(email) => {
+    /*dispatch(unique(email));
+    if (useSelector(getUniqueUserSelector()) !== true){
+      alert('This email is taken, please choose another one.');
+      return false;
+    };
+    return true;*/
+    const unique =  await authService.unique(email);
+    if (!unique) alert('This email is taken, please choose another one.');
+    return unique;
+  }
+
   const submitLogin = () => {
-    if (validateEmail(email) && validatePassword(password, confirmPassword)){
+    if (validateEmail(email) && validatePassword(password, confirmPassword) && checkEmailUnique(email)){
       if (name.length < 255){
         handleLogin({ email, password, name });
         return;
@@ -36,6 +50,7 @@ const SignUp = () => {
         value={email}
         onChangeText={setEmail}
       ></TextInput>
+      {/* {!isUnique && <span>Nije unique</span>} */}
       <TextInput
         placeholder="password"
         value={password}

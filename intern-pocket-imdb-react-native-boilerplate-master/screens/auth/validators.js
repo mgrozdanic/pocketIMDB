@@ -1,3 +1,5 @@
+import {useDispatch} from 'react-redux';
+
 export const validateEmail = (inputText) => {
     let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if(inputText.match(mailformat) && inputText.length < 255) {
