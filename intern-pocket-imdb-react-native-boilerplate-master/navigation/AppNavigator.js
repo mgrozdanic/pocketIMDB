@@ -10,7 +10,6 @@ const AppNavigator = createSwitchNavigator(
     AuthLoading,
     AuthStack: AuthNavigator,
     MainStack: MainTabNavigator,//didao ovo ispod
-    MovieStack: MovieNavigator
   },
   {
     initialRouteName: "AuthLoading"

@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 import { View, Text, Image } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-
 const MovieItem = ({ movie, navigation }) => {
   
   const handleNavigate = () => {
-    navigation.navigate("MovieDetails");
+    navigation.navigate("MovieDetails", {movie});
   }
   return(
   <TouchableOpacity onPress={handleNavigate}>

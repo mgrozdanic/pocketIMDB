@@ -7,9 +7,13 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import TabBarIcon from "../components/TabBarIcon";
 import LeftSlider from "../screens/main/LeftSlider";
 import Home from "../screens/main/Home";
+import MoviesItem from "../components/movies/MoviesItem";
+import MovieDetails from "../components/movies/MovieDetails";
 
 const HomeStack = createStackNavigator({
-  Home
+  Home,
+  MoviesItem, 
+  MovieDetails
 });
 
 /* eslint-disable react/prop-types, react/display-name */
