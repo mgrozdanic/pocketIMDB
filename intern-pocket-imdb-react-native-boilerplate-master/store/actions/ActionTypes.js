@@ -13,3 +13,6 @@ export const REGISTER_ERROR = 'REGISTER_ERROR';
 
 export const GET_MOVIES = 'GET_MOVIES';
 export const SET_MOVIES = 'SET_MOVIES';
+
+export const SET_CURR_PAGE = 'SET_CURR_PAGE';
+export const SET_N_PAGES = 'SET_N_PAGES';
