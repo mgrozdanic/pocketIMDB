@@ -1,4 +1,4 @@
-import { SET_MOVIES, SET_N_PAGES, SET_CURR_PAGE } from '../actions/ActionTypes';
+import { SET_MOVIES, SET_N_PAGES, SET_CURR_PAGE, GET_MOVIE_FROM_OMDB } from '../actions/ActionTypes';
 
 const initialState = {
   all: [],

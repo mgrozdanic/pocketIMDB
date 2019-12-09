@@ -29,12 +29,19 @@ const Home = ({navigation}) => {
   const handlePrevious = () => dispatch(getMovies(parseInt(currentPage) - 1));
   const handleNext = () => dispatch(getMovies(parseInt(currentPage) + 1));
 
+  const handleAddMovieOMDb = () => navigation.navigate("AddMovieOMDb");
+
   useEffect(() => {
     handleMoviesGet(cPage);
   }, []);
 
   return (
     <View style={styles.container}>
+      <View style={{flexDirection:"row"}}>
+        <TouchableOpacity onPress={handleAddMovieOMDb}>
+          <Text>Add Movie</Text>
+        </TouchableOpacity>
+      </View>
       <MoviesList navigation={navigation} movies={movies}></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>

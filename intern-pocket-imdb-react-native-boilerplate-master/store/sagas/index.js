@@ -1,7 +1,7 @@
 import { all, takeLatest } from 'redux-saga/effects';
-import { LOGIN, REGISTER, GET_MOVIES, CHCK_UNIQUE } from '../actions/ActionTypes';
+import { LOGIN, REGISTER, GET_MOVIES, CHCK_UNIQUE, GET_MOVIE_FROM_OMDB } from '../actions/ActionTypes';
 import { userLogin, userRegister, userUnique } from './AuthSagas';
-import { moviesGet } from './MovieSagas';
+import { moviesGet, moviesGetFromOmdb } from './MovieSagas';
 
 export default function* rootSaga() {
   yield all([
@@ -10,6 +10,7 @@ export default function* rootSaga() {
     takeLatest(CHCK_UNIQUE, userUnique),
     // end
     takeLatest(REGISTER, userRegister),
-    takeLatest(GET_MOVIES, moviesGet)
+    takeLatest(GET_MOVIES, moviesGet),
+    takeLatest(GET_MOVIE_FROM_OMDB, moviesGetFromOmdb)
   ]);
 }

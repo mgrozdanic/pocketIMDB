@@ -8,12 +8,14 @@ import TabBarIcon from "../components/TabBarIcon";
 import LeftSlider from "../screens/main/LeftSlider";
 import Home from "../screens/main/Home";
 import MoviesItem from "../components/movies/MoviesItem";
+import AddMovieOMDb from "../screens/main/AddMovieOMDb";
 import MovieDetails from "../components/movies/MovieDetails";
 
 const HomeStack = createStackNavigator({
   Home,
   MoviesItem, 
-  MovieDetails
+  MovieDetails,
+  AddMovieOMDb
 });
 
 /* eslint-disable react/prop-types, react/display-name */

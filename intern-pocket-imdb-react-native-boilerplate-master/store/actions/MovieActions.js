@@ -1,4 +1,4 @@
-import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES } from './ActionTypes';
+import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, GET_MOVIE_FROM_OMDB } from './ActionTypes';
 
 export const getMovies = (data) => {
   return {
@@ -27,3 +27,10 @@ export const setNPages = payload => {
     payload
   };
 };
+
+export const getMovieFromOMDb = payload => {
+  return {
+    type: GET_MOVIE_FROM_OMDB,
+    payload
+  };
+}
