@@ -1,9 +1,17 @@
 const { Movie } = require('./../models');
 
-const index = async () => {
-  const movies = await Movie.find().exec();
+const index = async (pageParam) => {
+  // const movies = await Movie.find().exec();
+  const resultsPerPage  = 10;
+  const page = pageParam || 1;
 
-  return movies;
+  try {
+    const movies = await Movie.find().skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
+    const nOfMovies = await Movie.count();
+    return {movies, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)}
+  } catch (err) {
+    throw new Error(err);
+  }
 };
 
 const show = (id) => {

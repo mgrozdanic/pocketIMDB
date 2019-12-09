@@ -6,7 +6,7 @@ const {
   index, show, destroy, store, update,
 } = require('./../services/movies.service');
 
-router.get('/movies', async (req, res) => res.send(await index()));
+router.get('/movies/:page', async (req, res) => res.send(await index(req.params.page)));
 router.get('/movies/:id', async (req, res) => res.send(await show(req.params.id)));
 router.delete('/movies/:id', async (req, res) => res.send(await destroy(req.params.id)));
 router.put('/movies/:id', async (req, res) => res.send(await update(req.params.id, req.body)));
