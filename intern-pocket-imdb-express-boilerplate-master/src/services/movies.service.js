@@ -22,11 +22,26 @@ const show = (id) => {
   // Done, no changes necessary
 };
 
-const store = ({title, description, imageUrl}) => {
-  if (!title || !description || !imageUrl) {
-    return {err:'Malformed request data'};
-  }
-  const movie = new Movie({title, description, imageUrl});
+const store = ({Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors,
+  Plot, Language, Country, Awards, Poster, Production, Metascore, imdbRating}) => {
+  console.log(Title, Year);
+  const movie = new Movie({Title,
+    Year,
+    Rated,
+    Released,
+    Runtime,
+    Genre,
+    Director,
+    Writer,
+    Actors,
+    Plot,
+    Language,
+    Country,
+    Awards,
+    Poster,
+    Production,
+    Metascore,
+    imdbRating});
   return movie.save();
   // Done, probably needs changes when adding new fields, also change model
 };

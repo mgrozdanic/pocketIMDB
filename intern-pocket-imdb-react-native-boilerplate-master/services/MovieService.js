@@ -4,7 +4,7 @@ import axios from "axios";
 
 const ENDPOINTS = {
   MOVIES: "/movies/",
-  OMDB: "http://www.omdbapi.com/"
+  SAVE_MOVIE: "/movies"
 };
 
 class MovieService extends ApiService {
@@ -19,8 +19,15 @@ class MovieService extends ApiService {
   };
 
   getMoviesFromOMDb = async (movie) => {
-    return await axios.get(ENDPOINTS.OMDB + "?apikey=4670f4e&t=" + movie.title + "&y=" + movie.year);
+    const response = await axios.get("http://www.omdbapi.com/?t=" + movie.title 
+    + "&y=" + movie.year + "&apikey=4670f4e7");
+    return response;
   };
+
+  saveMovie = async (movie) => {
+    const response = this.apiClient.post(ENDPOINTS.SAVE_MOVIE, movie);
+    return response;
+  }
 }
 
 export const movieService = new MovieService();

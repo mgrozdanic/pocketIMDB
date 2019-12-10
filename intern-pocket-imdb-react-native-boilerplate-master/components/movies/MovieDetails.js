@@ -6,11 +6,11 @@ import PropTypes from "prop-types";
 const MovieDetails = ({navigation}) => {
     return (
         <View>
-            <Text>{navigation.getParam('movie').title}</Text>
-            <Text>{navigation.getParam('movie').description}</Text>
+            <Text>{navigation.getParam('movie').Title}</Text>
+            <Text>{navigation.getParam('movie').Plot}</Text>
             <Image
             style={{width: 66, height: 58}}
-            source={{uri: navigation.getParam('movie').imageUrl}}/>
+            source={{uri: navigation.getParam('movie').Poster}}/>
         </View>
     )
 }

@@ -11,12 +11,12 @@ const MovieItem = ({ movie, navigation }) => {
   return(
   <TouchableOpacity onPress={handleNavigate}>
     <View style={styles.item}>
-      <Text style={{fontSize: 20}}>{movie.title}</Text>
+      <Text style={{fontSize: 20}}>{movie.Title}</Text>
       <View style={styles.content}>
         <Image
               style={{width: "30%", height: 100}}
-              source={{uri: 'https://facebook.github.io/react/logo-og.png'}}/>
-        <Text style={styles.description}>{movie.description}</Text>
+              source={{uri: movie.Poster}}/>
+        <Text style={styles.description}>{movie.Plot}</Text>
       </View>
     </View>
   </TouchableOpacity>

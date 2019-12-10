@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 
 import { movieService } from '../../services/MovieService';
-import { setMovies, setCurrPage, setNPages } from '../actions/MovieActions';
+import { setMovies, setCurrPage, setNPages, omdbNotFound } from '../actions/MovieActions';
 
 export function* moviesGet({payload}) {
   try {
@@ -18,10 +18,17 @@ export function* moviesGet({payload}) {
 
 export function* moviesGetFromOmdb(obj) {
   try {
-    const {data} = yield call(movieService.getMoviesFromOMDb, obj.payload);
-    console.log("DATA\n", data);
-    // end
-  } catch (error) {
+    const { data }= yield call(movieService.getMoviesFromOMDb, obj.payload);
+
+    if (data.Response === "False"){
+      yield put(omdbNotFound("True"));
+    } else {
+      const response = yield call(movieService.saveMovie, data);
+      if (response.data.Title !== undefined) alert("Movie '" + response.data.Title + "("
+      + response.data.Year + ")' successfuly saved.");
+      else alert("Server error.");
+    }
+    } catch (error) {
     console.log({ error }); /*eslint-disable-line*/
   }
 }
