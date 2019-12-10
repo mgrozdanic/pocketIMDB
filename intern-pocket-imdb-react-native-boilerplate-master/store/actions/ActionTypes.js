@@ -19,3 +19,5 @@ export const SET_N_PAGES = 'SET_N_PAGES';
 
 export const GET_MOVIE_FROM_OMDB = 'GET_MOVIE_FROM_OMDB';
 export const OMDB_NOT_FOUND = 'OMDB_NOT_FOUND';
+
+export const USER_ACTION = 'USER_ACTION';

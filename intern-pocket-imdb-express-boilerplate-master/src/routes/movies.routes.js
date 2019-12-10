@@ -13,5 +13,6 @@ router.get('/movies/:id', async (req, res) => res.send(await show(req.params.id)
 router.delete('/movies/:id', async (req, res) => res.send(await destroy(req.params.id)));
 router.put('/movies/:id', async (req, res) => res.send(await update(req.params.id, req.body)));
 router.post('/movies', async (req, res) => res.send(await store(req.body)));
+router.post('/movies/action', async (req, res) => {console.log(req.body)});
 
 module.exports = router;

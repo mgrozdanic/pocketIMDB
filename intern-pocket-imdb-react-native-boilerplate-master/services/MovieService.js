@@ -4,7 +4,8 @@ import axios from "axios";
 
 const ENDPOINTS = {
   MOVIES: "/movies/",
-  SAVE_MOVIE: "/movies"
+  SAVE_MOVIE: "/movies",
+  SAVE_ACTION: "/movies/action"
 };
 
 class MovieService extends ApiService {
@@ -26,6 +27,11 @@ class MovieService extends ApiService {
 
   saveMovie = async (movie) => {
     const response = this.apiClient.post(ENDPOINTS.SAVE_MOVIE, movie);
+    return response;
+  };
+
+  saveAction = async (action) => {
+    const response = this.apiClient.post(ENDPOINTS.SAVE_ACTION, action);
     return response;
   }
 }

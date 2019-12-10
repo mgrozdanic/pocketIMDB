@@ -33,3 +33,12 @@ export function* moviesGetFromOmdb(obj) {
     console.log({ error }); /*eslint-disable-line*/
   }
 }
+
+export function* userAction({ payload }) {
+  try {
+    const { data } = yield call(movieService.saveAction, payload);
+    } catch (error) {
+
+    console.log({ error }); /*eslint-disable-line*/
+  }
+}

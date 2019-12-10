@@ -1,22 +1,28 @@
 import React from "react";
+import { useDispatch } from 'react-redux';
 import PropTypes from "prop-types";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { setUserAction } from "../../store/actions/MovieActions";
 
 const MovieItem = ({ movie, navigation }) => {
   
   const handleNavigate = () => {
     navigation.navigate("MovieDetails", {movie});
+  }
+
+  const dispatch = useDispatch();
 
   const handleLike = () => {
-
+    movie.action = "LIKE";
+    dispatch(setUserAction({action: "LIKE", movieId: movie._id}));
   }
 
   const handleDislike = () => {
-    
+    movie.action = "DISLIKE";
+    dispatch(setUserAction({action: "DISLIKE", movieId: movie._id}));
   }
 
-  }
   return(
   <TouchableOpacity onPress={handleNavigate}>
     <View style={styles.item}>
@@ -31,8 +37,8 @@ const MovieItem = ({ movie, navigation }) => {
       </View>
       <View style={{flexDirection:"row"}}>
       <Text style={{fontSize: 17}}>{movie.likes}</Text>
-      <TouchableOpacity disabled={movie.action === "LIKE"}><Text style={{fontSize: 17}}> Like </Text></TouchableOpacity>
-      <TouchableOpacity disabled={movie.action === "DISLIKE"}><Text style={{fontSize: 17}}> Dislike </Text></TouchableOpacity>
+      <TouchableOpacity onPress={handleLike} disabled={movie.action === "LIKE"}><Text style={{fontSize: 17}}> Like </Text></TouchableOpacity>
+      <TouchableOpacity onPress={handleDislike} disabled={movie.action === "DISLIKE"}><Text style={{fontSize: 17}}> Dislike </Text></TouchableOpacity>
       <Text style={{fontSize: 17}}>{movie.dislikes}</Text>
       </View>
     </View>
