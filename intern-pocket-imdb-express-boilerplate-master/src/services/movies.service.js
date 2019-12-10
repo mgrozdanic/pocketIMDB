@@ -6,15 +6,7 @@ const index = async (pageParam, token) => {
   const resultsPerPage  = 10;
   const page = pageParam || 1;
 
-  let decoded;
-  try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
-  
-  } catch(e) {
-    throw new Error(e);
-  }
-  const user = decoded.user._id;
-
+  let user = getUserIdFromToken(token);
 
   try {
     const movies = await Movie.find().skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
@@ -25,6 +17,35 @@ const index = async (pageParam, token) => {
     throw new Error(err);
   }
 };
+
+const getUserIdFromToken = token => {
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  
+  } catch(e) {
+    throw new Error(e);
+  }
+  return decoded.user._id;
+}
+
+const userActionDo = async(actionObj, token) => {
+  const user = getUserIdFromToken(token);
+  const movie = actionObj.movieId;
+  const action = actionObj.action;
+  const alreadyDidAction = await Likes.findOne({user: user, movie: movie});
+  if (alreadyDidAction === null){
+    const like = new Likes({user, movie, action});
+    return like.save();
+  } else {
+    return Likes.findByIdAndUpdate(alreadyDidAction._id, {$set:{action:action}}, (err, obj) => {
+      if (err) throw err;
+      console.log('1 action updated');
+    });
+    // update
+  }
+  
+}
 
 const appendActions = async(movies, user) => {
     const newMovies = await Promise.all(movies.map(async(movie) => {
@@ -94,4 +115,5 @@ module.exports = {
   store,
   update,
   destroy,
+  userActionDo
 };
