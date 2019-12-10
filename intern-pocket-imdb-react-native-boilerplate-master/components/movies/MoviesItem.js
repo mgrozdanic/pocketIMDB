@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from "prop-types";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { setUserAction } from "../../store/actions/MovieActions";
+import { setUserAction, getMovies } from "../../store/actions/MovieActions";
 
 const MovieItem = ({ movie, navigation }) => {
   
@@ -16,11 +16,13 @@ const MovieItem = ({ movie, navigation }) => {
   const handleLike = () => {
     movie.action = "LIKE";
     dispatch(setUserAction({action: "LIKE", movieId: movie._id}));
+    dispatch(getMovies(1));
   }
 
   const handleDislike = () => {
     movie.action = "DISLIKE";
     dispatch(setUserAction({action: "DISLIKE", movieId: movie._id}));
+    dispatch(getMovies(1));
   }
 
   return(

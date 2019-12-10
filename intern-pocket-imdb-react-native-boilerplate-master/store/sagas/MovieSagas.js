@@ -36,7 +36,7 @@ export function* moviesGetFromOmdb(obj) {
 
 export function* userAction({ payload }) {
   try {
-    const { data } = yield call(movieService.saveAction, payload);
+    yield call(movieService.saveAction, payload);
     } catch (error) {
 
     console.log({ error }); /*eslint-disable-line*/
