@@ -7,16 +7,33 @@ const MovieItem = ({ movie, navigation }) => {
   
   const handleNavigate = () => {
     navigation.navigate("MovieDetails", {movie});
+
+  const handleLike = () => {
+
+  }
+
+  const handleDislike = () => {
+    
+  }
+
   }
   return(
   <TouchableOpacity onPress={handleNavigate}>
     <View style={styles.item}>
+      <View style={{flexDirection:"row"}}>
       <Text style={{fontSize: 20}}>{movie.Title}</Text>
+      </View>
       <View style={styles.content}>
         <Image
               style={{width: "30%", height: 100}}
               source={{uri: movie.Poster}}/>
         <Text style={styles.description}>{movie.Plot}</Text>
+      </View>
+      <View style={{flexDirection:"row"}}>
+      <Text style={{fontSize: 17}}>{movie.likes}</Text>
+      <TouchableOpacity disabled={movie.action === "LIKE"}><Text style={{fontSize: 17}}> Like </Text></TouchableOpacity>
+      <TouchableOpacity disabled={movie.action === "DISLIKE"}><Text style={{fontSize: 17}}> Dislike </Text></TouchableOpacity>
+      <Text style={{fontSize: 17}}>{movie.dislikes}</Text>
       </View>
     </View>
   </TouchableOpacity>

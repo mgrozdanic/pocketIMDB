@@ -6,6 +6,7 @@ import { setMovies, setCurrPage, setNPages, omdbNotFound } from '../actions/Movi
 export function* moviesGet({payload}) {
   try {
     const { data } = yield call(movieService.getMovies, payload);
+    console.log(data);
     yield put(setMovies(data.movies));
     // za pagination
     yield put(setCurrPage(data.currentPage));

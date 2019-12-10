@@ -20,23 +20,24 @@ const index = async (pageParam, token) => {
     const movies = await Movie.find().skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
     const moviesFinal = await appendActions(movies, user);
     const nOfMovies = await Movie.count();
-    return {movies, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)}
+    return {movies: moviesFinal, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)}
   } catch (err) {
     throw new Error(err);
   }
 };
 
-const appendActions = (movies, user) => {
-  return movies.map(async(movie) => {
-    const likes = await Likes.count({movie: movie.id, action: 'LIKE'});
-    const dislikes = await Likes.count({movie: movie.id, action: 'DISLIKE'});
-    const res = await Likes.findOne({user: user, movie: movie.id});
-    let action;
-    if (res !== null) {
-      action = res.action;
-    }
-    return { ...movie, likes, dislikes, action};
-  });
+const appendActions = async(movies, user) => {
+    const newMovies = await Promise.all(movies.map(async(movie) => {
+      const likes = await Likes.count({movie: movie.id, action: 'LIKE'});
+      const dislikes = await Likes.count({movie: movie.id, action: 'DISLIKE'});
+      const res = await Likes.findOne({user: user, movie: movie.id});
+      let action;
+      if (res !== null) {
+        action = res.action;
+      }
+      return { ...movie.toJSON(), likes, dislikes, action};
+  }));
+    return newMovies;
 }
 
 const show = (id) => {
