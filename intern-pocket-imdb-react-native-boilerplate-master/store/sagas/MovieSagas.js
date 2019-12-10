@@ -42,3 +42,12 @@ export function* userAction({ payload }) {
     console.log({ error }); /*eslint-disable-line*/
   }
 }
+
+export function* viewAction({ payload }) {
+  try {
+    yield call(movieService.addView, payload);
+    } catch (error) {
+
+    console.log({ error }); /*eslint-disable-line*/
+  }
+}

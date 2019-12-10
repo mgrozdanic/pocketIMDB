@@ -17,7 +17,8 @@ const movieSchema = new mongoose.Schema({
   Poster: String,
   Production: String,
   Metascore: String,
-  imdbRating: String
+  imdbRating: String,
+  views: Number
 });
 
 const Movie = mongoose.model('Movie', movieSchema);

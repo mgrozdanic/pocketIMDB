@@ -69,6 +69,10 @@ const show = (id) => {
   // Done, no changes necessary
 };
 
+const addView = movie => {
+  return Movie.update({_id:movie.movie}, {$inc:{views: 1}});
+};
+
 const store = ({Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors,
   Plot, Language, Country, Awards, Poster, Production, Metascore, imdbRating}) => {
   console.log(Title, Year);
@@ -88,7 +92,8 @@ const store = ({Title, Year, Rated, Released, Runtime, Genre, Director, Writer, 
     Poster,
     Production,
     Metascore,
-    imdbRating});
+    imdbRating,
+    views: 0});
   return movie.save();
   // Done, probably needs changes when adding new fields, also change model
 };
@@ -115,5 +120,6 @@ module.exports = {
   store,
   update,
   destroy,
-  userActionDo
+  userActionDo,
+  addView
 };
