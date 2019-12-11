@@ -79,3 +79,13 @@ export function* commentsGet({ payload }) {
     console.log({ error }); /*eslint-disable-line*/
   }
 }
+
+export function* addMovieUser({ payload }) {
+  try {
+    const { data } = yield call(movieService.saveMovie, payload);
+    } catch (error) {
+    console.log({ error }); /*eslint-disable-line*/
+  }
+}
+
+

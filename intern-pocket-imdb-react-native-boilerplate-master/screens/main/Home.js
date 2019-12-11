@@ -31,6 +31,8 @@ const Home = ({navigation}) => {
 
   const handleAddMovieOMDb = () => navigation.navigate("AddMovieOMDb");
 
+  const handleAddMovie = () => navigation.navigate("AddMovie");
+
   useEffect(() => {
     handleMoviesGet(cPage);
   }, []);
@@ -39,6 +41,9 @@ const Home = ({navigation}) => {
     <View style={styles.container}>
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity onPress={handleAddMovieOMDb}>
+          <Text>Add Movie OMDb</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleAddMovie}>
           <Text>Add Movie</Text>
         </TouchableOpacity>
       </View>
