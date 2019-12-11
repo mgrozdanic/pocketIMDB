@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Comments from "./Comments";
 import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { setView, getMovies, setUserAction, setCommentAction } from "../../store/actions/MovieActions";
-import { TextInput } from "react-native-gesture-handler";
+import { TextInput, ScrollView } from "react-native-gesture-handler";
 
 const MovieDetails = ({navigation}) => {
 
@@ -38,6 +39,7 @@ const MovieDetails = ({navigation}) => {
     }
 
     return (
+        <ScrollView>
         <View>
             <Text style={styles.title}>{navigation.getParam('movie').Title}({navigation.getParam('movie').Year})</Text>
             <Text style={{paddingHorizontal: 10}}>{navigation.getParam('movie').Genre}</Text>
@@ -63,7 +65,9 @@ const MovieDetails = ({navigation}) => {
             , borderWidth: 1, fontSize: 17, paddingHorizontal:10 }} 
             value={comment} onChangeText={text => setComment(text)}/>
             <TouchableOpacity onPress={handleSubmit} disabled={comment === ""}><Text style={styles.nonTitleItems}>Submit</Text></TouchableOpacity>
+        <Comments movie={navigation.getParam('movie')._id}/>
         </View>
+        </ScrollView>
     )
 }
 

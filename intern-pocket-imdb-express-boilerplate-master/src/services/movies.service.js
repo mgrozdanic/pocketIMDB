@@ -69,8 +69,19 @@ const show = (id) => {
   // Done, no changes necessary
 };
 
+const getEmailFromToken = token =>{
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET);
+  
+  } catch(e) {
+    throw new Error(e);
+  }
+  return decoded.user.email;
+}
+
 const addComment = (token, movie, comment) => {
-  const user = getUserIdFromToken(token);
+  const user = getEmailFromToken(token);
   const commentToSave = new Comment({user, movie, comment});
   return commentToSave.save();
 
