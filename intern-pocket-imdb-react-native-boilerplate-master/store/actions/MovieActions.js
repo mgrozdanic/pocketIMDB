@@ -1,5 +1,5 @@
 import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, GET_MOVIE_FROM_OMDB, OMDB_NOT_FOUND, 
-  USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, SET_COMMENTS } from './ActionTypes';
+  USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, SET_COMMENTS, COMMENTS_NEW_PAGE } from './ActionTypes';
 
 export const getMovies = (data) => {
   return {
@@ -74,6 +74,13 @@ export const getCommentsAction = payload => {
 export const setCommentsAction = payload => {
   return {
     type: SET_COMMENTS,
+    payload
+  };
+};
+
+export const commentsNewPageAction = payload => {
+  return {
+    type: COMMENTS_NEW_PAGE,
     payload
   };
 };

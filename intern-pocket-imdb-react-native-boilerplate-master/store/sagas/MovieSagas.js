@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 
 import { movieService } from '../../services/MovieService';
-import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction } from '../actions/MovieActions';
+import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction, commentsNewPageAction } from '../actions/MovieActions';
 
 export function* moviesGet({payload}) {
   try {
@@ -65,8 +65,12 @@ export function* commentsGet({ payload }) {
   try {
     const { data } = yield call(movieService.getComments, payload);
     console.log("DATA COMMENTS\n", data);
-    yield put(setCommentsAction({comments:data.comments, currentCPage: data.currentCPage, 
-      nOfComments:data.nOfComments}));
+    if (payload.page > 1)
+      yield put(commentsNewPageAction({comments:data.comments, currentCPage: data.currentCPage, 
+        nOfComments:data.nOfComments}));
+    else
+      yield put(setCommentsAction({comments:data.comments, currentCPage: data.currentCPage, 
+        nOfComments:data.nOfComments}));
     } catch (error) {
 
     console.log({ error }); /*eslint-disable-line*/
