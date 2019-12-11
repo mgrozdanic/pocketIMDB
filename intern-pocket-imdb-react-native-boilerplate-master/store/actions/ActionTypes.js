@@ -24,3 +24,5 @@ export const USER_ACTION = 'USER_ACTION';
 export const VIEW = 'VIEW';
 
 export const SET_COMMENT = 'SET_COMMENT';
+export const GET_COMMENTS = 'GET_COMMENTS';
+export const SET_COMMENTS = 'SET_COMMENTS';

@@ -5,7 +5,7 @@ const Comment = ({comment}) => {
     return(
         <View>
             <Text>{comment.user} says:</Text>
-            <Text>{comment.text}</Text>
+            <Text>{comment.comment}</Text>
         </View>
     );
 }

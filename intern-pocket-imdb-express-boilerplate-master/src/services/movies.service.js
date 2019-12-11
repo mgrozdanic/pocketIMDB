@@ -18,6 +18,18 @@ const index = async (pageParam, token) => {
   }
 };
 
+const getComments = async(search) => {
+  const resultsPerPage  = 10;
+  const page = search.page || 1;
+  try {
+    const comments = await Comment.find({movie:search.movie}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
+    const nOfComments = await Comment.count({movie:search.movie});
+    return {comments, nOfComments, currentCPage: page};
+  } catch (err) {
+    throw err;
+  }
+};
+
 const getUserIdFromToken = token => {
   let decoded;
   try {
@@ -140,5 +152,6 @@ module.exports = {
   destroy,
   userActionDo,
   addView,
-  addComment
+  addComment,
+  getComments
 };

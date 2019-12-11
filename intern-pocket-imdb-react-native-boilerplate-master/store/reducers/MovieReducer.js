@@ -1,10 +1,14 @@
-import { SET_MOVIES, SET_N_PAGES, SET_CURR_PAGE, GET_MOVIE_FROM_OMDB, SET_MOVIE_FROM_OMDB, OMDB_NOT_FOUND } from '../actions/ActionTypes';
+import { SET_MOVIES, SET_N_PAGES, SET_CURR_PAGE, OMDB_NOT_FOUND,
+  SET_COMMENTS } from '../actions/ActionTypes';
 
 const initialState = {
   all: [],
   nPages: 1,
   currentPage: 1,
-  omdbError: "False"
+  omdbError: "False",
+  comments: [],
+  nOfComments: 0,
+  currentCPage: 1
 };
 const movieReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -16,6 +20,9 @@ const movieReducer = (state = initialState, action) => {
       return { ...state, currentPage: action.payload };
     case OMDB_NOT_FOUND:
       return { ...state, omdbError: action.payload };
+    case SET_COMMENTS:
+      return { ...state, comments: [...state.comments, ...action.payload.comments], 
+        nOfComments: action.payload.nOfComments, currentCPage: action.payload.currentCPage};
     default:
       return state;
   }

@@ -1,12 +1,12 @@
 import { call, put } from 'redux-saga/effects';
 
 import { movieService } from '../../services/MovieService';
-import { setMovies, setCurrPage, setNPages, omdbNotFound } from '../actions/MovieActions';
+import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction } from '../actions/MovieActions';
 
 export function* moviesGet({payload}) {
   try {
     const { data } = yield call(movieService.getMovies, payload);
-    console.log(data);
+    //console.log(data);
     yield put(setMovies(data.movies));
     // za pagination
     yield put(setCurrPage(data.currentPage));
@@ -55,6 +55,18 @@ export function* viewAction({ payload }) {
 export function* commentSet({ payload }) {
   try {
     yield call(movieService.addComment, payload);
+    } catch (error) {
+
+    console.log({ error }); /*eslint-disable-line*/
+  }
+}
+
+export function* commentsGet({ payload }) {
+  try {
+    const { data } = yield call(movieService.getComments, payload);
+    console.log("DATA COMMENTS\n", data);
+    yield put(setCommentsAction({comments:data.comments, currentCPage: data.currentCPage, 
+      nOfComments:data.nOfComments}));
     } catch (error) {
 
     console.log({ error }); /*eslint-disable-line*/

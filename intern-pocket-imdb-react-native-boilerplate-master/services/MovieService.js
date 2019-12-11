@@ -7,7 +7,8 @@ const ENDPOINTS = {
   SAVE_MOVIE: "/movies",
   SAVE_ACTION: "/movies/action",
   SAVE_VIEW: "/movies/view",
-  SAVE_COMMENT: "/movies/comment"
+  SAVE_COMMENT: "/movies/comment",
+  GET_COMMENTS: "/movies/comments/"
 };
 
 class MovieService extends ApiService {
@@ -46,6 +47,11 @@ class MovieService extends ApiService {
     const response = this.apiClient.post(ENDPOINTS.SAVE_COMMENT, comment);
     return response;
   };
+
+  getComments = async (payload) => {
+    const response = this.apiClient.post(ENDPOINTS.GET_COMMENTS, payload);
+    return response;
+  }
 }
 
 export const movieService = new MovieService();
