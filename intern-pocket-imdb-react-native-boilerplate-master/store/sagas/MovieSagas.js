@@ -55,6 +55,9 @@ export function* viewAction({ payload }) {
 export function* commentSet({ payload }) {
   try {
     yield call(movieService.addComment, payload);
+    const { data } = yield call(movieService.getComments, { movie: payload.movie, page: 1 });
+    yield put(commentsNewPageAction({comments:data.comments, currentCPage: data.currentCPage, 
+      nOfComments:data.nOfComments}));
     } catch (error) {
 
     console.log({ error }); /*eslint-disable-line*/
