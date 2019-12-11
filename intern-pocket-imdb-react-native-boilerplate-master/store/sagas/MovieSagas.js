@@ -51,3 +51,12 @@ export function* viewAction({ payload }) {
     console.log({ error }); /*eslint-disable-line*/
   }
 }
+
+export function* commentSet({ payload }) {
+  try {
+    yield call(movieService.addComment, payload);
+    } catch (error) {
+
+    console.log({ error }); /*eslint-disable-line*/
+  }
+}

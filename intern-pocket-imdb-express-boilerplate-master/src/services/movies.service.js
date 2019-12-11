@@ -1,4 +1,4 @@
-const { Movie, Likes } = require('./../models');
+const { Movie, Likes, Comment } = require('./../models');
 var jwt = require('jsonwebtoken');
 
 const index = async (pageParam, token) => {
@@ -69,6 +69,13 @@ const show = (id) => {
   // Done, no changes necessary
 };
 
+const addComment = (token, movie, comment) => {
+  const user = getUserIdFromToken(token);
+  const commentToSave = new Comment({user, movie, comment});
+  return commentToSave.save();
+
+}
+
 const addView = movie => {
   return Movie.update({_id:movie.movie}, {$inc:{views: 1}});
 };
@@ -121,5 +128,6 @@ module.exports = {
   update,
   destroy,
   userActionDo,
-  addView
+  addView,
+  addComment
 };

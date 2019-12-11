@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { setView, getMovies, setUserAction } from "../../store/actions/MovieActions";
+import { setView, getMovies, setUserAction, setCommentAction } from "../../store/actions/MovieActions";
+import { TextInput } from "react-native-gesture-handler";
 
 const MovieDetails = ({navigation}) => {
+
+    const[comment, setComment] = useState("");
 
     const dispatch = useDispatch();
 
@@ -29,6 +32,11 @@ const MovieDetails = ({navigation}) => {
         dispatch(getMovies(1));
     }
 
+    const handleSubmit = () => {
+        dispatch(setCommentAction({movie: navigation.getParam('movie')._id, comment: comment}));
+        setComment("");
+    }
+
     return (
         <View>
             <Text style={styles.title}>{navigation.getParam('movie').Title}({navigation.getParam('movie').Year})</Text>
@@ -49,6 +57,12 @@ const MovieDetails = ({navigation}) => {
             <View style={{flexDirection: "row"}}>
             <Text style={styles.nonTitleItems}>{navigation.getParam('movie').Plot}</Text>
             </View>
+            <Text> </Text>
+            <Text style={styles.nonTitleItems}>Your thoughts:</Text>
+            <TextInput multiline maxLength={500} style={{ height: 80, borderColor: 'gray'
+            , borderWidth: 1, fontSize: 17, paddingHorizontal:10 }} 
+            value={comment} onChangeText={text => setComment(text)}/>
+            <TouchableOpacity onPress={handleSubmit} disabled={comment === ""}><Text style={styles.nonTitleItems}>Submit</Text></TouchableOpacity>
         </View>
     )
 }

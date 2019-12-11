@@ -1,4 +1,4 @@
-import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, GET_MOVIE_FROM_OMDB, OMDB_NOT_FOUND, USER_ACTION, VIEW } from './ActionTypes';
+import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, GET_MOVIE_FROM_OMDB, OMDB_NOT_FOUND, USER_ACTION, VIEW, SET_COMMENT } from './ActionTypes';
 
 export const getMovies = (data) => {
   return {
@@ -52,6 +52,13 @@ export const setUserAction = payload => {
 export const setView = payload => {
   return {
     type: VIEW,
+    payload
+  };
+};
+
+export const setCommentAction = payload => {
+  return {
+    type: SET_COMMENT,
     payload
   };
 };

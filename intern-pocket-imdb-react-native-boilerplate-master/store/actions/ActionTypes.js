@@ -22,3 +22,5 @@ export const OMDB_NOT_FOUND = 'OMDB_NOT_FOUND';
 
 export const USER_ACTION = 'USER_ACTION';
 export const VIEW = 'VIEW';
+
+export const SET_COMMENT = 'SET_COMMENT';

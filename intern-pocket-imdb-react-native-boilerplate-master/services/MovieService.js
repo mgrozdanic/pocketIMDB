@@ -6,7 +6,8 @@ const ENDPOINTS = {
   MOVIES: "/movies/",
   SAVE_MOVIE: "/movies",
   SAVE_ACTION: "/movies/action",
-  SAVE_VIEW: "/movies/view"
+  SAVE_VIEW: "/movies/view",
+  SAVE_COMMENT: "/movies/comment"
 };
 
 class MovieService extends ApiService {
@@ -38,6 +39,11 @@ class MovieService extends ApiService {
 
   addView = async (movie) => {
     const response = this.apiClient.post(ENDPOINTS.SAVE_VIEW, movie);
+    return response;
+  };
+
+  addComment = async (comment) => {
+    const response = this.apiClient.post(ENDPOINTS.SAVE_COMMENT, comment);
     return response;
   };
 }
