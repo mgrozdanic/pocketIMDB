@@ -96,3 +96,12 @@ export function* mostPopular() {
     console.log({ error });
   }
 }
+
+export function* relatedGet({ payload }) {
+  try {
+    const { data } = yield call(movieService.getRelated, payload);
+    console.log("\n\nRELATED\n", data);
+  } catch (error) {
+    console.log({ error });
+  }
+}

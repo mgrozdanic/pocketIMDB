@@ -32,3 +32,5 @@ export const COMMENTS_NEW_PAGE = 'COMMENTS_NEW_PAGE';
 
 export const GET_MOST_POPULAR = 'GET_MOST_POPULAR';
 export const SET_MOST_POPULAR = 'SET_MOST_POPULAR';
+
+export const GET_RELATED = 'GET_RELATED';

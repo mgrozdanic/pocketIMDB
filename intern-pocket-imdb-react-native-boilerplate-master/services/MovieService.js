@@ -10,7 +10,8 @@ const ENDPOINTS = {
   SAVE_COMMENT: "/movies/comment",
   GET_COMMENTS: "/movies/comments/",
   FILTER: "/movies/filter/",
-  MOST_POPULAR: "/movies/mostpopular"
+  MOST_POPULAR: "/movies/mostpopular",
+  GET_RELATED: "/movies/related"
 };
 
 class MovieService extends ApiService {
@@ -62,6 +63,11 @@ class MovieService extends ApiService {
 
   getMostPopular = async () => {
     const response = this.apiClient.get(ENDPOINTS.MOST_POPULAR);
+    return response;
+  }
+
+  getRelated = async(payload) => {
+    const response = this.apiClient.post(ENDPOINTS.GET_RELATED, payload);
     return response;
   }
 

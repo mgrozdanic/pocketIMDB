@@ -50,6 +50,27 @@ const getUserIdFromToken = token => {
   return decoded.user._id;
 }
 
+const getRelated = async(genre) => {
+  const genreList = genre.split(",");
+  for (let i = 0; i < genreList.length; i++){
+    genreList[i] = genreList[i].trim();
+  }
+
+  const movies = await Movie.find();
+
+  for (let i = 0; i < movies.length; i++) {
+    movies[i] = { ...movies[i]._doc, hits: 0};
+    for (let j = 0; j < genreList.length; j++){
+      if (movies[i].Genre.includes(genreList[j])) {
+        movies[i].hits++;
+      }
+    }
+  }
+  movies.sort((a, b) => b.hits - a.hits);
+  return movies.length > 10 ? movies.slice(0, 10) : movies;
+
+}
+
 const userActionDo = async(actionObj, token) => {
   const user = getUserIdFromToken(token);
   const movie = actionObj.movieId;
@@ -163,5 +184,6 @@ module.exports = {
   addView,
   addComment,
   getComments,
-  getMostPopular
+  getMostPopular,
+  getRelated
 };

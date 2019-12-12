@@ -10,12 +10,12 @@ import Home from "../screens/main/Home";
 import AddMovie from "../screens/main/AddMovie";
 import MoviesItem from "../components/movies/MoviesItem";
 import AddMovieOMDb from "../screens/main/AddMovieOMDb";
-import MovieDetails from "../components/movies/MovieDetails";
+import RelatedNavigator from "./RelatedNavigator";
 
 const HomeStack = createStackNavigator({
   Home,
   MoviesItem, 
-  MovieDetails,
+  RelatedNavigator,
   AddMovieOMDb,
   AddMovie
 });
@@ -36,7 +36,8 @@ HomeStack.navigationOptions = {
 };
 
 const BottomTabNavigator = createBottomTabNavigator({
-  HomeStack
+  HomeStack,
+
 });
 
 export default createDrawerNavigator(
@@ -45,5 +46,5 @@ export default createDrawerNavigator(
   },
   {
     contentComponent: LeftSlider
-  }
+  },
 );

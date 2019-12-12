@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Comments from "./Comments";
-import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, Image, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { setView, getMovies, setUserAction, setCommentAction } from "../../store/actions/MovieActions";
+import { setView, getMovies, setUserAction, setCommentAction, getRelated } from "../../store/actions/MovieActions";
 import { TextInput, ScrollView } from "react-native-gesture-handler";
 
 const MovieDetails = ({navigation}) => {
@@ -13,6 +13,7 @@ const MovieDetails = ({navigation}) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        dispatch(getRelated({genre: navigation.getParam('movie').Genre}));
         handleView();
       }, []);
     
@@ -41,7 +42,12 @@ const MovieDetails = ({navigation}) => {
     return (
         <ScrollView>
         <View>
+            <View style={{flexDirection: "row"}}>
             <Text style={styles.title}>{navigation.getParam('movie').Title}({navigation.getParam('movie').Year})</Text>
+            {/* <TouchableOpacity style={styles.title} onPress={() => navigation.openDrawer()}>
+                <Text style={{color:"blue", fontSize:20}}>Related</Text>
+            </TouchableOpacity> */}
+            </View>
             <Text style={{paddingHorizontal: 10}}>{navigation.getParam('movie').Genre}</Text>
             <Image
             style={{width: "100%", height: 400, paddingHorizontal: 10}}
