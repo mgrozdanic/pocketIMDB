@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from "react-redux";
 import { View, Text, StyleSheet } from 'react-native';
 import { TextInput, TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
-import { addMovieAction } from '../../store/actions/MovieActions';
+import { addMovieAction, getMovies } from '../../store/actions/MovieActions';
 
 const AddMovie = () => {
 
@@ -29,6 +29,7 @@ const AddMovie = () => {
     const handleSubmit = () => {
         dispatch(addMovieAction({Title, Year, Rated, Released, Runtime, Genre, Director,
         Writer, Actors, Plot, Language, Country, Awards, Poster, Production, Metascore, imdbRating}));
+        dispatch(getMovies({page: 1, filter: 'All'}));
         setTitle("");
         setYear("");
         setRated("");
@@ -97,7 +98,7 @@ const AddMovie = () => {
             <Text>IMDB Rating:</Text>
             <TextInput value={imdbRating} onChangeText={text => setImdbRating(text)}></TextInput>
         </View>
-        <TouchableOpacity onPress={handleSubmit}>
+        <TouchableOpacity disabled={Title === ""} onPress={handleSubmit}>
             <Text style={styles.item}>Submit</Text>
         </TouchableOpacity>
     </View>

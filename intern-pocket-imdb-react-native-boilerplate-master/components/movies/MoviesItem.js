@@ -16,13 +16,13 @@ const MovieItem = ({ movie, navigation }) => {
   const handleLike = () => {
     movie.action = "LIKE";
     dispatch(setUserAction({action: "LIKE", movieId: movie._id}));
-    dispatch(getMovies(1));
+    dispatch(getMovies({page: 1, filter: 'All'}));
   }
 
   const handleDislike = () => {
     movie.action = "DISLIKE";
     dispatch(setUserAction({action: "DISLIKE", movieId: movie._id}));
-    dispatch(getMovies(1));
+    dispatch(getMovies({page: 1, filter: 'All'}));
   }
 
   return(

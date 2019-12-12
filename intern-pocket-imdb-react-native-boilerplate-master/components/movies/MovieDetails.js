@@ -19,18 +19,18 @@ const MovieDetails = ({navigation}) => {
       const handleLike = () => {
         //movie.action = "LIKE";
         dispatch(setUserAction({action: "LIKE", movieId: navigation.getParam('movie')._id}));
-        dispatch(getMovies(1));
+        dispatch(getMovies({page: 1, filter: 'All'}));
       }
     
       const handleDislike = () => {
         //movie.action = "DISLIKE";
         dispatch(setUserAction({action: "DISLIKE", movieId: navigation.getParam('movie')._id}));
-        dispatch(getMovies(1));
+        dispatch(getMovies({page: 1, filter: 'All'}));
       }
 
     const handleView = () => {
         dispatch(setView({movie: navigation.getParam('movie')._id}));
-        dispatch(getMovies(1));
+        dispatch(getMovies({page: 1, filter: 'All'}));
     }
 
     const handleSubmit = () => {

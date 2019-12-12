@@ -16,9 +16,9 @@ router.post('/movies/comment', async (req, res) => {
   res.send(await addComment(bearer[1], req.body.movie, req.body.comment));
 });
 router.post('/movies/comments/', async(req, res) => res.send(await getComments(req.body)));
-router.get('/movies/:page', async (req, res) => {
+router.get('/movies/:page/:filter', async (req, res) => {
   const bearer = req.headers.authorization.split(" ");
-  res.send(await index(req.params.page, bearer[1]))});
+  res.send(await index(req.params.page, req.params.filter, bearer[1]))});
 router.get('/movies/:id', async (req, res) => res.send(await show(req.params.id)));
 router.delete('/movies/:id', async (req, res) => res.send(await destroy(req.params.id)));
 router.put('/movies/:id', async (req, res) => res.send(await update(req.params.id, req.body)));

@@ -1,5 +1,6 @@
 import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, GET_MOVIE_FROM_OMDB, OMDB_NOT_FOUND, 
-  USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, SET_COMMENTS, COMMENTS_NEW_PAGE, ADD_MOVIE } from './ActionTypes';
+  USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, SET_COMMENTS, COMMENTS_NEW_PAGE, ADD_MOVIE, FILTER } 
+  from './ActionTypes';
 
 export const getMovies = (data) => {
   return {
@@ -89,5 +90,5 @@ export const addMovieAction = payload => {
   return {
     type: ADD_MOVIE,
     payload
-  }
-}
+  };
+};

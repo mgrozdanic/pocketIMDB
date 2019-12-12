@@ -1,17 +1,18 @@
 const { Movie, Likes, Comment } = require('./../models');
 var jwt = require('jsonwebtoken');
 
-const index = async (pageParam, token) => {
+const index = async (pageParam, filterParam = 'All', token) => {
   // const movies = await Movie.find().exec();
   const resultsPerPage  = 10;
   const page = pageParam || 1;
-
   let user = getUserIdFromToken(token);
 
   try {
-    const movies = await Movie.find().skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
+    const movies = (filterParam === 'All') ? await Movie.find().skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage) 
+    : await Movie.find({"Genre":{$regex:".*" + filterParam + ".*"}}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
     const moviesFinal = await appendActions(movies, user);
-    const nOfMovies = await Movie.count();
+    const nOfMovies = (filterParam === 'All') ? await Movie.count() 
+    : await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}});
     return {movies: moviesFinal, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)}
   } catch (err) {
     throw new Error(err);

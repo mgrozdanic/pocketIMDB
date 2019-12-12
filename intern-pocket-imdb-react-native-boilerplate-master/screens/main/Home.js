@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Picker } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addHeaderLeftNavigator } from "../../helpers";
-import { getMovies } from "../../store/actions/MovieActions";
+import { getMovies, filterAction } from "../../store/actions/MovieActions";
 import { makeSelectMoviesList } from "../../store/selectors/MoviesSelector";
 import MoviesList from "../../components/movies/MoviesList";
 import makeSelectCurrentPage from "../../store/selectors/CurrentPageSelector";
 import makeSelectNPages from "../../store/selectors/NumberOfPages";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import ModalDropdown from 'react-native-modal-dropdown';
 
 const Home = ({navigation}) => {
   navigationOptions = ({ navigation }) => {
@@ -20,18 +21,22 @@ const Home = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const handleMoviesGet = data => dispatch(getMovies(data));
+  const handleMoviesGet = data => dispatch(getMovies({page: data, filter: 'All'}));
 
   const movies = useSelector(makeSelectMoviesList());
   const currentPage = useSelector(makeSelectCurrentPage());
   const nPages = useSelector(makeSelectNPages());
 
-  const handlePrevious = () => dispatch(getMovies(parseInt(currentPage) - 1));
-  const handleNext = () => dispatch(getMovies(parseInt(currentPage) + 1));
+  const handlePrevious = () => dispatch(getMovies({page: parseInt(currentPage) - 1, filter: 'All'}));
+  const handleNext = () => dispatch(getMovies({page: parseInt(currentPage) + 1, filter: 'All'}));
 
   const handleAddMovieOMDb = () => navigation.navigate("AddMovieOMDb");
 
   const handleAddMovie = () => navigation.navigate("AddMovie");
+
+  const handleFilter = (index, value) => {
+    dispatch(getMovies({page: 1, filter: value}));
+  }
 
   useEffect(() => {
     handleMoviesGet(cPage);
@@ -41,12 +46,18 @@ const Home = ({navigation}) => {
     <View style={styles.container}>
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity onPress={handleAddMovieOMDb}>
-          <Text>Add Movie OMDb</Text>
+          <Text>Add Movie OMDb </Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={handleAddMovie}>
-          <Text>Add Movie</Text>
+          <Text>Add Movie </Text>
         </TouchableOpacity>
+        <ModalDropdown textStyle={{fontSize:14}} options={['All', 'Action', 'Adult', 'Adventure', 'Animation',
+        'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film Noir',
+        'Game-Show', 'History', 'Horror', 'Musical', 'Music', 'Mystery', 'News', 'Reality-TV', 
+        'Romance', 'Sci-Fi', 'Short', 'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']} 
+          onSelect={(index, value) => handleFilter(index, value)} />
       </View>
+      
       <MoviesList navigation={navigation} movies={movies}></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>

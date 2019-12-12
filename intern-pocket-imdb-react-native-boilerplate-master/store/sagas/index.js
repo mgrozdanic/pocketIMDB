@@ -1,5 +1,5 @@
 import { all, takeLatest, take } from 'redux-saga/effects';
-import { LOGIN, REGISTER, GET_MOVIES, CHCK_UNIQUE, GET_MOVIE_FROM_OMDB, USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, ADD_MOVIE } from '../actions/ActionTypes';
+import { LOGIN, REGISTER, GET_MOVIES, CHCK_UNIQUE, GET_MOVIE_FROM_OMDB, USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, ADD_MOVIE, FILTER } from '../actions/ActionTypes';
 import { userLogin, userRegister, userUnique } from './AuthSagas';
 import { moviesGet, moviesGetFromOmdb, userAction, viewAction, commentSet, commentsGet, addMovieUser } from './MovieSagas';
 

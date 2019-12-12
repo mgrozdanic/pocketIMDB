@@ -8,18 +8,19 @@ const ENDPOINTS = {
   SAVE_ACTION: "/movies/action",
   SAVE_VIEW: "/movies/view",
   SAVE_COMMENT: "/movies/comment",
-  GET_COMMENTS: "/movies/comments/"
+  GET_COMMENTS: "/movies/comments/",
+  FILTER: "/movies/filter/"
 };
 
 class MovieService extends ApiService {
 
-  getMovies = async (page = 1) => {
+  getMovies = async (movie) => {
     var config = {
       headers: {'Authorization': "bearer " + await AuthService.getToken()}
     };
     //return Athixios.get(ENDPOINTS.MOVIES, config);
     const token = await AuthService.getToken();
-    return this.apiClient.get(ENDPOINTS.MOVIES + page);
+    return this.apiClient.get(ENDPOINTS.MOVIES + movie.page + "/" + movie.filter);
   };
 
   getMoviesFromOMDb = async (movie) => {
@@ -51,7 +52,13 @@ class MovieService extends ApiService {
   getComments = async (payload) => {
     const response = this.apiClient.post(ENDPOINTS.GET_COMMENTS, payload);
     return response;
+  };
+
+  filterMovies = async (payload) => {
+    const response = this.apiClient.get(ENDPOINTS.FILTER + payload);
+    return response;
   }
+
 }
 
 export const movieService = new MovieService();
