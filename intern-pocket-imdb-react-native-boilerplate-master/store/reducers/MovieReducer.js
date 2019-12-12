@@ -1,6 +1,7 @@
 import { SET_MOVIES, SET_N_PAGES, SET_CURR_PAGE, OMDB_NOT_FOUND,
   SET_COMMENTS, 
-  COMMENTS_NEW_PAGE} from '../actions/ActionTypes';
+  COMMENTS_NEW_PAGE,
+  SET_MOST_POPULAR} from '../actions/ActionTypes';
 
 const initialState = {
   all: [],
@@ -9,7 +10,8 @@ const initialState = {
   omdbError: "False",
   comments: [],
   nOfComments: 0,
-  currentCPage: 1
+  currentCPage: 1,
+  mostPopular: []
 };
 const movieReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -27,6 +29,8 @@ const movieReducer = (state = initialState, action) => {
     case COMMENTS_NEW_PAGE:
       return { ...state, comments: [ ...state.comments, ...action.payload.comments], 
         nOfComments: action.payload.nOfComments, currentCPage: action.payload.currentCPage};
+    case SET_MOST_POPULAR:
+      return { ...state, mostPopular: action.payload };
     default:
       return state;
   }

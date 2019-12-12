@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  index, show, destroy, store, update, userActionDo, addView, addComment, getComments
+  index, show, destroy, store, update, userActionDo, addView, addComment, getComments, getMostPopular
 } = require('./../services/movies.service');
 
 router.post('/movies', async (req, res) => res.send(await store(req.body)));
@@ -16,6 +16,10 @@ router.post('/movies/comment', async (req, res) => {
   res.send(await addComment(bearer[1], req.body.movie, req.body.comment));
 });
 router.post('/movies/comments/', async(req, res) => res.send(await getComments(req.body)));
+router.get('/movies/mostpopular', async(req, res) => {
+  const bearer = req.headers.authorization.split(" ");
+  res.send(await getMostPopular(bearer[1]));
+});
 router.get('/movies/:page/:filter', async (req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await index(req.params.page, req.params.filter, bearer[1]))});

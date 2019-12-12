@@ -1,7 +1,7 @@
 import { call, put } from 'redux-saga/effects';
 
 import { movieService } from '../../services/MovieService';
-import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction, commentsNewPageAction } from '../actions/MovieActions';
+import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction, commentsNewPageAction, setMostPopularAction } from '../actions/MovieActions';
 
 export function* moviesGet({payload}) {
   try {
@@ -88,4 +88,11 @@ export function* addMovieUser({ payload }) {
   }
 }
 
-
+export function* mostPopular() {
+  try {
+    const { data } = yield call(movieService.getMostPopular);
+    yield put(setMostPopularAction(data));
+  } catch (error) {
+    console.log({ error });
+  }
+}

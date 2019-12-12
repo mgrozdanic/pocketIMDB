@@ -19,6 +19,14 @@ const index = async (pageParam, filterParam = 'All', token) => {
   }
 };
 
+const getMostPopular = async(token) => {
+  const movies = await Movie.find();
+  const user = getUserIdFromToken(token);
+  const moviesActions = await appendActions(movies, user);
+  moviesActions.sort((a, b) => b.likes - a.likes);
+  return moviesActions.length > 10 ? moviesActions.slice(0, 10) : moviesActions;
+}
+
 const getComments = async(search) => {
   const resultsPerPage  = 10;
   const page = search.page || 1;
@@ -154,5 +162,6 @@ module.exports = {
   userActionDo,
   addView,
   addComment,
-  getComments
+  getComments,
+  getMostPopular
 };
