@@ -132,6 +132,11 @@ const getWatchList = async(token) => {
   return moviesFinal;
 }
 
+const movieWatchUnwatch = async(token, movie, action) => {
+  const user = getUserIdFromToken(token);
+  return await WatchList.update({user:user, movie:movie}, {watched: action});
+}
+
 const show = (id) => {
   return Movie.findById(id, (err, obj) => {
     if (err) throw err;
@@ -216,5 +221,6 @@ module.exports = {
   getMostPopular,
   getRelated,
   watchListAddRemove,
-  getWatchList
+  getWatchList,
+  movieWatchUnwatch
 };

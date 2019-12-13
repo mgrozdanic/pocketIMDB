@@ -123,3 +123,11 @@ export function* watchListGet({ payload }) {
     console.log(error);
   }
 }
+
+export function* watchUnwatchMovie({ payload }) {
+  try {
+    const { data } = yield call(movieService.watchUnwatch, payload);
+    } catch (error) {
+    console.log(error);
+  }
+}
