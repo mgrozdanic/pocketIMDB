@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 import { View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import makeSelectRelated from '../../store/selectors/RelatedSelector';
+
 
 const Related = ({ navigation }) => {
 
-    const movies = [{Title: "It"}, {Title: "Film 1"}, {Title: "Film 2"}];
+    let movies = useSelector(makeSelectRelated());
 
     const handleSinglePage = (movie) => {
         navigation.navigate("MovieDetails", {movie});

@@ -34,3 +34,4 @@ export const GET_MOST_POPULAR = 'GET_MOST_POPULAR';
 export const SET_MOST_POPULAR = 'SET_MOST_POPULAR';
 
 export const GET_RELATED = 'GET_RELATED';
+export const SET_RELATED = 'SET_RELATED';

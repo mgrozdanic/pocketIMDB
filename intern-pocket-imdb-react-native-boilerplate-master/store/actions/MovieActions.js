@@ -1,6 +1,6 @@
 import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, GET_MOVIE_FROM_OMDB, OMDB_NOT_FOUND, 
   USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, SET_COMMENTS, COMMENTS_NEW_PAGE, ADD_MOVIE,
-  GET_MOST_POPULAR, SET_MOST_POPULAR, GET_RELATED } 
+  GET_MOST_POPULAR, SET_MOST_POPULAR, GET_RELATED, SET_RELATED } 
   from './ActionTypes';
 
 export const getMovies = (data) => {
@@ -110,6 +110,13 @@ export const setMostPopularAction = payload => {
 export const getRelated = payload => {
   return {
     type: GET_RELATED,
+    payload
+  };
+};
+
+export const setRelated = payload => {
+  return {
+    type: SET_RELATED,
     payload
   };
 };
