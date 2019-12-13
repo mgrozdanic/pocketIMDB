@@ -106,3 +106,11 @@ export function* relatedGet({ payload }) {
     console.log({ error });
   }
 }
+
+export function* actionWatchList({ payload }) {
+  try {
+    const { data } = yield call(movieService.watchListAddRemove, payload);
+  } catch (error) {
+    console.log({ error });
+  }
+}

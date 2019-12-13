@@ -3,7 +3,7 @@ import Comments from "./Comments";
 import { Text, View, Image, StyleSheet, TouchableOpacity, Button } from "react-native";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { setView, getMovies, setUserAction, setCommentAction, getRelated } from "../../store/actions/MovieActions";
+import { setView, getMovies, setUserAction, setCommentAction, getRelated, watchListAction } from "../../store/actions/MovieActions";
 import { TextInput, ScrollView } from "react-native-gesture-handler";
 
 const MovieDetails = ({navigation}) => {
@@ -39,14 +39,16 @@ const MovieDetails = ({navigation}) => {
         setComment("");
     }
 
+    const handleAddRemoveToWatchList = () => {
+        // add ili remove
+        dispatch(watchListAction({movie: navigation.getParam('movie')._id, action: 'remove'}));
+    }
+
     return (
         <ScrollView>
         <View>
             <View style={{flexDirection: "row"}}>
             <Text style={styles.title}>{navigation.getParam('movie').Title}({navigation.getParam('movie').Year})</Text>
-            {/* <TouchableOpacity style={styles.title} onPress={() => navigation.openDrawer()}>
-                <Text style={{color:"blue", fontSize:20}}>Related</Text>
-            </TouchableOpacity> */}
             </View>
             <Text style={{paddingHorizontal: 10}}>{navigation.getParam('movie').Genre}</Text>
             <Image
@@ -66,6 +68,7 @@ const MovieDetails = ({navigation}) => {
             <Text style={styles.nonTitleItems}>{navigation.getParam('movie').Plot}</Text>
             </View>
             <Text> </Text>
+            <Button title="Add To Watch List" onPress={handleAddRemoveToWatchList}></Button>
             <Text style={styles.nonTitleItems}>Your thoughts:</Text>
             <TextInput multiline maxLength={500} style={{ height: 80, borderColor: 'gray'
             , borderWidth: 1, fontSize: 17, paddingHorizontal:10 }} 

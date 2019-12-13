@@ -1,4 +1,4 @@
-const { Movie, Likes, Comment } = require('./../models');
+const { Movie, Likes, Comment, WatchList } = require('./../models');
 var jwt = require('jsonwebtoken');
 
 const index = async (pageParam, filterParam = 'All', search = '', token) => {
@@ -19,6 +19,16 @@ const index = async (pageParam, filterParam = 'All', search = '', token) => {
     throw new Error(err);
   }
 };
+
+const watchListAddRemove = async(token, movie, action) => {
+  const user = getUserIdFromToken(token);
+  if (action === 'add') {
+    const entry = new WatchList({user:user, movie: movie, watched: false});
+    return entry.save();
+  } else {
+    return WatchList.deleteOne({"user":user, "movie":movie});
+  }
+}
 
 const getMostPopular = async(token) => {
   const movies = await Movie.find();
@@ -186,5 +196,6 @@ module.exports = {
   addComment,
   getComments,
   getMostPopular,
-  getRelated
+  getRelated,
+  watchListAddRemove
 };

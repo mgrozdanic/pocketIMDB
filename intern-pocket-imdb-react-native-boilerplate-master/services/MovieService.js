@@ -11,7 +11,8 @@ const ENDPOINTS = {
   GET_COMMENTS: "/movies/comments/",
   FILTER: "/movies/filter/",
   MOST_POPULAR: "/movies/mostpopular",
-  GET_RELATED: "/movies/related"
+  GET_RELATED: "/movies/related",
+  WATCHLIST_ADD_REMOVE: "/movies/watchlist"
 };
 
 class MovieService extends ApiService {
@@ -68,6 +69,11 @@ class MovieService extends ApiService {
 
   getRelated = async(payload) => {
     const response = this.apiClient.post(ENDPOINTS.GET_RELATED, payload);
+    return response;
+  }
+
+  watchListAddRemove = async(payload) => {
+    const response = this.apiClient.post(ENDPOINTS.WATCHLIST_ADD_REMOVE, payload);
     return response;
   }
 
