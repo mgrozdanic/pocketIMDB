@@ -117,7 +117,7 @@ export function* actionWatchList({ payload }) {
 
 export function* watchListGet({ payload }) {
   try {
-    const { data } = yield call(movieService.getWatchlist);
+    const { data } = yield call(movieService.getWatchlist, payload);
     yield put(setWatchListAction(data));
     } catch (error) {
     console.log(error);

@@ -9,7 +9,7 @@ import {
   AsyncStorage
 } from "react-native";
 import PropTypes from "prop-types";
-import { getMostPopularAction, getWatchListAction } from "../../store/actions/MovieActions";
+import { getMostPopularAction } from "../../store/actions/MovieActions";
 import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 

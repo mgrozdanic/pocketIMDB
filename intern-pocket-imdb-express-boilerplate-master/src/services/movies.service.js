@@ -119,13 +119,21 @@ const appendActions = async(movies, user) => {
     return newMovies;
 }
 
-const getWatchList = async(token) => {
+const getWatchList = async(token, title, filter) => {
+  title = title === 'All' ? '' : title;
+  filter = filter === 'All' ? '' : filter;
   const user = getUserIdFromToken(token);
   const moviesOnList =await WatchList.find({user: user});
   let moviesObj = [];
   for (let i = 0; i < moviesOnList.length; i++) {
     const movie = await Movie.findById(moviesOnList[i].movie);
-    if (movie !== null) moviesObj.push(movie);
+    if (movie !== null) {
+      console.log(movie.Title.toLowerCase());
+      if (movie.Title.toLowerCase().includes(title.toLowerCase()) 
+        && movie.Genre.toLowerCase().includes(filter.toLowerCase())) {
+          moviesObj.push(movie);
+        }
+    }
   }
   const moviesFinal = await appendActions(moviesObj, user);
 

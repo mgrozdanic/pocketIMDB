@@ -21,9 +21,9 @@ router.post('/movies/watchlist', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await watchListAddRemove(bearer[1], req.body.movie, req.body.action));
 });
-router.get('/movies/mywatchlist', async(req, res) => {
+router.get('/movies/mywatchlist/:title/:filter', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
-  res.send(await getWatchList(bearer[1]));
+  res.send(await getWatchList(bearer[1], req.params.title, req.params.filter));
 });
 router.post('/movies/watchunwatch', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");

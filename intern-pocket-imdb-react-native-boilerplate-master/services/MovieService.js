@@ -13,7 +13,7 @@ const ENDPOINTS = {
   MOST_POPULAR: "/movies/mostpopular",
   GET_RELATED: "/movies/related",
   WATCHLIST_ADD_REMOVE: "/movies/watchlist",
-  WATCHLIST_GET: "/movies/mywatchlist",
+  WATCHLIST_GET: "/movies/mywatchlist/",
   WATCH_UNWATCH: "/movies/watchunwatch"
 };
 
@@ -79,8 +79,9 @@ class MovieService extends ApiService {
     return response;
   }
 
-  getWatchlist = async() => {
-    const response = this.apiClient.get(ENDPOINTS.WATCHLIST_GET);
+  getWatchlist = async(payload) => {
+    if (payload.title === "") payload.title = "All"
+    const response = this.apiClient.get(ENDPOINTS.WATCHLIST_GET + payload.title + "/" + payload.filter);
     return response;
   }
 
