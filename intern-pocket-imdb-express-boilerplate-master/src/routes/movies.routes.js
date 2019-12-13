@@ -21,6 +21,9 @@ router.post('/movies/watchlist', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await watchListAddRemove(bearer[1], req.body.movie, req.body.action));
 });
+router.get('/movies/mywatchlist', async(req, res) => {
+  console.log("TU SAM POSLAO SI KAKO TREBA");
+});
 router.post('/movies/related', async(req, res) => res.send(await getRelated(req.body.genre)));
 router.get('/movies/mostpopular', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");

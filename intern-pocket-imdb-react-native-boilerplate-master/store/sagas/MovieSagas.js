@@ -114,3 +114,11 @@ export function* actionWatchList({ payload }) {
     console.log({ error });
   }
 }
+
+export function* watchListGet({ payload }) {
+  try {
+    const { data } = yield call(movieService.getWatchlist);
+  } catch (error) {
+    console.log(error);
+  }
+}

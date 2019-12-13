@@ -37,3 +37,5 @@ export const GET_RELATED = 'GET_RELATED';
 export const SET_RELATED = 'SET_RELATED';
 
 export const WATCHLIST_ACTION = 'WATCHLIST_ACTION';
+export const GET_WATCHLIST = 'GET_WATCHLIST';
+export const SET_WATCHLIST = 'SET_WATCHLIST';

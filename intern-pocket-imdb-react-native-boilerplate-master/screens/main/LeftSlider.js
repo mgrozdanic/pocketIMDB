@@ -9,7 +9,7 @@ import {
   AsyncStorage
 } from "react-native";
 import PropTypes from "prop-types";
-import { getMostPopularAction } from "../../store/actions/MovieActions";
+import { getMostPopularAction, getWatchListAction } from "../../store/actions/MovieActions";
 import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 
@@ -23,6 +23,7 @@ const LeftSlider = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(getMostPopularAction());
+    dispatch(getWatchListAction());
   }, []);
 
   const mostPopular = useSelector(makeSelectMostPopular());
