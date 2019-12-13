@@ -106,12 +106,15 @@ const appendActions = async(movies, user) => {
       const dislikes = await Likes.count({movie: movie.id, action: 'DISLIKE'});
       const res = await Likes.findOne({user: user, movie: movie.id});
       const watchedList = await WatchList.find({user: user, movie: movie.id});
-      const watched = watchedList.length === 0 ? false : true;
+      const onWatchList = watchedList.length === 0 ? false : true;
+      console.log(watchedList);
+      let watched = watchedList.length > 0 ? watchedList[0].watched : false;
+
       let action;
       if (res !== null) {
         action = res.action;
       }
-      return { ...movie.toJSON(), likes, dislikes, action, watched};
+      return { ...movie.toJSON(), likes, dislikes, action, onWatchList, watched};
   }));
     return newMovies;
 }

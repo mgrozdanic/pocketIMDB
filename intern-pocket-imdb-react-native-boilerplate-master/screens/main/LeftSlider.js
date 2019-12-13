@@ -31,12 +31,17 @@ const LeftSlider = ({ navigation }) => {
     navigation.navigate("MovieDetails", {movie});
   }
 
+  const handleMyWatchList = () => {
+    navigation.navigate("MyWatchList");
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <Button onPress={navigation.closeDrawer} title="Close me" />
 
         <Button onPress={logout} title="Logout" />
+        <Button onPress={handleMyWatchList} title="My Watch List" />
         <Text style={{paddingHorizontal: 10, alignSelf:"center", fontSize: 17}}>Most popular:</Text>
         <ScrollView>
         {mostPopular.map((movie) => (

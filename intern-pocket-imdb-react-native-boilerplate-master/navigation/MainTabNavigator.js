@@ -11,13 +11,15 @@ import AddMovie from "../screens/main/AddMovie";
 import MoviesItem from "../components/movies/MoviesItem";
 import AddMovieOMDb from "../screens/main/AddMovieOMDb";
 import RelatedNavigator from "./RelatedNavigator";
+import MyWatchList from "../screens/main/MyWatchList";
 
 const HomeStack = createStackNavigator({
   Home,
   MoviesItem, 
   RelatedNavigator,
   AddMovieOMDb,
-  AddMovie
+  AddMovie,
+  MyWatchList
 });
 
 /* eslint-disable react/prop-types, react/display-name */

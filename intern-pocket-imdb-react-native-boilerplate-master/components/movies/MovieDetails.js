@@ -42,7 +42,7 @@ const MovieDetails = ({navigation}) => {
     const handleAddRemoveToWatchList = () => {
         // add ili remove
         dispatch(watchListAction({movie: navigation.getParam('movie')._id, 
-            action: navigation.getParam('movie').watched ? 'remove' : 'add'}));
+            action: navigation.getParam('movie').onWatchList ? 'remove' : 'add'}));
         dispatch(getMovies({page: 1, filter: 'All', search:'All'}));
         navigation.navigate("Home");
     }
@@ -52,6 +52,7 @@ const MovieDetails = ({navigation}) => {
         <View>
             <View style={{flexDirection: "row"}}>
             <Text style={styles.title}>{navigation.getParam('movie').Title}({navigation.getParam('movie').Year})</Text>
+            <Text style={{fontSize: 20, color: "blue"}}>  {navigation.getParam('movie').watched ? "Watched": ""}</Text>
             </View>
             <Text style={{paddingHorizontal: 10}}>{navigation.getParam('movie').Genre}</Text>
             <Image
@@ -71,7 +72,7 @@ const MovieDetails = ({navigation}) => {
             <Text style={styles.nonTitleItems}>{navigation.getParam('movie').Plot}</Text>
             </View>
             <Text> </Text>
-            <Button title={navigation.getParam('movie').watched ? "Remove From Watch List" 
+            <Button title={navigation.getParam('movie').onWatchList ? "Remove From Watch List" 
                 : "Add To Watch List"} onPress={handleAddRemoveToWatchList}></Button>
             <Text style={styles.nonTitleItems}>Your thoughts:</Text>
             <TextInput multiline maxLength={500} style={{ height: 80, borderColor: 'gray'
