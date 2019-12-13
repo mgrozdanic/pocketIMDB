@@ -41,7 +41,10 @@ const MovieDetails = ({navigation}) => {
 
     const handleAddRemoveToWatchList = () => {
         // add ili remove
-        dispatch(watchListAction({movie: navigation.getParam('movie')._id, action: 'remove'}));
+        dispatch(watchListAction({movie: navigation.getParam('movie')._id, 
+            action: navigation.getParam('movie').watched ? 'remove' : 'add'}));
+        dispatch(getMovies({page: 1, filter: 'All', search:'All'}));
+        navigation.navigate("Home");
     }
 
     return (
@@ -68,7 +71,8 @@ const MovieDetails = ({navigation}) => {
             <Text style={styles.nonTitleItems}>{navigation.getParam('movie').Plot}</Text>
             </View>
             <Text> </Text>
-            <Button title="Add To Watch List" onPress={handleAddRemoveToWatchList}></Button>
+            <Button title={navigation.getParam('movie').watched ? "Remove From Watch List" 
+                : "Add To Watch List"} onPress={handleAddRemoveToWatchList}></Button>
             <Text style={styles.nonTitleItems}>Your thoughts:</Text>
             <TextInput multiline maxLength={500} style={{ height: 80, borderColor: 'gray'
             , borderWidth: 1, fontSize: 17, paddingHorizontal:10 }} 

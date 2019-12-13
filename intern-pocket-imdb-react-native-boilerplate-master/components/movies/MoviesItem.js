@@ -43,6 +43,7 @@ const MovieItem = ({ movie, navigation }) => {
       <TouchableOpacity onPress={handleDislike} disabled={movie.action === "DISLIKE"}><Text style={{fontSize: 17}}> Dislike </Text></TouchableOpacity>
       <Text style={{fontSize: 17}}>{movie.dislikes}</Text>
       <Text style={{fontSize: 17}}>  Views:{movie.views}</Text>
+      <Text style={{fontSize: 17}}> {movie.watched ? "Watched": ""}</Text>
       </View>
     </View>
   </TouchableOpacity>
