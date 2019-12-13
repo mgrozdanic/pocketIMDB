@@ -29,7 +29,7 @@ const AddMovie = () => {
     const handleSubmit = () => {
         dispatch(addMovieAction({Title, Year, Rated, Released, Runtime, Genre, Director,
         Writer, Actors, Plot, Language, Country, Awards, Poster, Production, Metascore, imdbRating}));
-        dispatch(getMovies({page: 1, filter: 'All'}));
+        dispatch(getMovies({page: 1, filter: 'All', search:'All'}));
         setTitle("");
         setYear("");
         setRated("");
