@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {
   index, show, destroy, store, update, userActionDo, addView, addComment, getComments, getMostPopular,
-  getRelated, watchListAddRemove
+  getRelated, watchListAddRemove, getWatchList
 } = require('./../services/movies.service');
 
 router.post('/movies', async (req, res) => res.send(await store(req.body)));
@@ -22,7 +22,8 @@ router.post('/movies/watchlist', async(req, res) => {
   res.send(await watchListAddRemove(bearer[1], req.body.movie, req.body.action));
 });
 router.get('/movies/mywatchlist', async(req, res) => {
-  console.log("TU SAM POSLAO SI KAKO TREBA");
+  const bearer = req.headers.authorization.split(" ");
+  res.send(await getWatchList(bearer[1]));
 });
 router.post('/movies/related', async(req, res) => res.send(await getRelated(req.body.genre)));
 router.get('/movies/mostpopular', async(req, res) => {

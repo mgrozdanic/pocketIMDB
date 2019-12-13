@@ -107,7 +107,7 @@ const appendActions = async(movies, user) => {
       const res = await Likes.findOne({user: user, movie: movie.id});
       const watchedList = await WatchList.find({user: user, movie: movie.id});
       const onWatchList = watchedList.length === 0 ? false : true;
-      console.log(watchedList);
+      //console.log(watchedList);
       let watched = watchedList.length > 0 ? watchedList[0].watched : false;
 
       let action;
@@ -117,6 +117,19 @@ const appendActions = async(movies, user) => {
       return { ...movie.toJSON(), likes, dislikes, action, onWatchList, watched};
   }));
     return newMovies;
+}
+
+const getWatchList = async(token) => {
+  const user = getUserIdFromToken(token);
+  const moviesOnList =await WatchList.find({user: user});
+  let moviesObj = [];
+  for (let i = 0; i < moviesOnList.length; i++) {
+    const movie = await Movie.findById(moviesOnList[i].movie);
+    if (movie !== null) moviesObj.push(movie);
+  }
+  const moviesFinal = await appendActions(moviesObj, user);
+
+  return moviesFinal;
 }
 
 const show = (id) => {
@@ -202,5 +215,6 @@ module.exports = {
   getComments,
   getMostPopular,
   getRelated,
-  watchListAddRemove
+  watchListAddRemove,
+  getWatchList
 };

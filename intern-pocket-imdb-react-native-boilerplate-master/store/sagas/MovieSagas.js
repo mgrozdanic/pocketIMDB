@@ -2,7 +2,7 @@ import { call, put } from 'redux-saga/effects';
 
 import { movieService } from '../../services/MovieService';
 import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction, commentsNewPageAction, 
-  setMostPopularAction, setRelated } from '../actions/MovieActions';
+  setMostPopularAction, setRelated, setWatchListAction } from '../actions/MovieActions';
 
 export function* moviesGet({payload}) {
   try {
@@ -118,7 +118,8 @@ export function* actionWatchList({ payload }) {
 export function* watchListGet({ payload }) {
   try {
     const { data } = yield call(movieService.getWatchlist);
-  } catch (error) {
+    yield put(setWatchListAction(data));
+    } catch (error) {
     console.log(error);
   }
 }

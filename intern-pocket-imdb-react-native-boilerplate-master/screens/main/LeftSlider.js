@@ -23,7 +23,6 @@ const LeftSlider = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(getMostPopularAction());
-    dispatch(getWatchListAction());
   }, []);
 
   const mostPopular = useSelector(makeSelectMostPopular());
