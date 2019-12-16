@@ -3,6 +3,8 @@ export const AUTH_USER = 'AUTH_USER';
 export const LOGIN = 'LOGIN';
 export const REGISTER = 'REGISTER';
 
+export const VERIFY = 'VERIFY';
+
 // checking if email is unique
 export const CHCK_UNIQUE = 'CHCK_UNIQUE';
 export const CHECK_UNIQUE_SUCCESS = 'CHECK_UNIQUE_SUCCESS';

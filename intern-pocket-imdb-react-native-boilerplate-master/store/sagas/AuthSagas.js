@@ -35,3 +35,17 @@ export function* userRegister({ payload }) {
     yield put(registerError(true));
   }
 }
+
+export function* verify({ payload }) {
+  try {
+
+    const { data } = yield call(AuthService.verify, payload);
+    if (data === 'FAIL') alert('Wrong code, please try again.');
+    else {
+      yield put(authUser(true));
+      yield call(NavigationService.navigate, "AuthLoading");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}

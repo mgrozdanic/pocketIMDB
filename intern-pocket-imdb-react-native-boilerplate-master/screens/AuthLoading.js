@@ -12,7 +12,11 @@ const AuthLoadingScreen = ({ navigation }) => {
   _bootstrapAsync = async () => {
     const user = await authService.getUser();
     if (user) {
-      navigation.navigate("MainStack");
+      if (user.user.confirmed) {
+        navigation.navigate("MainStack");
+      } else {
+        navigation.navigate("Verify");
+      }
     } else {
       navigation.navigate("AuthStack");
     }

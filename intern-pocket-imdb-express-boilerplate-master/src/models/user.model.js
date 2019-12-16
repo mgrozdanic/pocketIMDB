@@ -17,6 +17,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  confirmed: {
+    type: Boolean,
+    required: true,
+    default: false,
+  },
+  code: {
+    type: String,
+  }
 }, { timestamps: true });
 
 /* eslint-disable consistent-return */

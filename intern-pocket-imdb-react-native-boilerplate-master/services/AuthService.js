@@ -6,7 +6,8 @@ const ENDPOINTS = {
   LOGIN: "/auth/login",
   REGISTER: "/auth/register",
   LOGOUT: "/logout",
-  UNIQUE: "/auth/unique"
+  UNIQUE: "/auth/unique",
+  VERIFY: "/auth/verify"
 };
 
 class AuthService extends ApiService {
@@ -47,6 +48,14 @@ class AuthService extends ApiService {
     await this.createSession(data);
     return data;
   };
+
+  verify = async userData => {
+    let user = await AsyncStorage.getItem("user");
+    user = JSON.parse(user);
+    const { data } = await this.apiClient.post(ENDPOINTS.VERIFY, {user, code: userData});
+    if (data !== 'FAIL') await this.createSession(data);
+    return data;
+  }
   // checking if email is unique
   unique = async email => {
     const { data } = await this.apiClient.post(ENDPOINTS.UNIQUE, {email});
