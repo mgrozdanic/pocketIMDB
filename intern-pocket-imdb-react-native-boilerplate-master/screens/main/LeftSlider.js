@@ -47,7 +47,7 @@ const LeftSlider = ({ navigation }) => {
           rounded
           source={{
             uri:
-              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+              'https://facebook.github.io/react/logo-og.png',
           }}
         />
         <View flexDirection={{flexDirection:"column", paddingHorizontal: 10}}>
