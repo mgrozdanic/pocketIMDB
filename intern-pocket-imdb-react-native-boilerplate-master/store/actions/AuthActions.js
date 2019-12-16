@@ -1,5 +1,5 @@
 import { LOGIN, AUTH_USER, REGISTER, LOGIN_ERROR, REGISTER_ERROR, CHCK_UNIQUE, 
-  CHECK_UNIQUE_SUCCESS, VERIFY } from './ActionTypes';
+  CHECK_UNIQUE_SUCCESS, VERIFY, SET_USER } from './ActionTypes';
 
 export const logIn = logInData => {
   return {
@@ -57,6 +57,13 @@ export const registerError = payload => {
 export const verifyAction = payload => {
   return {
     type: VERIFY,
+    payload
+  };
+};
+
+export const setUser = payload => {
+  return {
+    type: SET_USER,
     payload
   };
 };

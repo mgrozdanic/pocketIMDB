@@ -1,8 +1,10 @@
 import { call, put } from 'redux-saga/effects';
 
+import { setUser } from '../actions/AuthActions';
 import { movieService } from '../../services/MovieService';
 import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction, commentsNewPageAction, 
   setMostPopularAction, setRelated, setWatchListAction } from '../actions/MovieActions';
+import authService from '../../services/AuthService';
 
 export function* moviesGet({payload}) {
   try {
@@ -12,6 +14,9 @@ export function* moviesGet({payload}) {
     // za pagination
     yield put(setCurrPage(data.currentPage));
     yield put(setNPages(data.pages));
+
+    const response = yield call(authService.getUser);
+    yield put(setUser(response.user));
     // end
   } catch (error) {
     console.log({ error }); /*eslint-disable-line*/

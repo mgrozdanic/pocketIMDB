@@ -1,12 +1,20 @@
-import { AUTH_USER, CHECK_UNIQUE_SUCCESS } from "../actions/ActionTypes";
+import { AUTH_USER, CHECK_UNIQUE_SUCCESS, SET_USER } from "../actions/ActionTypes";
 
-const authReducer = (state = false, action) => {
+const initialState = {
+  authUser: false,
+  unique: false,
+  user: {}
+}
+
+const authReducer = (state = initialState, action) => {
   console.log(action.type);
   switch (action.type) {
     case AUTH_USER:
-      return action.payload;
+      return { ...state, authUser: action.payload };
     case CHECK_UNIQUE_SUCCESS:
-      return { ...state, unique:action.payload};
+      return { ...state, unique: action.payload };
+    case SET_USER:
+      return { ...state, user: action.payload };
     default:
       return state;
   }
