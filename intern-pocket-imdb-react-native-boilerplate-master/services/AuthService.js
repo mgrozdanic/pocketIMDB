@@ -60,6 +60,7 @@ class AuthService extends ApiService {
 
   changeProfile = async profile => {
     const { data } = await this.apiClient.put(ENDPOINTS.UPDATE_PROFILE, profile);
+    console.log(data);
     await this.createSession(data);
     return data;
   }

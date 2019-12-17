@@ -52,10 +52,12 @@ export function* verify({ payload }) {
 
 export function* userChangeProfile({ payload }) {
   try {
-    yield call(AuthService.changeProfile, payload);
+    yield call(AuthService.changeProfile, {name: payload.name, email: payload.email, photo: payload.photo});
 
     const response = yield call(AuthService.getUser);
-    yield put(setUser(response.user));
+    //console.log(response.user);
+    yield put(setUser(response.user)); // ne radi, tj ne updateuje se
+    payload.reload(); 
   } catch (error) {
     console.log(error);
   }

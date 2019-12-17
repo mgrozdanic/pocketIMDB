@@ -14,6 +14,7 @@ import { getMostPopularAction } from "../../store/actions/MovieActions";
 import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import makeSelectUser from "../../store/selectors/UserSelector";
+import authService from "../../services/AuthService";
 
 const LeftSlider = ({ navigation }) => {
   logout = () => {
@@ -25,9 +26,12 @@ const LeftSlider = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(getMostPopularAction());
-  }, []);
+  }, [reload]);
+
+  const reload = () => console.log("\nRELOAD\n");
 
   const mostPopular = useSelector(makeSelectMostPopular());
+  
   const user = useSelector(makeSelectUser());
 
   const handleSinglePage = (movie) => {
@@ -39,7 +43,7 @@ const LeftSlider = ({ navigation }) => {
   }
 
   const handleEditProfile = () => {
-    navigation.navigate("EditProfile", {user})
+    navigation.navigate("EditProfile", {user, reload})
   }
 
   return (

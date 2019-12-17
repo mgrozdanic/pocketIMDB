@@ -17,9 +17,10 @@ const EditProfile = ({navigation}) => {
         if (validateEmail(email) && (
             navigation.getParam('user').email !== email ? checkEmailUnique(email) : true)){
             if (name.length < 255){
-              dispatch(changeUserProfile({name, email, photo:{}}));
-              navigation.navigate("Home");
-              return;
+                let reload = navigation.getParam('reload');
+                dispatch(changeUserProfile({name, email, photo:{}, reload}));
+                navigation.navigate("Home");
+                return;
             }
             alert('Name must be shorter than 255 characters.');
           }
@@ -34,8 +35,8 @@ const EditProfile = ({navigation}) => {
                     uri:
                     'https://facebook.github.io/react/logo-og.png',
             }}/>
-            <TextInput value={ name } onChangeText={ ( text ) => setName(text) } />
-            <TextInput value={ email } onChangeText={ ( text ) => setEmail(text) }/>
+            <TextInput style={{alignSelf:"center"}} value={ name } onChangeText={ ( text ) => setName(text) } />
+            <TextInput style={{alignSelf:"center"}} value={ email } onChangeText={ ( text ) => setEmail(text) }/>
             <Button title="Submit" onPress={ handleProfileChange } />
         </View>
         );

@@ -28,7 +28,7 @@ const register = async ({ email, password, name }) => {
 const updateUser = async(token, updatedData) => {
   const oldUser = getUserIdFromToken(token);
   const oldEmail =(await User.findById(oldUser).email);
-  const user = await User.findByIdAndUpdate(oldUser, {name: updatedData.name, email: updatedData.email});
+  const user = await User.findByIdAndUpdate(oldUser, {name: updatedData.name, email: updatedData.email}, {new: true});
   await Comment.updateMany({user: oldEmail}, {user: updatedData.email});
   try {
     const tokenNew = jwt.sign({ user }, process.env.JWT_SECRET,
