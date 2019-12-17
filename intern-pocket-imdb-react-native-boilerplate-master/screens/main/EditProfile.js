@@ -13,7 +13,7 @@ const EditProfile = ({navigation}) => {
 
     const [name, setName] = useState(navigation.getParam('user').name);
     const [email, setEmail] = useState(navigation.getParam('user').email);
-    const [imageUri, setImageUri] = useState("https://facebook.github.io/react/logo-og.png");
+    const [imageUri, setImageUri] = useState(navigation.getParam('user').image);
 
     const dispatch = useDispatch();
 

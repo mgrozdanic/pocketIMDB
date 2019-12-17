@@ -19,7 +19,8 @@ const register = async ({ email, password, name }) => {
     password,
     name,
     confirmed: false,
-    code
+    code,
+    image: "https://facebook.github.io/react/logo-og.png"
   });
 
   return user.save();
@@ -28,7 +29,8 @@ const register = async ({ email, password, name }) => {
 const updateUser = async(token, updatedData) => {
   const oldUser = getUserIdFromToken(token);
   const oldEmail =(await User.findById(oldUser).email);
-  const user = await User.findByIdAndUpdate(oldUser, {name: updatedData.name, email: updatedData.email}, {new: true});
+  const user = await User.findByIdAndUpdate(oldUser, 
+    {name: updatedData.name, email: updatedData.email, image: updatedData.photo.uri}, {new: true});
   await Comment.updateMany({user: oldEmail}, {user: updatedData.email});
   try {
     const tokenNew = jwt.sign({ user }, process.env.JWT_SECRET,

@@ -55,7 +55,7 @@ const LeftSlider = ({ navigation }) => {
           rounded
           source={{
             uri:
-              'https://facebook.github.io/react/logo-og.png',
+              user.image,
           }}
         />
         <View flexDirection={{flexDirection:"column", paddingHorizontal: 10}}>
