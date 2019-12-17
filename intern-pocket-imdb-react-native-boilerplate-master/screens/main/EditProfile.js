@@ -14,6 +14,8 @@ const EditProfile = ({navigation}) => {
     const [name, setName] = useState(navigation.getParam('user').name);
     const [email, setEmail] = useState(navigation.getParam('user').email);
     const [imageUri, setImageUri] = useState(navigation.getParam('user').image);
+    const [imageData, setImageData] = useState("");
+    const [extension, setExstension] = useState("");
 
     const dispatch = useDispatch();
 
@@ -26,7 +28,7 @@ const EditProfile = ({navigation}) => {
             navigation.getParam('user').email !== email ? checkEmailUnique(email) : true)){
             if (name.length < 255){
                 let reload = navigation.getParam('reload');
-                dispatch(changeUserProfile({name, email, photo:{uri: imageUri}, reload}));
+                dispatch(changeUserProfile({name, email, photo:{uri: "data:image/jpeg;base64," + imageData, ext: extension}, reload}));
                 navigation.navigate("Home");
                 return;
             }
@@ -36,16 +38,20 @@ const EditProfile = ({navigation}) => {
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.All,
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
           aspect: [4, 3],
-          quality: 1
+          quality: 1,
+          base64: true,
+          exif: true
         });
     
         console.log(result);
     
         if (!result.cancelled) {
           setImageUri(result.uri);
+          setImageData(result.base64);
+          setExstension(result.exif);
         }
     }
 

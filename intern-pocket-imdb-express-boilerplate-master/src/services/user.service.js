@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { sendMail } = require('./mailing.service');
 const { getUserIdFromToken } = require('./movies.service');
 const { User, Comment } = require('./../models');
+const fs = require('fs');
 
 const me = token => token.user;
 
@@ -29,8 +30,17 @@ const register = async ({ email, password, name }) => {
 const updateUser = async(token, updatedData) => {
   const oldUser = getUserIdFromToken(token);
   const oldEmail =(await User.findById(oldUser).email);
+
+  let base64String = updatedData.photo.uri;
+  let base64Image = base64String.split(';base64,').pop();
+  fs.writeFile('/Users/milangrozdanic/Desktop/sprint 2/pocketIMDB/intern-pocket-imdb-express-boilerplate-master/src/images/' + oldUser + '.png', base64Image, {encoding: 'base64'}, function(err) {
+    if (err) console.log(err)
+    else console.log('File created');
+  });
+
   const user = await User.findByIdAndUpdate(oldUser, 
-    {name: updatedData.name, email: updatedData.email, image: updatedData.photo.uri}, {new: true});
+    {name: updatedData.name, email: updatedData.email, 
+      image: '/Users/milangrozdanic/Desktop/sprint 2/pocketIMDB/intern-pocket-imdb-express-boilerplate-master/src/images/' + oldUser + '.png'}, {new: true});
   await Comment.updateMany({user: oldEmail}, {user: updatedData.email});
   try {
     const tokenNew = jwt.sign({ user }, process.env.JWT_SECRET,
