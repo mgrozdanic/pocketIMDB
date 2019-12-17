@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useSelector, useDispatch } from "react-redux";
 import { register, unique } from "../../store/actions/AuthActions";
-import { validateEmail, validatePassword } from "./validators";
+import { validateEmail, validatePassword, checkEmailUnique } from "./validators";
 import { getUniqueUserSelector } from "../../store/selectors/UniqueUserSelector";
 import authService from "../../services/AuthService";
 
@@ -22,17 +22,11 @@ const SignUp = () => {
 
   const handleLogin = data => dispatch(register(data));
 
-  const checkEmailUnique = async(email) => {
-    /*dispatch(unique(email));
-    if (useSelector(getUniqueUserSelector()) !== true){
-      alert('This email is taken, please choose another one.');
-      return false;
-    };
-    return true;*/
+  /*const checkEmailUnique = async(email) => {
     const unique =  await authService.unique(email);
     if (!unique) alert('This email is taken, please choose another one.');
     return unique;
-  }
+  }*/
 
   const submitLogin = () => {
     if (validateEmail(email) && validatePassword(password, confirmPassword) && checkEmailUnique(email)){

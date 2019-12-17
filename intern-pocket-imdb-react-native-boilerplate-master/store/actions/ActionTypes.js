@@ -44,3 +44,4 @@ export const SET_WATCHLIST = 'SET_WATCHLIST';
 export const MOVIE_WATCH_UNWATCH = 'MOVIE_WATCH_UNWATCH';
 
 export const SET_USER = 'SET_USER';
+export const CHNG_USR_PRFL = 'CHNG_USR_PRFL';

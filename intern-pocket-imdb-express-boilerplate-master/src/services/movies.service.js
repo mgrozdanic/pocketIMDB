@@ -230,5 +230,6 @@ module.exports = {
   getRelated,
   watchListAddRemove,
   getWatchList,
-  movieWatchUnwatch
+  movieWatchUnwatch,
+  getUserIdFromToken
 };

@@ -1,4 +1,5 @@
 import {useDispatch} from 'react-redux';
+import authService from "../../services/AuthService";
 
 export const validateEmail = (inputText) => {
     let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -20,4 +21,10 @@ export const validatePassword = (password, confirmedPassword) => {
     } 
     alert('Password and confirmed password do not match.');
     return false;
+}
+
+export const checkEmailUnique = async(email) => {
+  const unique =  await authService.unique(email);
+  if (!unique) alert('This email is taken, please choose another one.');
+  return unique;
 }

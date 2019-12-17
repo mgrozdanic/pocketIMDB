@@ -1,5 +1,5 @@
 import { LOGIN, AUTH_USER, REGISTER, LOGIN_ERROR, REGISTER_ERROR, CHCK_UNIQUE, 
-  CHECK_UNIQUE_SUCCESS, VERIFY, SET_USER } from './ActionTypes';
+  CHECK_UNIQUE_SUCCESS, VERIFY, SET_USER, CHNG_USR_PRFL } from './ActionTypes';
 
 export const logIn = logInData => {
   return {
@@ -64,6 +64,13 @@ export const verifyAction = payload => {
 export const setUser = payload => {
   return {
     type: SET_USER,
+    payload
+  };
+};
+
+export const changeUserProfile = payload => {
+  return {
+    type: CHNG_USR_PRFL,
     payload
   };
 };

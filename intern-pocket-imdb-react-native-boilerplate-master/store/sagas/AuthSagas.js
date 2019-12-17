@@ -1,6 +1,6 @@
 import { call, put } from "redux-saga/effects";
 
-import { authUser, loginError, registerError, updateUnique } from "../actions/AuthActions";
+import { authUser, loginError, registerError, updateUnique, setUser } from "../actions/AuthActions";
 import AuthService from "../../services/AuthService";
 import NavigationService from "../../services/NavigationService";
 
@@ -45,6 +45,17 @@ export function* verify({ payload }) {
       yield put(authUser(true));
       yield call(NavigationService.navigate, "AuthLoading");
     }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* userChangeProfile({ payload }) {
+  try {
+    yield call(AuthService.changeProfile, payload);
+
+    const response = yield call(AuthService.getUser);
+    yield put(setUser(response.user));
   } catch (error) {
     console.log(error);
   }

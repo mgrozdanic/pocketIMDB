@@ -1,6 +1,6 @@
 import { all, takeLatest, take } from 'redux-saga/effects';
-import { LOGIN, REGISTER, GET_MOVIES, CHCK_UNIQUE, GET_MOVIE_FROM_OMDB, USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, ADD_MOVIE, FILTER, GET_MOST_POPULAR, GET_RELATED, WATCHLIST_ACTION, GET_WATCHLIST, MOVIE_WATCH_UNWATCH, VERIFY } from '../actions/ActionTypes';
-import { userLogin, userRegister, userUnique, verify } from './AuthSagas';
+import { LOGIN, REGISTER, GET_MOVIES, CHCK_UNIQUE, GET_MOVIE_FROM_OMDB, USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, ADD_MOVIE, FILTER, GET_MOST_POPULAR, GET_RELATED, WATCHLIST_ACTION, GET_WATCHLIST, MOVIE_WATCH_UNWATCH, VERIFY, CHNG_USR_PRFL } from '../actions/ActionTypes';
+import { userLogin, userRegister, userUnique, verify, userChangeProfile } from './AuthSagas';
 import { moviesGet, moviesGetFromOmdb, userAction, viewAction, commentSet, commentsGet, addMovieUser, mostPopular, relatedGet, actionWatchList, watchListGet, watchUnwatchMovie } from './MovieSagas';
 
 export default function* rootSaga() {
@@ -22,6 +22,7 @@ export default function* rootSaga() {
     takeLatest(WATCHLIST_ACTION, actionWatchList),
     takeLatest(GET_WATCHLIST, watchListGet),
     takeLatest(MOVIE_WATCH_UNWATCH, watchUnwatchMovie),
-    takeLatest(VERIFY, verify)
+    takeLatest(VERIFY, verify),
+    takeLatest(CHNG_USR_PRFL, userChangeProfile)
   ]);
 }

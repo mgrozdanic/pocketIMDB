@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const {
-  me, register, login, logout, refresh, checkUnique, verify
+  me, register, login, logout, refresh, checkUnique, verify, updateUser
 } = require('./../services/user.service');
 
 router.get('/auth/me', (req, res) => res.json(me(req.user)));
@@ -15,6 +15,10 @@ router.post('/auth/verify', async (req, res) => res.send(await verify(req.body))
 router.post('/auth/login', (req, res) => login(req.body)
   .then(data => res.json(data))
   .catch(err => res.json(err.message, 500)));
+router.put('/auth/update', async(req, res) => {
+  const bearer = req.headers.authorization.split(" ");
+  res.send( await updateUser(bearer[1], req.body));
+});
 router.post('/auth/logout', (req, res) => res.json(logout()));
 router.post('/auth/refresh', (req, res) => res.json(refresh()));
 

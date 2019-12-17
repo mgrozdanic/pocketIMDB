@@ -7,7 +7,8 @@ const ENDPOINTS = {
   REGISTER: "/auth/register",
   LOGOUT: "/logout",
   UNIQUE: "/auth/unique",
-  VERIFY: "/auth/verify"
+  VERIFY: "/auth/verify",
+  UPDATE_PROFILE: "/auth/update"
 };
 
 class AuthService extends ApiService {
@@ -56,6 +57,13 @@ class AuthService extends ApiService {
     if (data !== 'FAIL') await this.createSession(data);
     return data;
   }
+
+  changeProfile = async profile => {
+    const { data } = await this.apiClient.put(ENDPOINTS.UPDATE_PROFILE, profile);
+    await this.createSession(data);
+    return data;
+  }
+
   // checking if email is unique
   unique = async email => {
     const { data } = await this.apiClient.post(ENDPOINTS.UNIQUE, {email});

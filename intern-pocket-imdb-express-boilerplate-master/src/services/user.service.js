@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { sendMail } = require('./mailing.service');
-
-const { User } = require('./../models');
+const { getUserIdFromToken } = require('./movies.service');
+const { User, Comment } = require('./../models');
 
 const me = token => token.user;
 
@@ -24,6 +24,27 @@ const register = async ({ email, password, name }) => {
 
   return user.save();
 };
+
+const updateUser = async(token, updatedData) => {
+  const oldUser = getUserIdFromToken(token);
+  const oldEmail =(await User.findById(oldUser).email);
+  const user = await User.findByIdAndUpdate(oldUser, {name: updatedData.name, email: updatedData.email});
+  await Comment.updateMany({user: oldEmail}, {user: updatedData.email});
+  try {
+    const tokenNew = jwt.sign({ user }, process.env.JWT_SECRET,
+      {
+      // eslint-disable-next-line radix
+        expiresIn: parseInt(process.env.JWT_EXPIRE),
+      });
+
+    return({
+      user,
+      tokenNew,
+    });
+  } catch (err) {
+    return('FAIL');
+  }
+}
 
 const verify = async userData => {
   try {
@@ -92,5 +113,5 @@ const checkUnique = async(email) => {
 }
 
 module.exports = {
-  me, register, login, logout, refresh, checkUnique, verify
+  me, register, login, logout, refresh, checkUnique, verify, updateUser
 };
