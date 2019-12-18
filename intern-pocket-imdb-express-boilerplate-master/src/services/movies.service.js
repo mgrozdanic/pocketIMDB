@@ -176,7 +176,8 @@ const addView = movie => {
 };
 
 const store = ({Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors,
-  Plot, Language, Country, Awards, Poster, Production, Metascore, imdbRating}) => {
+  Plot, Language, Country, Awards, Poster, Production, Metascore, imdbRating}, token) => {
+  const creator = getUserIdFromToken(token);
   console.log(Title, Year);
   const movie = new Movie({Title,
     Year,
@@ -195,7 +196,9 @@ const store = ({Title, Year, Rated, Released, Runtime, Genre, Director, Writer, 
     Production,
     Metascore,
     imdbRating,
-    views: 0});
+    views: 0,
+    creator
+  });
   return movie.save();
   // Done, probably needs changes when adding new fields, also change model
 };

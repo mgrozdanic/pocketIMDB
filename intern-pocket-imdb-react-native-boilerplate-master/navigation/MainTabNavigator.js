@@ -20,8 +20,16 @@ const HomeStack = createStackNavigator({
   RelatedNavigator,
   AddMovieOMDb,
   AddMovie,
-  MyWatchList,
+  // MyWatchList,
   EditProfile
+});
+
+const WatchListStack = createStackNavigator({
+  MyWatchList
+});
+
+const MyMoviesStack = createStackNavigator({
+  Home
 });
 
 /* eslint-disable react/prop-types, react/display-name */
@@ -39,9 +47,18 @@ HomeStack.navigationOptions = {
   )
 };
 
+WatchListStack.navigationOptions = {
+  tabBarLabel: "My Watch List"
+}
+
+MyMoviesStack.navigationOptions = {
+  tabBarLabel: "My Movies"
+}
+
 const BottomTabNavigator = createBottomTabNavigator({
   HomeStack,
-
+  WatchListStack,
+  MyMoviesStack
 });
 
 export default createDrawerNavigator(

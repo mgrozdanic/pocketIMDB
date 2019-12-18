@@ -7,7 +7,10 @@ const {
   getRelated, watchListAddRemove, getWatchList, movieWatchUnwatch
 } = require('./../services/movies.service');
 
-router.post('/movies', async (req, res) => res.send(await store(req.body)));
+router.post('/movies', async (req, res) => {
+  const bearer = req.headers.authorization.split(" ");
+  res.send(await store(req.body, bearer[1]));
+});
 router.post('/movies/action', async (req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await userActionDo(req.body, bearer[1]))});

@@ -74,9 +74,9 @@ const LeftSlider = ({ navigation }) => {
           }}
         />
         {/* <Button onPress={navigation.closeDrawer} title="Close me" /> */}
-        <View style={{flexDirection:"row"}}>
+        {/* <View style={{flexDirection:"row"}}>
           <Button onPress={handleMyWatchList} title="My Watch List" style={{alignSelf:"left"}} />
-        </View>
+        </View> */}
         <Text style={{paddingHorizontal: 10, fontSize: 17}}>Most popular:</Text>
         <ScrollView>
         {mostPopular.map((movie) => (

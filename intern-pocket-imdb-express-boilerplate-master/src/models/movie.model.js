@@ -18,7 +18,8 @@ const movieSchema = new mongoose.Schema({
   Production: String,
   Metascore: String,
   imdbRating: String,
-  views: Number
+  views: Number,
+  creator: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
 });
 
 const Movie = mongoose.model('Movie', movieSchema);
