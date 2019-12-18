@@ -8,7 +8,9 @@ const ENDPOINTS = {
   LOGOUT: "/logout",
   UNIQUE: "/auth/unique",
   VERIFY: "/auth/verify",
-  UPDATE_PROFILE: "/auth/update"
+  UPDATE_PROFILE: "/auth/update",
+  PASSWORD: "/auth/password",
+  CHANGE_PASSWORD: "/auth/passwordupdate"
 };
 
 class AuthService extends ApiService {
@@ -65,10 +67,21 @@ class AuthService extends ApiService {
     return data;
   }
 
+  changePassword = async userData => {
+    const { data } = await this.apiClient.put(ENDPOINTS.CHANGE_PASSWORD, userData);
+    await this.createSession(data);
+    return data;
+  }
+
   // checking if email is unique
   unique = async email => {
     const { data } = await this.apiClient.post(ENDPOINTS.UNIQUE, {email});
     return data.unique;
+  }
+
+  passwordMatching = async (userId, password) => {
+    const { data } = await this.apiClient.post(ENDPOINTS.PASSWORD, { userId, password });
+    return data.matching;
   }
   // end
   logout = async () => {

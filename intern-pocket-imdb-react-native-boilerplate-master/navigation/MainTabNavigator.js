@@ -13,6 +13,7 @@ import AddMovieOMDb from "../screens/main/AddMovieOMDb";
 import RelatedNavigator from "./RelatedNavigator";
 import MyWatchList from "../screens/main/MyWatchList";
 import EditProfile from "../screens/main/EditProfile";
+import ChangePassword from "../screens/auth/ChangePassword";
 
 const HomeStack = createStackNavigator({
   Home,
@@ -21,7 +22,9 @@ const HomeStack = createStackNavigator({
   AddMovieOMDb,
   AddMovie,
   MyWatchList,
-  EditProfile
+  EditProfile,
+  ChangePassword
+
 });
 
 /* eslint-disable react/prop-types, react/display-name */
