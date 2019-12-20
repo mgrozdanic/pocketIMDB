@@ -2,19 +2,29 @@ import { call, put } from 'redux-saga/effects';
 
 import { setUser } from '../actions/AuthActions';
 import { movieService } from '../../services/MovieService';
-import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction, commentsNewPageAction, 
-  setMostPopularAction, setRelated, setWatchListAction } from '../actions/MovieActions';
+import { getMovies, setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction, commentsNewPageAction, 
+  setMostPopularAction, setRelated, setWatchListAction, getWatchListAction,
+  setMyCurrPage, setMyMovies, setMyNPages } from '../actions/MovieActions';
 import authService from '../../services/AuthService';
 
 export function* moviesGet({payload}) {
   try {
     const { data } = yield call(movieService.getMovies, payload);
     //console.log(data);
-    yield put(setMovies(data.movies));
-    // za pagination
-    yield put(setCurrPage(data.currentPage));
-    yield put(setNPages(data.pages));
+    if (payload.flag !== 'My'){
+      yield put(setMovies(data.movies));
+      // za pagination
+      yield put(setCurrPage(data.currentPage));
+      yield put(setNPages(data.pages));
 
+      
+    } else {
+      yield put(setMyMovies(data.movies));
+      // za pagination
+      yield put(setMyCurrPage(data.currentPage));
+      yield put(setMyNPages(data.pages));
+
+    }
     const response = yield call(authService.getUser);
     yield put(setUser(response.user));
     // end
@@ -43,6 +53,7 @@ export function* moviesGetFromOmdb(obj) {
 export function* userAction({ payload }) {
   try {
     yield call(movieService.saveAction, payload);
+    yield put(yield put(getWatchListAction({title: 'All', filter: 'All'})));
     } catch (error) {
 
     console.log({ error }); /*eslint-disable-line*/
@@ -115,6 +126,9 @@ export function* relatedGet({ payload }) {
 export function* actionWatchList({ payload }) {
   try {
     const { data } = yield call(movieService.watchListAddRemove, payload);
+    yield put(getWatchListAction({title: 'All', filter: 'All'}));
+    yield put(getMovies({page: 1, filter: 'All', search:'All', flag: 'My'}));
+    yield put(getMovies({page: 1, filter: 'All', search:'All', flag: 'All'}));
   } catch (error) {
     console.log({ error });
   }
@@ -132,6 +146,9 @@ export function* watchListGet({ payload }) {
 export function* watchUnwatchMovie({ payload }) {
   try {
     const { data } = yield call(movieService.watchUnwatch, payload);
+    yield put(getWatchListAction({title: 'All', filter: 'All'}));
+    yield put(getMovies({page: 1, filter: 'All', search:'All', flag: 'My'}));
+    yield put(getMovies({page: 1, filter: 'All', search:'All', flag: 'All'}));
     } catch (error) {
     console.log(error);
   }

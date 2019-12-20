@@ -1,16 +1,20 @@
 const { Movie, Likes, Comment, WatchList } = require('./../models');
 var jwt = require('jsonwebtoken');
 
-const index = async (pageParam, filterParam = 'All', search = '', token) => {
+const index = async (pageParam, filterParam = 'All', search = '', flag = 'All', token) => {
   // const movies = await Movie.find().exec();
   const resultsPerPage  = 10;
   const page = pageParam || 1;
   let user = getUserIdFromToken(token);
   search = search === 'All' ? '' : search;
-
   try {
-    const movies = (filterParam === 'All') ? await Movie.find({"Title":{$regex:".*" + search + ".*"}}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage) 
+    let movies = (filterParam === 'All') ? await Movie.find({"Title":{$regex:".*" + search + ".*"}}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage) 
     : await Movie.find({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*", $options: "i"}}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
+    
+    if (flag === 'My') {
+      movies = movies.filter(movie =>  movie.creator == user);
+    }
+
     const moviesFinal = await appendActions(movies, user);
     const nOfMovies = (filterParam === 'All') ? await Movie.count({"Title":{$regex:".*" + search + ".*"}}) 
     : await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*"}});

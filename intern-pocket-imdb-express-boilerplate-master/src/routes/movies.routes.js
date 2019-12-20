@@ -37,9 +37,9 @@ router.get('/movies/mostpopular', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await getMostPopular(bearer[1]));
 });
-router.get('/movies/:page/:filter/:search', async (req, res) => {
+router.get('/movies/:page/:filter/:search/:flag', async (req, res) => {
   const bearer = req.headers.authorization.split(" ");
-  res.send(await index(req.params.page, req.params.filter, req.params.search, bearer[1]))});
+  res.send(await index(req.params.page, req.params.filter, req.params.search, req.params.flag, bearer[1]))});
 router.get('/movies/:id', async (req, res) => res.send(await show(req.params.id)));
 router.delete('/movies/:id', async (req, res) => res.send(await destroy(req.params.id)));
 router.put('/movies/:id', async (req, res) => res.send(await update(req.params.id, req.body)));

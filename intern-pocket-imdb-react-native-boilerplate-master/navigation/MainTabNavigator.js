@@ -2,7 +2,7 @@ import React from "react";
 import { Platform } from "react-native";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack";
-import { createBottomTabNavigator } from "react-navigation-tabs";
+import { createBottomTabNavigator, createTabNavigator } from "react-navigation-tabs";
 
 import TabBarIcon from "../components/TabBarIcon";
 import LeftSlider from "../screens/main/LeftSlider";
@@ -13,6 +13,7 @@ import AddMovieOMDb from "../screens/main/AddMovieOMDb";
 import RelatedNavigator from "./RelatedNavigator";
 import MyWatchList from "../screens/main/MyWatchList";
 import EditProfile from "../screens/main/EditProfile";
+import MyMovies from "../screens/main/MyMovies";
 
 const HomeStack = createStackNavigator({
   Home,
@@ -29,7 +30,7 @@ const WatchListStack = createStackNavigator({
 });
 
 const MyMoviesStack = createStackNavigator({
-  Home
+  MyMovies
 });
 
 /* eslint-disable react/prop-types, react/display-name */
@@ -48,7 +49,7 @@ HomeStack.navigationOptions = {
 };
 
 WatchListStack.navigationOptions = {
-  tabBarLabel: "My Watch List"
+  tabBarLabel: "My Watch List",
 }
 
 MyMoviesStack.navigationOptions = {

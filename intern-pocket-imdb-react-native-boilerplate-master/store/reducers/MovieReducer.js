@@ -3,7 +3,10 @@ import { SET_MOVIES, SET_N_PAGES, SET_CURR_PAGE, OMDB_NOT_FOUND,
   COMMENTS_NEW_PAGE,
   SET_MOST_POPULAR,
   SET_RELATED,
-  SET_WATCHLIST} from '../actions/ActionTypes';
+  SET_WATCHLIST,
+  SET_MY_MOVIES,
+  SET_MY_N_PAGES,
+  SET_MY_CURR_PAGE} from '../actions/ActionTypes';
 
 const initialState = {
   all: [],
@@ -15,7 +18,10 @@ const initialState = {
   currentCPage: 1,
   mostPopular: [],
   related: [],
-  watchlist: []
+  watchlist: [],
+  myAll: [],
+  myNPages: 1,
+  myCurrentPage: 1
 };
 const movieReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -38,7 +44,13 @@ const movieReducer = (state = initialState, action) => {
     case SET_RELATED:
       return { ...state,  related: action.payload };
     case SET_WATCHLIST:
-      return { ...state,  watchlist: action.payload }
+      return { ...state,  watchlist: action.payload };
+    case SET_MY_MOVIES:
+      return { ...state, myAll: action.payload };
+    case SET_MY_N_PAGES:
+      return { ...state, myNPages: action.payload };
+    case SET_MY_CURR_PAGE:
+      return { ...state, myCurrentPage: action.payload };
     default:
       return state;
   }

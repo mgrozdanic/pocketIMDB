@@ -4,30 +4,29 @@ import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addHeaderLeftNavigator } from "../../helpers";
 import { getMovies, filterAction } from "../../store/actions/MovieActions";
-import { makeSelectMoviesList } from "../../store/selectors/MoviesSelector";
+import { makeSelectMyMoviesList } from "../../store/selectors/MyMoviesSelector";
 import MoviesList from "../../components/movies/MoviesList";
-import makeSelectCurrentPage from "../../store/selectors/CurrentPageSelector";
-import makeSelectNPages from "../../store/selectors/NumberOfPages";
+import makeSelectMyCurrentPage from "../../store/selectors/MyCurrentPageSelector";
+import makeSelectMyNPages from "../../store/selectors/MyNumberOfPagesSelector";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import ModalDropdown from 'react-native-modal-dropdown';
 import DelayInput from 'react-native-debounce-input';
+// import { NavigationEvents } from 'react-navigation';
 
-const Home = ({navigation}) => {
-
+const MyMovies = ({navigation}) => {
+  
+    const [cPage, SetCPage] = useState(1);
   const [search, setSearch] = useState("");
-
-  const [cPage, SetCPage] = useState(1);
-
   const dispatch = useDispatch();
 
-  const handleMoviesGet = data => dispatch(getMovies({page: data, filter: 'All', search:'All', flag: 'All'}));
+  const handleMoviesGet = data => dispatch(getMovies({page: data, filter: 'All', search:'All', flag: 'My'}));
 
-  const movies = useSelector(makeSelectMoviesList());
-  const currentPage = useSelector(makeSelectCurrentPage());
-  const nPages = useSelector(makeSelectNPages());
+  const movies = useSelector(makeSelectMyMoviesList());
+  const currentPage = useSelector(makeSelectMyCurrentPage());
+  const nPages = useSelector(makeSelectMyNPages());
 
-  const handlePrevious = () => dispatch(getMovies({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'All'}));
-  const handleNext = () => dispatch(getMovies({page: parseInt(currentPage) + 1, filter: 'All', search:'All', flag: 'All'}));
+  const handlePrevious = () => dispatch(getMovies({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'My'}));
+  const handleNext = () => dispatch(getMovies({page: parseInt(currentPage) + 1, filter: 'All', search:'All', flag: 'My'}));
 
   const handleAddMovieOMDb = () => navigation.navigate("AddMovieOMDb");
 
@@ -36,13 +35,13 @@ const Home = ({navigation}) => {
   const inputRef = createRef();
 
   const handleFilter = (index, value) => {
-    dispatch(getMovies({page: 1, filter: value, search:'All', flag: 'All'}));
+    dispatch(getMovies({page: 1, filter: value, search:'All', flag: 'My'}));
   }
 
   const handleSearch = (text) => {
     console.log("\n\n" + text);
     if (text !== ""){
-      dispatch(getMovies({page:1, filter:'All', search:text, flag: 'All'}));
+      dispatch(getMovies({page:1, filter:'All', search:text, flag: 'My'}));
     }
   }
 
@@ -52,6 +51,11 @@ const Home = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+        {/* <NavigationEvents onDidFocus={ handleMoviesGet(cPage)} 
+        onWillFocus={payload => console.log('will focus', payload)}
+        onWillBlur={payload => console.log('will blur', payload)}
+        onDidBlur={payload => console.log('did blur', payload)}
+        /> */}
       <View style={{flexDirection:"row"}}>
         <TouchableOpacity onPress={handleAddMovieOMDb}>
           <Text>Add Movie OMDb </Text>
@@ -81,19 +85,19 @@ const Home = ({navigation}) => {
   );
 };
 
-Home.propTypes = {
+MyMovies.propTypes = {
   navigation: PropTypes.object
 };
 
-export default Home;
+export default MyMovies;
 
-Home.navigationOptions = ({ navigation }) => {
-  const headerLeftNav = addHeaderLeftNavigator(navigation);
-  return { ...headerLeftNav, title: "Home", tabBarOnPress({ navigation, defaultHandler }) {
-    Home.handleMoviesGet(1);
-    defaultHandler();
-  } };
-};
+MyMovies.navigationOptions = ({ navigation }) => {
+    const headerLeftNav = addHeaderLeftNavigator(navigation);
+    return { ...headerLeftNav, title: "My Movies", tabBarOnPress({ navigation, defaultHandler }) {
+        handleMoviesGet(1);
+        defaultHandler();
+      } };    
+  };
 
 const styles = StyleSheet.create({
   container: {
