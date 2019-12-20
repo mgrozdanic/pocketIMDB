@@ -12,7 +12,7 @@ const AddMovieOMDb = () => {
 
     const handleFind = () => {
         const data = {title, year};
-        dispatch(getMovieFromOMDb(data))
+        dispatch(getMovieFromOMDb(data));
     };
 
     return(

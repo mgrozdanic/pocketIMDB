@@ -25,7 +25,8 @@ class MovieService extends ApiService {
     };
     //return Athixios.get(ENDPOINTS.MOVIES, config);
     const token = await AuthService.getToken();
-    return this.apiClient.get(ENDPOINTS.MOVIES + movie.page + "/" + movie.filter + "/" + movie.search);
+    return this.apiClient.get(ENDPOINTS.MOVIES + movie.page + "/" + movie.filter + "/" + movie.search 
+      + "/" + movie.flag);
   };
 
   getMoviesFromOMDb = async (movie) => {
