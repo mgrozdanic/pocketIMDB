@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const { sendMail } = require('./mailing.service');
 const { getUserIdFromToken } = require('./movies.service');
 const { User, Comment } = require('./../models');
+const bcrypt = require('bcrypt');
 const fs = require('fs');
 
 const me = token => token.user;
@@ -26,6 +27,38 @@ const register = async ({ email, password, name }) => {
 
   return user.save();
 };
+
+const matchingPassword = async userReq => {
+  const userId = userReq.userId;
+  const password = userReq.password;
+  
+  const user = await User.findById(userId);
+  const retVal = await bcrypt.compare(password, user.password);
+  return {matching: retVal};
+};
+
+const updatePassword = async userData => {
+  const userId = userData.userId;
+  const password = userData.password;
+
+  const hash = await bcrypt.hash(password, 10);
+
+  const user = await User.findByIdAndUpdate(userId, {password: hash}, {new: true});
+  try {
+    const tokenNew = jwt.sign({ user }, process.env.JWT_SECRET,
+      {
+      // eslint-disable-next-line radix
+        expiresIn: parseInt(process.env.JWT_EXPIRE),
+      });
+
+    return({
+      user,
+      tokenNew,
+    });
+  } catch (err) {
+    return('FAIL');
+  }
+}
 
 const updateUser = async(token, updatedData) => {
   const oldUser = getUserIdFromToken(token);
@@ -125,5 +158,5 @@ const checkUnique = async(email) => {
 }
 
 module.exports = {
-  me, register, login, logout, refresh, checkUnique, verify, updateUser
+  me, register, login, logout, refresh, checkUnique, verify, updateUser, matchingPassword, updatePassword
 };

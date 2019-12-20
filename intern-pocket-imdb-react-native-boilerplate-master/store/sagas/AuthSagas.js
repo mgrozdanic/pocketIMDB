@@ -62,3 +62,11 @@ export function* userChangeProfile({ payload }) {
     console.log(error);
   }
 }
+
+export function* passwordChange({ payload }) {
+  try {
+    yield call(AuthService.changePassword, payload);
+  } catch (error) {
+    console.log(error);
+  }
+}

@@ -46,6 +46,10 @@ const LeftSlider = ({ navigation }) => {
     navigation.navigate("EditProfile", {user, reload})
   }
 
+  const handleChangePassword = () => {
+    navigation.navigate("ChangePassword", {user})
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View>
@@ -65,7 +69,7 @@ const LeftSlider = ({ navigation }) => {
         </View>
         <View style={{flexDirection: "row"}}>
           <Button title="Edit" onPress={ handleEditProfile } />
-          <Button title="Change password"/>
+          <Button title="Change password" onPress={ handleChangePassword }/>
         </View>
         <View
           style={{

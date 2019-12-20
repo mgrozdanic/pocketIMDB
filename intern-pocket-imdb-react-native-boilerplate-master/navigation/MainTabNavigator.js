@@ -14,6 +14,7 @@ import RelatedNavigator from "./RelatedNavigator";
 import MyWatchList from "../screens/main/MyWatchList";
 import EditProfile from "../screens/main/EditProfile";
 import MyMovies from "../screens/main/MyMovies";
+import ChangePassword from "../screens/auth/ChangePassword";
 
 const HomeStack = createStackNavigator({
   Home,
@@ -21,8 +22,8 @@ const HomeStack = createStackNavigator({
   RelatedNavigator,
   AddMovieOMDb,
   AddMovie,
-  // MyWatchList,
-  EditProfile
+  EditProfile,
+  ChangePassword
 });
 
 const WatchListStack = createStackNavigator({
