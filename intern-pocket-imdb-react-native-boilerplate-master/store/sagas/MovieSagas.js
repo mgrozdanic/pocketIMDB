@@ -41,6 +41,8 @@ export function* moviesGetFromOmdb(obj) {
       yield put(omdbNotFound("True"));
     } else {
       const response = yield call(movieService.saveMovie, data);
+      yield put(getMovies({page: 1, filter: 'All', search:'All', flag: 'My'}));
+      yield put(getMovies({page: 1, filter: 'All', search:'All', flag: 'All'}));
       if (response.data.Title !== undefined) alert("Movie '" + response.data.Title + "("
       + response.data.Year + ")' successfuly saved.");
       else alert("Server error.");
@@ -100,6 +102,8 @@ export function* commentsGet({ payload }) {
 export function* addMovieUser({ payload }) {
   try {
     const { data } = yield call(movieService.saveMovie, payload);
+    yield put(getMovies({page: 1, filter: 'All', search:'All', flag: 'My'}));
+    yield put(getMovies({page: 1, filter: 'All', search:'All', flag: 'All'}));
     } catch (error) {
     console.log({ error }); /*eslint-disable-line*/
   }
