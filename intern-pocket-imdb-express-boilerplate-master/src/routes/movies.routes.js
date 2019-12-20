@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {
   index, show, destroy, store, update, userActionDo, addView, addComment, getComments, getMostPopular,
-  getRelated, watchListAddRemove, getWatchList, movieWatchUnwatch
+  getRelated, watchListAddRemove, getWatchList, movieWatchUnwatch, setToken
 } = require('./../services/movies.service');
 
 router.post('/movies', async (req, res) => {
@@ -23,6 +23,10 @@ router.post('/movies/comments/', async(req, res) => res.send(await getComments(r
 router.post('/movies/watchlist', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await watchListAddRemove(bearer[1], req.body.movie, req.body.action));
+});
+router.post('/movies/token', async(req, res) => {
+  const bearer = req.headers.authorization.split(" ");
+  res.send(await setToken(bearer[1], req.body));
 });
 router.get('/movies/mywatchlist/:title/:filter', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");

@@ -1,7 +1,7 @@
 import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, GET_MOVIE_FROM_OMDB, OMDB_NOT_FOUND, 
   USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, SET_COMMENTS, COMMENTS_NEW_PAGE, ADD_MOVIE,
   GET_MOST_POPULAR, SET_MOST_POPULAR, GET_RELATED, SET_RELATED, WATCHLIST_ACTION, GET_WATCHLIST,
-  SET_WATCHLIST, MOVIE_WATCH_UNWATCH, SET_MY_MOVIES, SET_MY_CURR_PAGE, SET_MY_N_PAGES } 
+  SET_WATCHLIST, MOVIE_WATCH_UNWATCH, SET_MY_MOVIES, SET_MY_CURR_PAGE, SET_MY_N_PAGES, SET_TOKEN } 
   from './ActionTypes';
 
 export const getMovies = (data) => {
@@ -167,6 +167,13 @@ export const setWatchListAction = payload => {
 export const movieWatchUnwatchAction = payload => {
   return {
     type: MOVIE_WATCH_UNWATCH,
+    payload
+  };
+};
+
+export const setTokenAction = payload => {
+  return {
+    type: SET_TOKEN,
     payload
   };
 };
