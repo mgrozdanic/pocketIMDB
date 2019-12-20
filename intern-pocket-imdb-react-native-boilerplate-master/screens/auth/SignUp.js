@@ -7,6 +7,9 @@ import { register, unique } from "../../store/actions/AuthActions";
 import { validateEmail, validatePassword, checkEmailUnique } from "./validators";
 import { getUniqueUserSelector } from "../../store/selectors/UniqueUserSelector";
 import authService from "../../services/AuthService";
+import { setTokenAction } from "../../store/actions/MovieActions";
+import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 
 const SignUp = () => {
   navigationOptions = {
@@ -22,16 +25,23 @@ const SignUp = () => {
 
   const handleLogin = data => dispatch(register(data));
 
-  /*const checkEmailUnique = async(email) => {
-    const unique =  await authService.unique(email);
-    if (!unique) alert('This email is taken, please choose another one.');
-    return unique;
-  }*/
+  const registerForPushNotificationsAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    if (status !== 'granted') {
+      return;
+    }
+    let token = await Notifications.getExpoPushTokenAsync();
+    
+    dispatch(setTokenAction({token}));
+    
+    //this.notificationSubscription = Notifications.addListener(this.handleNotification);
+  }
 
   const submitLogin = () => {
     if (validateEmail(email) && validatePassword(password, confirmPassword) && checkEmailUnique(email)){
       if (name.length < 255){
         handleLogin({ email, password, name });
+        registerForPushNotificationsAsync();
         return;
       }
       alert('Name must be shorter than 255 characters.');

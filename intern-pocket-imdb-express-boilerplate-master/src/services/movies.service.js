@@ -1,4 +1,4 @@
-const { Movie, Likes, Comment, WatchList } = require('./../models');
+const { Movie, Likes, Comment, WatchList, Token } = require('./../models');
 var jwt = require('jsonwebtoken');
 
 const index = async (pageParam, filterParam = 'All', search = '', flag = 'All', token) => {
@@ -144,6 +144,12 @@ const getWatchList = async(token, title, filter) => {
   return moviesFinal;
 }
 
+const setToken = (userToken, expoToken) => {
+  const user = getUserIdFromToken(userToken);
+  const tokenToSave = new Token({user, token: expoToken});
+  return tokenToSave.save();
+}
+
 const movieWatchUnwatch = async(token, movie, action) => {
   const user = getUserIdFromToken(token);
   return await WatchList.update({user:user, movie:movie}, {watched: action});
@@ -238,5 +244,6 @@ module.exports = {
   watchListAddRemove,
   getWatchList,
   movieWatchUnwatch,
-  getUserIdFromToken
+  getUserIdFromToken,
+  setToken
 };

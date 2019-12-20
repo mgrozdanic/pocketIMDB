@@ -62,7 +62,7 @@ const LeftSlider = ({ navigation }) => {
               user.image,
           }}
         />
-        <View flexDirection={{flexDirection:"column", paddingHorizontal: 10}}>
+        <View style={{flexDirection:"column", paddingHorizontal: 10}}>
           <Text> {user.name}</Text>
           <Text> {user.email}</Text>
         </View>
@@ -84,7 +84,7 @@ const LeftSlider = ({ navigation }) => {
         <Text style={{paddingHorizontal: 10, fontSize: 17}}>Most popular:</Text>
         <ScrollView>
         {mostPopular.map((movie) => (
-        <TouchableOpacity style={{paddingHorizontal: 10, alignSelf:"left"}} onPress={() => handleSinglePage(movie)}>
+        <TouchableOpacity style={{paddingHorizontal: 10, alignSelf:"flex-start"}} onPress={() => handleSinglePage(movie)}>
           <Text>{movie.Title}</Text>
         </TouchableOpacity>))}
         </ScrollView>
@@ -95,7 +95,7 @@ const LeftSlider = ({ navigation }) => {
           }}
         />
         <View style={{flexDirection:"row"}}> 
-          <Button onPress={logout} title="Logout" style={{alignSelf:"left"}} />
+          <Button onPress={logout} title="Logout" style={{alignSelf:"flex-start"}} />
         </View>
       </View>
     </SafeAreaView>
