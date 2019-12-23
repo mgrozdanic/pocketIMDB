@@ -9,7 +9,13 @@ client.on('error', function (err) {
     console.log('Something went wrong ' + err);
 });
 
+const deleteFromRedis = identifier => {
+    console.log("\nDeleting '" + identifier + "'...\n");
+    client.del(identifier);
+}
+
 const addToRedis = (identifier, value) => {
+    console.log("\nAdding " + identifier + "...\n");
     client.set(identifier, value);
 }
 
@@ -29,5 +35,6 @@ const redisMiddleware = (req, res, next) => {
 
 module.exports = {
     redisMiddleware,
-    addToRedis
+    addToRedis,
+    deleteFromRedis
 }

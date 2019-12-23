@@ -1,6 +1,6 @@
 const { Movie, Likes, Comment, WatchList, Token } = require('./../models');
 
-const { addToRedis } = require('./redis');
+const { addToRedis, deleteFromRedis } = require('./redis');
 var jwt = require('jsonwebtoken');
 var { Expo } = require('expo-server-sdk');
 const expo = new Expo();
@@ -200,7 +200,7 @@ const addView = movie => {
   return Movie.update({_id:movie.movie}, {$inc:{views: 1}});
 };
 
-const store = ({Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors,
+const store = async({Title, Year, Rated, Released, Runtime, Genre, Director, Writer, Actors,
   Plot, Language, Country, Awards, Poster, Production, Metascore, imdbRating}, token) => {
   const creator = getUserIdFromToken(token);
   console.log(Title, Year);
@@ -224,6 +224,10 @@ const store = ({Title, Year, Rated, Released, Runtime, Genre, Director, Writer, 
     views: 0,
     creator
   });
+  const countAll = await Movie.count() + 1;
+  const countMy = await Movie.count({creator}) + 1;
+  deleteFromRedis(Math.ceil(countAll/10) + "_All");
+  deleteFromRedis(Math.ceil(countMy/10) + "_My");
   return movie.save();
   // Done, probably needs changes when adding new fields, also change model
 };
