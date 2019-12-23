@@ -16,11 +16,16 @@ const MovieDetails = ({navigation}) => {
         dispatch(getRelated({genre: navigation.getParam('movie').Genre}));
         handleView();
       }, []);
+
+      const sendMessage = async to => {
+        dispatch(sendNotificationAction({movie, to: movie.creator}));
+      }
     
       const handleLike = () => {
         //movie.action = "LIKE";
         dispatch(setUserAction({action: "LIKE", movieId: navigation.getParam('movie')._id}));
         dispatch(getMovies({page: 1, filter: 'All', search:'All'}));
+        sendMessage();
       }
     
       const handleDislike = () => {

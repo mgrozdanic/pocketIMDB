@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import {
   StyleSheet,
@@ -15,6 +15,7 @@ import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import makeSelectUser from "../../store/selectors/UserSelector";
 import authService from "../../services/AuthService";
+import { Notifications } from 'expo';
 
 const LeftSlider = ({ navigation }) => {
   logout = () => {
@@ -22,10 +23,18 @@ const LeftSlider = ({ navigation }) => {
     navigation.navigate("AuthStack");
   };
 
+  const [ notification, setNotification ] = useState("");
+
+  const handleNotification = (notification) => {
+    setNotification({ notification });
+    navigation.navigate("MovieDetails", { movie: notification.data.message } );
+  }
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMostPopularAction());
+    Notifications.addListener(handleNotification);
   }, [reload]);
 
   const reload = () => console.log("\nRELOAD\n");
@@ -49,6 +58,19 @@ const LeftSlider = ({ navigation }) => {
   const handleChangePassword = () => {
     navigation.navigate("ChangePassword", {user})
   }
+
+  const renderNotification = () => {
+    return(
+      <TouchableOpacity onPress={ ()=> navigation.navigate("MovieDetails", { movie: notification.notification.data.message } ) }>
+        <View style={styles.container}>
+          <Text>Someone liked your movie!</Text>
+          <Text>{notification.notification.data.message.Title}</Text>
+          {console.log(notification.notification.data.message.Title)}
+        </View>
+      </TouchableOpacity>
+    )
+  }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -96,6 +118,11 @@ const LeftSlider = ({ navigation }) => {
         />
         <View style={{flexDirection:"row"}}> 
           <Button onPress={logout} title="Logout" style={{alignSelf:"flex-start"}} />
+        </View>
+        <View>
+          {/* {notification !== "" ?
+            renderNotification()
+          : null} */}
         </View>
       </View>
     </SafeAreaView>

@@ -15,7 +15,8 @@ const ENDPOINTS = {
   WATCHLIST_ADD_REMOVE: "/movies/watchlist",
   WATCHLIST_GET: "/movies/mywatchlist/",
   WATCH_UNWATCH: "/movies/watchunwatch",
-  TOKEN: "/movies/token"
+  TOKEN: "/movies/token",
+  NOTIFICATION: "/movies/notification"
 };
 
 class MovieService extends ApiService {
@@ -94,6 +95,11 @@ class MovieService extends ApiService {
 
   setToken = async(payload) => {
     const response = this.apiClient.post(ENDPOINTS.TOKEN, payload);
+    return response;
+  }
+
+  sendNotification = async(payload) => {
+    const response = this.apiClient.post(ENDPOINTS.NOTIFICATION, payload);
     return response;
   }
 
