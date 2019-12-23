@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@babel/core": "^7.7.5",
+    "nodemon": "^2.0.2",
     "react-native-debounce-input": "^1.0.5"
   }
 }

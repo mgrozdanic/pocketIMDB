@@ -1,4 +1,5 @@
 const { Movie, Likes, Comment, WatchList, Token } = require('./../models');
+const { addToRedis } = require('./redis');
 var jwt = require('jsonwebtoken');
 var { Expo } = require('expo-server-sdk');
 const expo = new Expo();
@@ -20,6 +21,11 @@ const index = async (pageParam, filterParam = 'All', search = '', flag = 'All', 
     const moviesFinal = await appendActions(movies, user);
     const nOfMovies = (filterParam === 'All') ? await Movie.count({"Title":{$regex:".*" + search + ".*"}}) 
     : await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*"}});
+    
+    if (filterParam === 'All' && search === '') {
+      addToRedis(page + "_" + flag, JSON.stringify(moviesFinal));
+    }
+
     return {movies: moviesFinal, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)}
   } catch (err) {
     throw new Error(err);
