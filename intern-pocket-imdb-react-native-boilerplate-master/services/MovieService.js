@@ -14,7 +14,10 @@ const ENDPOINTS = {
   GET_RELATED: "/movies/related",
   WATCHLIST_ADD_REMOVE: "/movies/watchlist",
   WATCHLIST_GET: "/movies/mywatchlist/",
-  WATCH_UNWATCH: "/movies/watchunwatch"
+  WATCH_UNWATCH: "/movies/watchunwatch",
+  TOKEN: "/movies/token",
+  REMOVE_TOKEN: "/movies/removetoken",
+  NOTIFICATION: "/movies/notification"
 };
 
 class MovieService extends ApiService {
@@ -88,6 +91,21 @@ class MovieService extends ApiService {
 
   watchUnwatch = async(payload) => {
     const response = this.apiClient.post(ENDPOINTS.WATCH_UNWATCH, payload);
+    return response;
+  }
+
+  setToken = async(payload) => {
+    const response = this.apiClient.post(ENDPOINTS.TOKEN, payload);
+    return response;
+  }
+
+  removeToken = async payload => {
+    const response = this.apiClient.delete(ENDPOINTS.REMOVE_TOKEN, payload);
+    return response;
+  }
+
+  sendNotification = async(payload) => {
+    const response = this.apiClient.post(ENDPOINTS.NOTIFICATION, payload);
     return response;
   }
 

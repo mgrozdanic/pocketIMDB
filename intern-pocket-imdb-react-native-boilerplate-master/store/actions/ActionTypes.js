@@ -51,3 +51,7 @@ export const MOVIE_WATCH_UNWATCH = 'MOVIE_WATCH_UNWATCH';
 export const SET_USER = 'SET_USER';
 export const CHNG_USR_PRFL = 'CHNG_USR_PRFL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
+
+export const SET_TOKEN = 'SET_TOKEN';
+export const REMOVE_TOKEN = 'REMOVE_TOKEN';
+export const SEND_NOTIFICATION = 'SEND_NOTIFICATION';

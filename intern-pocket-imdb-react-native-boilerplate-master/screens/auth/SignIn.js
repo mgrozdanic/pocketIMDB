@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import PropTypes from "prop-types";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {validateEmail} from './validators';
 import { logIn } from "../../store/actions/AuthActions";
-import { getMovies } from "../../store/actions/MovieActions";
+import { setTokenAction } from "../../store/actions/MovieActions";
+import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 
 const SignIn = ({ navigation }) => {
   navigationOptions = {
@@ -19,9 +21,22 @@ const SignIn = ({ navigation }) => {
 
   const handleLogin = data => dispatch(logIn(data));
 
+  const registerForPushNotificationsAsync = async () => {
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+    if (status !== 'granted') {
+      return;
+    }
+    let token = await Notifications.getExpoPushTokenAsync();
+    
+    dispatch(setTokenAction({token}));
+    
+    //this.notificationSubscription = Notifications.addListener(this.handleNotification);
+  }
+
   const submitLogin = () => {
     if (validateEmail(email)){
       handleLogin({ email, password });
+      registerForPushNotificationsAsync();
     }
   };
 

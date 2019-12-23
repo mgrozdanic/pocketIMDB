@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import {
   StyleSheet,
@@ -10,22 +10,33 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { Avatar } from "react-native-elements";
-import { getMostPopularAction } from "../../store/actions/MovieActions";
+import { getMostPopularAction, removeTokenAction } from "../../store/actions/MovieActions";
 import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import makeSelectUser from "../../store/selectors/UserSelector";
 import authService from "../../services/AuthService";
+import { Notifications } from 'expo';
 
 const LeftSlider = ({ navigation }) => {
+  
+  const dispatch = useDispatch();
+  
   logout = () => {
+    dispatch(removeTokenAction());
     AsyncStorage.clear();
     navigation.navigate("AuthStack");
   };
 
-  const dispatch = useDispatch();
+  const [ notification, setNotification ] = useState("");
+
+  const handleNotification = (notification) => {
+    setNotification({ notification });
+    navigation.navigate("MovieDetails", { movie: notification.data.message } );
+  } 
 
   useEffect(() => {
     dispatch(getMostPopularAction());
+    Notifications.addListener(handleNotification);
   }, [reload]);
 
   const reload = () => console.log("\nRELOAD\n");
@@ -62,7 +73,7 @@ const LeftSlider = ({ navigation }) => {
               user.image,
           }}
         />
-        <View flexDirection={{flexDirection:"column", paddingHorizontal: 10}}>
+        <View style={{flexDirection:"column", paddingHorizontal: 10}}>
           <Text> {user.name}</Text>
           <Text> {user.email}</Text>
         </View>
@@ -84,7 +95,7 @@ const LeftSlider = ({ navigation }) => {
         <Text style={{paddingHorizontal: 10, fontSize: 17}}>Most popular:</Text>
         <ScrollView>
         {mostPopular.map((movie) => (
-        <TouchableOpacity style={{paddingHorizontal: 10, alignSelf:"left"}} onPress={() => handleSinglePage(movie)}>
+        <TouchableOpacity style={{paddingHorizontal: 10, alignSelf:"flex-start"}} onPress={() => handleSinglePage(movie)}>
           <Text>{movie.Title}</Text>
         </TouchableOpacity>))}
         </ScrollView>
@@ -95,7 +106,12 @@ const LeftSlider = ({ navigation }) => {
           }}
         />
         <View style={{flexDirection:"row"}}> 
-          <Button onPress={logout} title="Logout" style={{alignSelf:"left"}} />
+          <Button onPress={logout} title="Logout" style={{alignSelf:"flex-start"}} />
+        </View>
+        <View>
+          {/* {notification !== "" ?
+            renderNotification()
+          : null} */}
         </View>
       </View>
     </SafeAreaView>
