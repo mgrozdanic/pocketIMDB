@@ -166,6 +166,14 @@ export function* tokenSet({ payload }) {
   }
 }
 
+export function* tokenRemove({ payload }) {
+  try {
+    const { data } = yield call(movieService.removeToken, payload);
+  } catch( error ) {
+    console.log(error);
+  }
+}
+
 export function* notificationSend({ payload }) {
   try {
     const { data } = yield call(movieService.sendNotification, payload);

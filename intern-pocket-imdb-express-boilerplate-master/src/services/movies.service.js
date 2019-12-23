@@ -152,6 +152,11 @@ const setToken = (userToken, expoToken) => {
   return tokenToSave.save();
 }
 
+const removeToken = userToken => {
+  const user = getUserIdFromToken(userToken);
+  return Token.deleteOne({user});
+}
+
 const movieWatchUnwatch = async(token, movie, action) => {
   const user = getUserIdFromToken(token);
   return await WatchList.update({user:user, movie:movie}, {watched: action});
@@ -278,5 +283,6 @@ module.exports = {
   movieWatchUnwatch,
   getUserIdFromToken,
   setToken,
-  messageRecieve
+  messageRecieve,
+  removeToken
 };

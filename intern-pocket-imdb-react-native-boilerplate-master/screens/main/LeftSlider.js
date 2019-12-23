@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { Avatar } from "react-native-elements";
-import { getMostPopularAction } from "../../store/actions/MovieActions";
+import { getMostPopularAction, removeTokenAction } from "../../store/actions/MovieActions";
 import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import makeSelectUser from "../../store/selectors/UserSelector";
@@ -18,7 +18,11 @@ import authService from "../../services/AuthService";
 import { Notifications } from 'expo';
 
 const LeftSlider = ({ navigation }) => {
+  
+  const dispatch = useDispatch();
+  
   logout = () => {
+    dispatch(removeTokenAction());
     AsyncStorage.clear();
     navigation.navigate("AuthStack");
   };
@@ -28,9 +32,7 @@ const LeftSlider = ({ navigation }) => {
   const handleNotification = (notification) => {
     setNotification({ notification });
     navigation.navigate("MovieDetails", { movie: notification.data.message } );
-  }
-
-  const dispatch = useDispatch();
+  } 
 
   useEffect(() => {
     dispatch(getMostPopularAction());
@@ -58,19 +60,6 @@ const LeftSlider = ({ navigation }) => {
   const handleChangePassword = () => {
     navigation.navigate("ChangePassword", {user})
   }
-
-  const renderNotification = () => {
-    return(
-      <TouchableOpacity onPress={ ()=> navigation.navigate("MovieDetails", { movie: notification.notification.data.message } ) }>
-        <View style={styles.container}>
-          <Text>Someone liked your movie!</Text>
-          <Text>{notification.notification.data.message.Title}</Text>
-          {console.log(notification.notification.data.message.Title)}
-        </View>
-      </TouchableOpacity>
-    )
-  }
-
 
   return (
     <SafeAreaView style={styles.container}>
