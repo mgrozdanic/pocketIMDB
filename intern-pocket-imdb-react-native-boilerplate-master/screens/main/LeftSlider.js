@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import {
   StyleSheet,
@@ -10,22 +10,33 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { Avatar } from "react-native-elements";
-import { getMostPopularAction } from "../../store/actions/MovieActions";
+import { getMostPopularAction, removeTokenAction } from "../../store/actions/MovieActions";
 import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import makeSelectUser from "../../store/selectors/UserSelector";
 import authService from "../../services/AuthService";
+import { Notifications } from 'expo';
 
 const LeftSlider = ({ navigation }) => {
+  
+  const dispatch = useDispatch();
+  
   logout = () => {
+    dispatch(removeTokenAction());
     AsyncStorage.clear();
     navigation.navigate("AuthStack");
   };
 
-  const dispatch = useDispatch();
+  const [ notification, setNotification ] = useState("");
+
+  const handleNotification = (notification) => {
+    setNotification({ notification });
+    navigation.navigate("MovieDetails", { movie: notification.data.message } );
+  } 
 
   useEffect(() => {
     dispatch(getMostPopularAction());
+    Notifications.addListener(handleNotification);
   }, [reload]);
 
   const reload = () => console.log("\nRELOAD\n");
@@ -62,7 +73,11 @@ const LeftSlider = ({ navigation }) => {
               user.image,
           }}
         />
+<<<<<<< HEAD
         <View style={{flexDirection: "column", paddingHorizontal: 10}}>
+=======
+        <View style={{flexDirection:"column", paddingHorizontal: 10}}>
+>>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
           <Text> {user.name}</Text>
           <Text> {user.email}</Text>
         </View>
@@ -96,6 +111,14 @@ const LeftSlider = ({ navigation }) => {
         />
         <View style={{flexDirection:"row"}}> 
           <Button onPress={logout} title="Logout" style={{alignSelf:"flex-start"}} />
+<<<<<<< HEAD
+=======
+        </View>
+        <View>
+          {/* {notification !== "" ?
+            renderNotification()
+          : null} */}
+>>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
         </View>
       </View>
     </SafeAreaView>

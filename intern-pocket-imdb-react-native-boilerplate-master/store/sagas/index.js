@@ -1,7 +1,13 @@
 import { all, takeLatest, take } from 'redux-saga/effects';
+<<<<<<< HEAD
 import { LOGIN, REGISTER, GET_MOVIES, CHCK_UNIQUE, GET_MOVIE_FROM_OMDB, USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, ADD_MOVIE, FILTER, GET_MOST_POPULAR, GET_RELATED, WATCHLIST_ACTION, GET_WATCHLIST, MOVIE_WATCH_UNWATCH, VERIFY, CHNG_USR_PRFL, CHANGE_PASSWORD, SET_TOKEN } from '../actions/ActionTypes';
 import { userLogin, userRegister, userUnique, verify, userChangeProfile, passwordChange } from './AuthSagas';
 import { moviesGet, moviesGetFromOmdb, userAction, viewAction, commentSet, commentsGet, addMovieUser, mostPopular, relatedGet, actionWatchList, watchListGet, watchUnwatchMovie, tokenSet } from './MovieSagas';
+=======
+import { LOGIN, REGISTER, GET_MOVIES, CHCK_UNIQUE, GET_MOVIE_FROM_OMDB, USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, ADD_MOVIE, FILTER, GET_MOST_POPULAR, GET_RELATED, WATCHLIST_ACTION, GET_WATCHLIST, MOVIE_WATCH_UNWATCH, VERIFY, CHNG_USR_PRFL, CHANGE_PASSWORD, SET_TOKEN, SEND_NOTIFICATION, REMOVE_TOKEN } from '../actions/ActionTypes';
+import { userLogin, userRegister, userUnique, verify, userChangeProfile, passwordChange } from './AuthSagas';
+import { moviesGet, moviesGetFromOmdb, userAction, viewAction, commentSet, commentsGet, addMovieUser, mostPopular, relatedGet, actionWatchList, watchListGet, watchUnwatchMovie, tokenSet, notificationSend, tokenRemove } from './MovieSagas';
+>>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
 
 export default function* rootSaga() {
   yield all([
@@ -25,6 +31,12 @@ export default function* rootSaga() {
     takeLatest(VERIFY, verify),
     takeLatest(CHNG_USR_PRFL, userChangeProfile),
     takeLatest(CHANGE_PASSWORD, passwordChange),
+<<<<<<< HEAD
     takeLatest(SET_TOKEN, tokenSet)
+=======
+    takeLatest(SET_TOKEN, tokenSet),
+    takeLatest(SEND_NOTIFICATION, notificationSend),
+    takeLatest(REMOVE_TOKEN, tokenRemove)
+>>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
   ]);
 }

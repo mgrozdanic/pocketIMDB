@@ -161,7 +161,27 @@ export function* watchUnwatchMovie({ payload }) {
 export function* tokenSet({ payload }) {
   try {
     const { data } = yield call(movieService.setToken, payload);
+<<<<<<< HEAD
   } catch (error) {
+=======
+  } catch( error ) {
+    console.log(error);
+  }
+}
+
+export function* tokenRemove({ payload }) {
+  try {
+    const { data } = yield call(movieService.removeToken, payload);
+  } catch( error ) {
+    console.log(error);
+  }
+}
+
+export function* notificationSend({ payload }) {
+  try {
+    const { data } = yield call(movieService.sendNotification, payload);
+  } catch ( error ) {
+>>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
     console.log(error);
   }
 }

@@ -1,7 +1,13 @@
 import { GET_MOVIES, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, GET_MOVIE_FROM_OMDB, OMDB_NOT_FOUND, 
   USER_ACTION, VIEW, SET_COMMENT, GET_COMMENTS, SET_COMMENTS, COMMENTS_NEW_PAGE, ADD_MOVIE,
   GET_MOST_POPULAR, SET_MOST_POPULAR, GET_RELATED, SET_RELATED, WATCHLIST_ACTION, GET_WATCHLIST,
+<<<<<<< HEAD
   SET_WATCHLIST, MOVIE_WATCH_UNWATCH, SET_MY_MOVIES, SET_MY_CURR_PAGE, SET_MY_N_PAGES, SET_TOKEN } 
+=======
+  SET_WATCHLIST, MOVIE_WATCH_UNWATCH, SET_MY_MOVIES, SET_MY_CURR_PAGE, SET_MY_N_PAGES, SET_TOKEN, 
+  SEND_NOTIFICATION, 
+  REMOVE_TOKEN} 
+>>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
   from './ActionTypes';
 
 export const getMovies = (data) => {
@@ -176,4 +182,21 @@ export const setTokenAction = payload => {
     type: SET_TOKEN,
     payload
   };
+<<<<<<< HEAD
+=======
+};
+
+export const removeTokenAction = payload => {
+  return {
+    type: REMOVE_TOKEN,
+    payload
+  };
+};
+
+export const sendNotificationAction = payload => {
+  return {
+    type: SEND_NOTIFICATION,
+    payload
+  };
+>>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
 };

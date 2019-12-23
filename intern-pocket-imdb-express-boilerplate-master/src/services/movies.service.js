@@ -1,5 +1,9 @@
 const { Movie, Likes, Comment, WatchList, Token } = require('./../models');
+
+const { addToRedis } = require('./redis');
 var jwt = require('jsonwebtoken');
+var { Expo } = require('expo-server-sdk');
+const expo = new Expo();
 
 const index = async (pageParam, filterParam = 'All', search = '', flag = 'All', token) => {
   // const movies = await Movie.find().exec();
@@ -18,6 +22,11 @@ const index = async (pageParam, filterParam = 'All', search = '', flag = 'All', 
     const moviesFinal = await appendActions(movies, user);
     const nOfMovies = (filterParam === 'All') ? await Movie.count({"Title":{$regex:".*" + search + ".*"}}) 
     : await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*"}});
+    
+    if (filterParam === 'All' && search === '') {
+      addToRedis(page + "_" + flag, JSON.stringify(moviesFinal));
+    }
+
     return {movies: moviesFinal, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)}
   } catch (err) {
     throw new Error(err);
@@ -144,11 +153,17 @@ const getWatchList = async(token, title, filter) => {
   return moviesFinal;
 }
 
-const setToken = async (token, msgToken) => {
-  const user = getUserIdFromToken(token);
-  const savedToken = new Token({user, token: msgToken.token});
-  return savedToken.save();
-} 
+
+const setToken = (userToken, expoToken) => {
+  const user = getUserIdFromToken(userToken);
+  const tokenToSave = new Token({user, token: expoToken});
+  return tokenToSave.save();
+}
+
+const removeToken = userToken => {
+  const user = getUserIdFromToken(userToken);
+  return Token.deleteOne({user});
+}
 
 const movieWatchUnwatch = async(token, movie, action) => {
   const user = getUserIdFromToken(token);
@@ -229,6 +244,36 @@ const destroy = (id) => {
   // Done, no changes necessary
 };
 
+const messageRecieve = async(movie, user) => {
+  const tokenUser = await Token.findOne({user:user});
+  console.log(tokenUser);
+  handlePushTokens(tokenUser.token, movie)
+};
+
+const handlePushTokens = (pushToken, message) => {
+  
+  let notifications = [];
+  notifications.push({
+    to: pushToken,
+    sound: 'default',
+    title: message.Title,
+    body: 'Someone liked your movie',
+    data: { message },
+  });
+
+  let chunks = expo.chunkPushNotifications(notifications);
+
+  (async () => {
+    for (let chunk of chunks) {
+      try {
+        let receipts = await expo.sendPushNotificationsAsync(chunk);
+        console.log(receipts);
+      } catch (error) {
+        console.error(error);
+      }
+  }})();
+}
+
 module.exports = {
   index,
   show,
@@ -245,5 +290,7 @@ module.exports = {
   getWatchList,
   movieWatchUnwatch,
   getUserIdFromToken,
-  setToken
+  setToken,
+  messageRecieve,
+  removeToken
 };

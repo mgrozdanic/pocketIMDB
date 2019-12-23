@@ -52,4 +52,10 @@ export const SET_USER = 'SET_USER';
 export const CHNG_USR_PRFL = 'CHNG_USR_PRFL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 
+<<<<<<< HEAD
 export const SET_TOKEN = 'SET_TOKEN';
+=======
+export const SET_TOKEN = 'SET_TOKEN';
+export const REMOVE_TOKEN = 'REMOVE_TOKEN';
+export const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
+>>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
