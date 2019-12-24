@@ -71,7 +71,7 @@ const MyMovies = ({navigation}) => {
       </View>
       <DelayInput minLength={3} inputRef={inputRef} onChangeText={(text) => handleSearch(text)} 
         delayTimeout={750} placeholder="Search..."/>
-      <MoviesList navigation={navigation} movies={movies} currentPage={currentPage + "_My"} ></MoviesList>
+      <MoviesList navigation={navigation} movies={movies} currentPage={currentPage} ></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>
         <Text>Previous</Text>

@@ -16,7 +16,7 @@ router.post('/movies', async (req, res) => {
 router.post('/movies/action', async (req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await userActionDo(req.body, bearer[1]))});
-router.post('/movies/view', async (req, res) => res.send(await addView(req.body)));
+router.post('/movies/view', async (req, res) => res.send(await addView(req.body))); // treba redis
 router.post('/movies/comment', async (req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await addComment(bearer[1], req.body.movie, req.body.comment));
@@ -26,9 +26,9 @@ router.post('/movies/token', async(req, res) => {
   res.send(await setToken(bearer[1], req.body.token));
 });
 router.post('/movies/comments/', async(req, res) => res.send(await getComments(req.body)));
-router.post('/movies/watchlist', async(req, res) => {
+router.post('/movies/watchlist', async(req, res) => { // treba redis
   const bearer = req.headers.authorization.split(" ");
-  res.send(await watchListAddRemove(bearer[1], req.body.movie, req.body.action));
+  res.send(await watchListAddRemove(bearer[1], req.body.movie, req.body.action, req.body.currentPage));
 });
 router.post('/movies/token', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
@@ -38,9 +38,9 @@ router.get('/movies/mywatchlist/:title/:filter', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await getWatchList(bearer[1], req.params.title, req.params.filter));
 });
-router.post('/movies/watchunwatch', async(req, res) => {
+router.post('/movies/watchunwatch', async(req, res) => { // treba redis
   const bearer = req.headers.authorization.split(" ");
-  res.send(await movieWatchUnwatch(bearer[1], req.body.movie, req.body.action));
+  res.send(await movieWatchUnwatch(bearer[1], req.body.movie, req.body.action, req.body.currentPage));
 });
 router.delete('/movies/removetoken', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
@@ -52,7 +52,7 @@ router.get('/movies/mostpopular', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await getMostPopular(bearer[1]));
 });
-router.get('/movies/:page/:filter/:search/:flag', async (req, res) => { // sklonjen redis middleware
+router.get('/movies/:page/:filter/:search/:flag', redisMiddleware, async (req, res) => { // sklonjen redis middleware
   const bearer = req.headers.authorization.split(" ");
   res.send(await index(req.params.page, req.params.filter, req.params.search, req.params.flag, bearer[1]))});
 router.get('/movies/:id', async (req, res) => res.send(await show(req.params.id)));

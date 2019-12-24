@@ -12,6 +12,7 @@ const MovieDetails = ({navigation}) => {
     const[action, setAction] = useState(navigation.getParam('movie').action);
     const[likes, setLikes] = useState(navigation.getParam('movie').likes);
     const[dislikes, setDislikes] = useState(navigation.getParam('movie').dislikes);
+    const currentPage = navigation.getParam('currentPage');
 
     const dispatch = useDispatch();
 
@@ -20,30 +21,28 @@ const MovieDetails = ({navigation}) => {
         handleView();
       }, []);
 
-      const sendMessage = async to => {
+    const sendMessage = async to => {
         dispatch(sendNotificationAction({movie, to: movie.creator}));
-      }
-    
-      const handleLike = () => {
+    }
+
+    const handleLike = () => {
         setAction("LIKE");
         setLikes(parseInt(likes) + 1);
-        setDislikes(parseInt(dislikes) - 1);
         dispatch(setUserAction({action: "LIKE", movieId: navigation.getParam('movie')._id, 
-            currentPage: navigation.getParam('currentPage'), wl: navigation.getParam('wl')}));
+            currentPage, wl: navigation.getParam('wl')}));
         sendMessage();
-      }
-    
-      const handleDislike = () => {
+    }
+
+    const handleDislike = () => {
         setAction("DISLIKE");
         setDislikes(parseInt(dislikes) + 1);
-        setLikes(parseInt(likes) - 1);
         dispatch(setUserAction({action: "DISLIKE", movieId: navigation.getParam('movie')._id,
-            currentPage: navigation.getParam('currentPage'), wl: navigation.getParam('wl')}));
-        }
+            currentPage, wl: navigation.getParam('wl')}));
+    }
 
     const handleView = () => {
         let my = navigation.getParam('movie').creator === navigation.getParam('user')._id;
-        dispatch(setView({movie: navigation.getParam('movie')._id, my, wl: navigation.getParam('wl') }));
+        dispatch(setView({movie: navigation.getParam('movie')._id, currentPage, my, wl: navigation.getParam('wl') }));
     }
 
     const handleSubmit = () => {
@@ -55,7 +54,7 @@ const MovieDetails = ({navigation}) => {
         // add ili remove
         let my = navigation.getParam('movie').creator === navigation.getParam('user')._id;
         dispatch(watchListAction({movie: navigation.getParam('movie')._id, 
-            action: navigation.getParam('movie').onWatchList ? 'remove' : 'add', my}));
+            action: navigation.getParam('movie').onWatchList ? 'remove' : 'add', my, currentPage}));
         navigation.navigate("Home");
     }
 
