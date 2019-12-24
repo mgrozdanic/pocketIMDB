@@ -20,6 +20,8 @@ import { Notifications } from 'expo';
 const LeftSlider = ({ navigation }) => {
   
   const dispatch = useDispatch();
+  const mostPopular = useSelector(makeSelectMostPopular());
+  const user = useSelector(makeSelectUser());
   
   logout = () => {
     dispatch(removeTokenAction());
@@ -32,7 +34,7 @@ const LeftSlider = ({ navigation }) => {
 
   const handleNotification = (notification) => {
     setNotification({ notification });
-    navigation.navigate("MovieDetails", { movie: notification.data.message } );
+    navigation.navigate("MovieDetails", { movie: notification.data.message, user, currentPage, wl:false } );
   } 
 
   useEffect(() => {
@@ -41,10 +43,6 @@ const LeftSlider = ({ navigation }) => {
   }, [reload]);
 
   const reload = () => console.log("\nRELOAD\n");
-
-  const mostPopular = useSelector(makeSelectMostPopular());
-  
-  const user = useSelector(makeSelectUser());
 
   const handleSinglePage = (movie) => {
     navigation.navigate("MovieDetails", {movie, user, currentPage, wl:false});
