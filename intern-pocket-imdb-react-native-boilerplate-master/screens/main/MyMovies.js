@@ -1,5 +1,5 @@
 import React, { useEffect, useState, createRef } from "react";
-import { StyleSheet, View, Text, Picker } from "react-native";
+import { StyleSheet, View, Text, Picker, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addHeaderLeftNavigator } from "../../helpers";
@@ -56,21 +56,19 @@ const MyMovies = ({navigation}) => {
         onWillBlur={payload => console.log('will blur', payload)}
         onDidBlur={payload => console.log('did blur', payload)}
         /> */}
-      <View style={{flexDirection:"row"}}>
-        <TouchableOpacity onPress={handleAddMovieOMDb}>
-          <Text>Add Movie OMDb </Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleAddMovie}>
-          <Text>Add Movie </Text>
-        </TouchableOpacity>
-        <ModalDropdown textStyle={{fontSize:14}} options={['All', 'Action', 'Adult', 'Adventure', 'Animation',
-        'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film Noir',
-        'Game-Show', 'History', 'Horror', 'Musical', 'Music', 'Mystery', 'News', 'Reality-TV', 
-        'Romance', 'Sci-Fi', 'Short', 'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']} 
-          onSelect={(index, value) => handleFilter(index, value)} />
+      <View style={{flexDirection:"row", alignSelf:"center"}} >
+        <Button title="Add Movie OMDb" onPress={handleAddMovieOMDb} />
+        <Button title="Add Movie" onPress={handleAddMovie} />
       </View>
-      <DelayInput minLength={3} inputRef={inputRef} onChangeText={(text) => handleSearch(text)} 
-        delayTimeout={750} placeholder="Search..."/>
+      <View style={{flexDirection:"row", alignSelf:"center"}} >
+        <ModalDropdown textStyle={{fontSize:14}} options={['All', 'Action', 'Adult', 'Adventure', 'Animation',
+          'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film Noir',
+          'Game-Show', 'History', 'Horror', 'Musical', 'Music', 'Mystery', 'News', 'Reality-TV', 
+          'Romance', 'Sci-Fi', 'Short', 'Sport', 'Talk-Show', 'Thriller', 'War', 'Western']} 
+            onSelect={(index, value) => handleFilter(index, value)} />
+        <DelayInput minLength={3} inputRef={inputRef} onChangeText={(text) => handleSearch(text)} 
+          delayTimeout={750} placeholder="Search..."/>
+      </View>
       <MoviesList navigation={navigation} movies={movies} currentPage={currentPage} ></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>

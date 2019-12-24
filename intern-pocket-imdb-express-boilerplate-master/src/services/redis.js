@@ -21,6 +21,10 @@ const addToRedis = (identifier, value) => {
 
 const redisMiddleware = (req, res, next) => {
     const identifier = req.params.page + "_" + req.params.flag;
+    if (req.params.search !== 'All' || req.params.filter !== 'All') {
+        next();
+        return;
+    }
     client.get(identifier, (err, data) => {
     if (err) throw err;
 
