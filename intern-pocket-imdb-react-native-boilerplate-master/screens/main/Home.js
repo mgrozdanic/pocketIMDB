@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Picker } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addHeaderLeftNavigator } from "../../helpers";
-import { getMovies, filterAction } from "../../store/actions/MovieActions";
+import { getMovies, filterAction, getMoviesAll } from "../../store/actions/MovieActions";
 import { makeSelectMoviesList } from "../../store/selectors/MoviesSelector";
 import MoviesList from "../../components/movies/MoviesList";
 import makeSelectCurrentPage from "../../store/selectors/CurrentPageSelector";
@@ -20,14 +20,14 @@ const Home = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const handleMoviesGet = data => dispatch(getMovies({page: data, filter: 'All', search:'All', flag: 'All'}));
+  const handleMoviesGet = data => dispatch(getMoviesAll({page: data, filter: 'All', search:'All', flag: 'All'}));
 
   const movies = useSelector(makeSelectMoviesList());
   const currentPage = useSelector(makeSelectCurrentPage());
   const nPages = useSelector(makeSelectNPages());
 
-  const handlePrevious = () => dispatch(getMovies({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'All'}));
-  const handleNext = () => dispatch(getMovies({page: parseInt(currentPage) + 1, filter: 'All', search:'All', flag: 'All'}));
+  const handlePrevious = () => dispatch(getMoviesAll({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'All'}));
+  const handleNext = () => dispatch(getMoviesAll({page: parseInt(currentPage) + 1, filter: 'All', search:'All', flag: 'All'}));
 
   const handleAddMovieOMDb = () => navigation.navigate("AddMovieOMDb");
 
@@ -36,13 +36,13 @@ const Home = ({navigation}) => {
   const inputRef = createRef();
 
   const handleFilter = (index, value) => {
-    dispatch(getMovies({page: 1, filter: value, search:'All', flag: 'All'}));
+    dispatch(getMoviesAll({page: 1, filter: value, search:'All', flag: 'All'}));
   }
 
   const handleSearch = (text) => {
     console.log("\n\n" + text);
     if (text !== ""){
-      dispatch(getMovies({page:1, filter:'All', search:text, flag: 'All'}));
+      dispatch(getMoviesAll({page:1, filter:'All', search:text, flag: 'All'}));
     }
   }
 
@@ -67,7 +67,7 @@ const Home = ({navigation}) => {
       </View>
       <DelayInput minLength={3} inputRef={inputRef} onChangeText={(text) => handleSearch(text)} 
         delayTimeout={750} placeholder="Search..."/>
-      <MoviesList navigation={navigation} movies={movies}></MoviesList>
+      <MoviesList navigation={navigation} movies={movies} currentPage={currentPage + "_All"} ></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>
         <Text>Previous</Text>

@@ -73,11 +73,7 @@ const LeftSlider = ({ navigation }) => {
               user.image,
           }}
         />
-<<<<<<< HEAD
-        <View style={{flexDirection: "column", paddingHorizontal: 10}}>
-=======
         <View style={{flexDirection:"column", paddingHorizontal: 10}}>
->>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
           <Text> {user.name}</Text>
           <Text> {user.email}</Text>
         </View>
@@ -111,14 +107,11 @@ const LeftSlider = ({ navigation }) => {
         />
         <View style={{flexDirection:"row"}}> 
           <Button onPress={logout} title="Logout" style={{alignSelf:"flex-start"}} />
-<<<<<<< HEAD
-=======
         </View>
         <View>
           {/* {notification !== "" ?
             renderNotification()
           : null} */}
->>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
         </View>
       </View>
     </SafeAreaView>

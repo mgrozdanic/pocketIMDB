@@ -1,16 +1,18 @@
 import React from "react";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from "prop-types";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { setUserAction, getMovies, sendNotificationAction } from "../../store/actions/MovieActions";
+import { setUserAction, getMoviesAll, sendNotificationAction, getMoviesMy } from "../../store/actions/MovieActions";
+import makeSelectUser from "../../store/selectors/UserSelector";
 
-const MovieItem = ({ movie, navigation }) => {
-  
-  const handleNavigate = () => {
-    navigation.navigate("MovieDetails", {movie});
+const MovieItem = ({ movie, navigation, currentPage }) => {
+
+  const handleNavigate = (user) => {
+    navigation.navigate("MovieDetails", {movie, currentPage, user, wl: false });
   }
 
+  const user = useSelector(makeSelectUser());
   const dispatch = useDispatch();
 
   const sendMessage = async to => {
@@ -19,22 +21,22 @@ const MovieItem = ({ movie, navigation }) => {
 
   const handleLike = () => {
     movie.action = "LIKE";
-    dispatch(setUserAction({action: "LIKE", movieId: movie._id}));
-    dispatch(getMovies({page: 1, filter: 'All', search:'All'}));
+    dispatch(setUserAction({action: "LIKE", movieId: movie._id, 
+      currentPage, my: user._id === movie.creator, wl: false}));
     sendMessage();
   }
 
   const handleDislike = () => {
     movie.action = "DISLIKE";
-    dispatch(setUserAction({action: "DISLIKE", movieId: movie._id}));
-    dispatch(getMovies({page: 1, filter: 'All', search:'All'}));
+    dispatch(setUserAction({action: "DISLIKE", movieId: movie._id,
+      currentPage, my: user._id === movie.creator, wl: false}));
   }
 
   return(
-  <TouchableOpacity onPress={handleNavigate}>
+  <TouchableOpacity onPress={() => handleNavigate(user)}>
     <View style={styles.item}>
       <View style={{flexDirection:"row"}}>
-      <Text style={{fontSize: 20}}>{movie.Title}</Text>
+      <Text style={styles.title}>{movie.Title}</Text>
       </View>
       <View style={styles.content}>
         <Image
@@ -43,12 +45,16 @@ const MovieItem = ({ movie, navigation }) => {
         <Text style={styles.description}>{movie.Plot}</Text>
       </View>
       <View style={{flexDirection:"row"}}>
-      <Text style={{fontSize: 17}}>{movie.likes}</Text>
-      <TouchableOpacity onPress={handleLike} disabled={movie.action === "LIKE"}><Text style={{fontSize: 17}}> Like </Text></TouchableOpacity>
-      <TouchableOpacity onPress={handleDislike} disabled={movie.action === "DISLIKE"}><Text style={{fontSize: 17}}> Dislike </Text></TouchableOpacity>
-      <Text style={{fontSize: 17}}>{movie.dislikes}</Text>
-      <Text style={{fontSize: 17}}>  Views:{movie.views}</Text>
-      <Text style={{fontSize: 17, color: "blue"}}> {movie.watched ? "Watched": ""}</Text>
+      <Text style={styles.textActionFalse}>{movie.likes}</Text>
+      <TouchableOpacity onPress={handleLike} disabled={movie.action === "LIKE"}>
+        <Text style={ movie.action === "LIKE" ? styles.textActionTrue : styles.textActionFalse }> Like </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleDislike} disabled={movie.action === "DISLIKE"}>
+        <Text style={ movie.action === "DISLIKE" ? styles.textActionTrue : styles.textActionFalse }> Dislike </Text>
+      </TouchableOpacity>
+      <Text style={styles.textActionFalse}>{movie.dislikes}</Text>
+      <Text style={styles.textActionFalse}>  Views:{movie.views}</Text>
+      <Text style={styles.textActionTrue}> {movie.watched ? "Watched": ""}</Text>
       </View>
     </View>
   </TouchableOpacity>
@@ -74,6 +80,16 @@ const styles = StyleSheet.create({
     height: 100,
     paddingHorizontal: 9,
     width: "65%"
+  },
+  textActionTrue: {
+    fontSize: 17,
+    color: "blue"
+  },
+  textActionFalse: {
+    fontSize: 17
+  },
+  title: {
+    fontSize: 20
   }
 });
 

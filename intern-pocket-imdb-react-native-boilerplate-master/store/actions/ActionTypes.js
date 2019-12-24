@@ -13,7 +13,8 @@ export const CHECK_UNIQUE_SUCCESS = 'CHECK_UNIQUE_SUCCESS';
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const REGISTER_ERROR = 'REGISTER_ERROR';
 
-export const GET_MOVIES = 'GET_MOVIES';
+export const GET_MOVIES_ALL = 'GET_MOVIES_ALL';
+export const GET_MOVIES_MY = 'GET_MOVIES_MY';
 export const SET_MOVIES = 'SET_MOVIES';
 
 export const SET_MY_MOVIES = 'SET_MY_MOVIES';
@@ -52,10 +53,6 @@ export const SET_USER = 'SET_USER';
 export const CHNG_USR_PRFL = 'CHNG_USR_PRFL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
 
-<<<<<<< HEAD
-export const SET_TOKEN = 'SET_TOKEN';
-=======
 export const SET_TOKEN = 'SET_TOKEN';
 export const REMOVE_TOKEN = 'REMOVE_TOKEN';
 export const SEND_NOTIFICATION = 'SEND_NOTIFICATION';
->>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c

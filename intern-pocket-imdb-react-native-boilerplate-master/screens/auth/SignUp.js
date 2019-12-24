@@ -5,15 +5,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {  useDispatch } from "react-redux";
 import { register } from "../../store/actions/AuthActions";
 import { validateEmail, validatePassword, checkEmailUnique } from "./validators";
-<<<<<<< HEAD
-import { getUniqueUserSelector } from "../../store/selectors/UniqueUserSelector";
-import authService from "../../services/AuthService";
-import { setTokenAction } from "../../store/actions/MovieActions";
-import * as Permissions from 'expo-permissions';
-import { Notifications } from 'expo';
-=======
-
->>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
 
 const SignUp = () => {
   navigationOptions = {
@@ -29,21 +20,6 @@ const SignUp = () => {
 
   const handleLogin = data => dispatch(register(data));
 
-<<<<<<< HEAD
-  const registerForPushNotificationsAsync = async () => {
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-
-    if (status !== 'granted') {
-      return;
-    }
-    
-    let token = await Notifications.getExpoPushTokenAsync();
-    console.log("\n\n" + token + "\n\n");
-    dispatch(setTokenAction({token}));
-  }
-
-=======
->>>>>>> 3b6ad8571bfdc9221f59b14d46db37f5c17f845c
   const submitLogin = () => {
     if (validateEmail(email) && validatePassword(password, confirmPassword) && checkEmailUnique(email)){
       if (name.length < 255){

@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Picker } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addHeaderLeftNavigator } from "../../helpers";
-import { getMovies, filterAction } from "../../store/actions/MovieActions";
+import { getMovies, filterAction, getMoviesMy } from "../../store/actions/MovieActions";
 import { makeSelectMyMoviesList } from "../../store/selectors/MyMoviesSelector";
 import MoviesList from "../../components/movies/MoviesList";
 import makeSelectMyCurrentPage from "../../store/selectors/MyCurrentPageSelector";
@@ -19,14 +19,14 @@ const MyMovies = ({navigation}) => {
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
 
-  const handleMoviesGet = data => dispatch(getMovies({page: data, filter: 'All', search:'All', flag: 'My'}));
+  const handleMoviesGet = data => dispatch(getMoviesMy({page: data, filter: 'All', search:'All', flag: 'My'}));
 
   const movies = useSelector(makeSelectMyMoviesList());
   const currentPage = useSelector(makeSelectMyCurrentPage());
   const nPages = useSelector(makeSelectMyNPages());
 
-  const handlePrevious = () => dispatch(getMovies({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'My'}));
-  const handleNext = () => dispatch(getMovies({page: parseInt(currentPage) + 1, filter: 'All', search:'All', flag: 'My'}));
+  const handlePrevious = () => dispatch(getMoviesMy({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'My'}));
+  const handleNext = () => dispatch(getMoviesMy({page: parseInt(currentPage) + 1, filter: 'All', search:'All', flag: 'My'}));
 
   const handleAddMovieOMDb = () => navigation.navigate("AddMovieOMDb");
 
@@ -35,13 +35,13 @@ const MyMovies = ({navigation}) => {
   const inputRef = createRef();
 
   const handleFilter = (index, value) => {
-    dispatch(getMovies({page: 1, filter: value, search:'All', flag: 'My'}));
+    dispatch(getMoviesMy({page: 1, filter: value, search:'All', flag: 'My'}));
   }
 
   const handleSearch = (text) => {
     console.log("\n\n" + text);
     if (text !== ""){
-      dispatch(getMovies({page:1, filter:'All', search:text, flag: 'My'}));
+      dispatch(getMoviesMy({page:1, filter:'All', search:text, flag: 'My'}));
     }
   }
 
@@ -71,7 +71,7 @@ const MyMovies = ({navigation}) => {
       </View>
       <DelayInput minLength={3} inputRef={inputRef} onChangeText={(text) => handleSearch(text)} 
         delayTimeout={750} placeholder="Search..."/>
-      <MoviesList navigation={navigation} movies={movies}></MoviesList>
+      <MoviesList navigation={navigation} movies={movies} currentPage={currentPage + "_My"} ></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>
         <Text>Previous</Text>

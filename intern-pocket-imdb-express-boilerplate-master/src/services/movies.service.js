@@ -22,12 +22,11 @@ const index = async (pageParam, filterParam = 'All', search = '', flag = 'All', 
     const moviesFinal = await appendActions(movies, user);
     const nOfMovies = (filterParam === 'All') ? await Movie.count({"Title":{$regex:".*" + search + ".*"}}) 
     : await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*"}});
-    
+    const retVal = {movies: moviesFinal, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)};
     if (filterParam === 'All' && search === '') {
-      addToRedis(page + "_" + flag, JSON.stringify(moviesFinal));
+      //addToRedis(page + "_" + flag, JSON.stringify(retVal));
     }
-
-    return {movies: moviesFinal, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)}
+    return retVal;
   } catch (err) {
     throw new Error(err);
   }
@@ -100,6 +99,7 @@ const userActionDo = async(actionObj, token) => {
   const movie = actionObj.movieId;
   const action = actionObj.action;
   const alreadyDidAction = await Likes.findOne({user: user, movie: movie});
+  //deleteFromRedis(actionObj.currentPage);
   if (alreadyDidAction === null){
     const like = new Likes({user, movie, action});
     return like.save();
@@ -226,8 +226,8 @@ const store = async({Title, Year, Rated, Released, Runtime, Genre, Director, Wri
   });
   const countAll = await Movie.count() + 1;
   const countMy = await Movie.count({creator}) + 1;
-  deleteFromRedis(Math.ceil(countAll/10) + "_All");
-  deleteFromRedis(Math.ceil(countMy/10) + "_My");
+  //deleteFromRedis(Math.ceil(countAll/10) + "_All");
+  //deleteFromRedis(Math.ceil(countMy/10) + "_My");
   return movie.save();
   // Done, probably needs changes when adding new fields, also change model
 };
