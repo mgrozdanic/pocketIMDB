@@ -14,7 +14,7 @@ import { getMostPopularAction, removeTokenAction } from "../../store/actions/Mov
 import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import makeSelectUser from "../../store/selectors/UserSelector";
-import authService from "../../services/AuthService";
+import makeSelectCurrentPage from '../../store/selectors/CurrentPageSelector';
 import { Notifications } from 'expo';
 
 const LeftSlider = ({ navigation }) => {
@@ -28,6 +28,7 @@ const LeftSlider = ({ navigation }) => {
   };
 
   const [ notification, setNotification ] = useState("");
+  const currentPage = useSelector(makeSelectCurrentPage());
 
   const handleNotification = (notification) => {
     setNotification({ notification });
@@ -46,7 +47,7 @@ const LeftSlider = ({ navigation }) => {
   const user = useSelector(makeSelectUser());
 
   const handleSinglePage = (movie) => {
-    navigation.navigate("MovieDetails", {movie});
+    navigation.navigate("MovieDetails", {movie, user, currentPage, wl:false});
   }
 
   const handleMyWatchList = () => {
