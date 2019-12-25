@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 import { getMovieFromOMDb } from '../../store/actions/MovieActions';
+
+export const client = new WebSocket("ws://10.0.46.140:8999");
 
 const AddMovieOMDb = () => {
     const dispatch = useDispatch();
@@ -13,6 +15,7 @@ const AddMovieOMDb = () => {
     const handleFind = () => {
         const data = {title, year};
         dispatch(getMovieFromOMDb(data));
+        client.send("MOVIE_ADDED");
     };
 
     return(

@@ -45,8 +45,8 @@ export function* moviesGetFromOmdb(obj) {
       yield put(omdbNotFound("True"));
     } else {
       const response = yield call(movieService.saveMovie, data);
+      yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: "All"}));
       yield put(getMoviesMy({page: 1, filter: 'All', search:'All', flag: 'My'}));
-      yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: 'All'}));
       if (response.data.Title !== undefined) alert("Movie '" + response.data.Title + "("
       + response.data.Year + ")' successfuly saved.");
       else alert("Server error.");

@@ -12,6 +12,8 @@ import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import ModalDropdown from 'react-native-modal-dropdown';
 import DelayInput from 'react-native-debounce-input';
 
+export const client = new WebSocket("ws://10.0.46.140:8999");
+
 const Home = ({navigation}) => {
 
   const [search, setSearch] = useState("");
@@ -48,6 +50,9 @@ const Home = ({navigation}) => {
 
   useEffect(() => {
     handleMoviesGet(cPage);
+    client.onmessage = (message) => {
+      message.data === "MOVIE_ADDED" && movies.length <= 9 ? handleMoviesGet(cPage) : null;
+    }
   }, []);
 
   return (
