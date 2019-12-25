@@ -7,6 +7,8 @@ import { setMovies, setCurrPage, setNPages, omdbNotFound, setCommentsAction, com
   setMyCurrPage, setMyMovies, setMyNPages, getMoviesMy, getMoviesAll } from '../actions/MovieActions';
 import authService from '../../services/AuthService';
 
+export const client = new WebSocket("ws://10.0.46.140:8999");
+
 export function* moviesGetMy({payload}) {
   try {
     const { data } = yield call(movieService.getMovies, payload);
@@ -45,7 +47,8 @@ export function* moviesGetFromOmdb(obj) {
       yield put(omdbNotFound("True"));
     } else {
       const response = yield call(movieService.saveMovie, data);
-      yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: "All"}));
+      client.send("MOVIE_ADDED");
+      //yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: "All"}));
       yield put(getMoviesMy({page: 1, filter: 'All', search:'All', flag: 'My'}));
       if (response.data.Title !== undefined) alert("Movie '" + response.data.Title + "("
       + response.data.Year + ")' successfuly saved.");
