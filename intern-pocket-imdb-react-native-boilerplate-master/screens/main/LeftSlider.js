@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { Avatar } from "react-native-elements";
-import { getMostPopularAction, removeTokenAction } from "../../store/actions/MovieActions";
+import { getMostPopularAction, removeTokenAction, getOldNotificationsAction } from "../../store/actions/MovieActions";
 import makeSelectMostPopular from "../../store/selectors/MostPopularSelector";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import makeSelectUser from "../../store/selectors/UserSelector";
@@ -34,11 +34,14 @@ const LeftSlider = ({ navigation }) => {
 
   const handleNotification = (notification) => {
     setNotification({ notification });
-    navigation.navigate("MovieDetails", { movie: notification.data.message, user, currentPage, wl:false } );
+    alert("Someone has liked your movie!");
+    console.log(notification.data.movie);
+    navigation.navigate("MovieDetails", { movie: notification.data.movie, user, currentPage, wl:false } );
   } 
 
   useEffect(() => {
     dispatch(getMostPopularAction());
+    dispatch(getOldNotificationsAction());
     Notifications.addListener(handleNotification);
   }, [reload]);
 

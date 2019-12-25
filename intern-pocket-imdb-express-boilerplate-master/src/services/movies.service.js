@@ -1,4 +1,4 @@
-const { Movie, Likes, Comment, WatchList, Token } = require('./../models');
+const { Movie, Likes, Comment, WatchList, Token, Message } = require('./../models');
 
 const { addToRedis, deleteFromRedis } = require('./redis');
 var jwt = require('jsonwebtoken');
@@ -101,7 +101,8 @@ const userActionDo = async(actionObj, token) => {
   const movie = actionObj.movieId;
   const action = actionObj.action;
   const alreadyDidAction = await Likes.findOne({user: user, movie: movie});
-  deleteFromRedis(actionObj.currentPage);
+  deleteFromRedis(actionObj.currentPage + "_All");
+  deleteFromRedis(actionObj.currentPage + "_My");
   if (alreadyDidAction === null){
     const like = new Likes({user, movie, action});
     return like.save();
@@ -256,19 +257,24 @@ const destroy = (id) => {
 
 const messageRecieve = async(movie, user) => {
   const tokenUser = await Token.findOne({user:user});
-  console.log(tokenUser);
-  handlePushTokens(tokenUser.token, movie)
+  console.log(movie.creator);
+  if (tokenUser === null) {
+    const msg = new Message({user: movie.creator, movie: movie._id}); // nesto ne savuje ok
+    msg.save();
+    return;
+  }
+  handlePushTokens(tokenUser.token, movie);
 };
 
-const handlePushTokens = (pushToken, message) => {
+const handlePushTokens = (pushToken, movie) => {
   
   let notifications = [];
   notifications.push({
     to: pushToken,
     sound: 'default',
-    title: message.Title,
+    title: movie.Title,
     body: 'Someone liked your movie',
-    data: { message },
+    data: { movie },
   });
 
   let chunks = expo.chunkPushNotifications(notifications);
@@ -276,6 +282,41 @@ const handlePushTokens = (pushToken, message) => {
   (async () => {
     for (let chunk of chunks) {
       try {
+        let receipts = await expo.sendPushNotificationsAsync(chunk);
+        console.log(receipts);
+      } catch (error) {
+        console.error(error);
+      }
+  }})();
+}
+
+const getOldNotifications = async(token) => {
+  const user = getUserIdFromToken(token);
+  const notificationsOld = await Message.find({user:user});
+  if (notificationsOld.length === 0) return;
+  const movie = await Movie.findById((notificationsOld[notificationsOld.length - 1]).movie);
+  if (movie === null) return;
+
+  const tokenUser = await Token.findOne({user:user});
+
+  if (tokenUser === null) return;
+  
+
+  let notifications = [];
+  notifications.push({
+    to: tokenUser.token,
+    sound: 'default',
+    title: movie.Title,
+    body: notificationsOld.length + 'people liked your movie!',
+    data: { movie },
+  });
+
+  let chunks = expo.chunkPushNotifications(notifications);
+
+  (async () => {
+    for (let chunk of chunks) {
+      try {
+        await Message.deleteMany({user: user});
         let receipts = await expo.sendPushNotificationsAsync(chunk);
         console.log(receipts);
       } catch (error) {
@@ -302,5 +343,6 @@ module.exports = {
   getUserIdFromToken,
   setToken,
   messageRecieve,
-  removeToken
+  removeToken,
+  getOldNotifications
 };

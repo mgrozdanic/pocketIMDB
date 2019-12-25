@@ -3,7 +3,8 @@ import { GET_MOVIES_ALL, GET_MOVIES_MY, SET_MOVIES, SET_CURR_PAGE, SET_N_PAGES, 
   GET_MOST_POPULAR, SET_MOST_POPULAR, GET_RELATED, SET_RELATED, WATCHLIST_ACTION, GET_WATCHLIST,
   SET_WATCHLIST, MOVIE_WATCH_UNWATCH, SET_MY_MOVIES, SET_MY_CURR_PAGE, SET_MY_N_PAGES, SET_TOKEN, 
   SEND_NOTIFICATION, 
-  REMOVE_TOKEN} 
+  REMOVE_TOKEN,
+  GET_OLD_NOTIFICATIONS} 
   from './ActionTypes';
 
 export const getMoviesAll = (data) => {
@@ -200,3 +201,10 @@ export const sendNotificationAction = payload => {
     payload
   };
 };
+
+export const getOldNotificationsAction = payload => {
+  return {
+    type: GET_OLD_NOTIFICATIONS,
+    payload
+  }
+}

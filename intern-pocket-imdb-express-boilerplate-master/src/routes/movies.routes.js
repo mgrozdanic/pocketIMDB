@@ -4,7 +4,8 @@ const router = express.Router();
 
 const {
   index, show, destroy, store, update, userActionDo, addView, addComment, getComments, getMostPopular,
-  getRelated, watchListAddRemove, getWatchList, movieWatchUnwatch, setToken, messageRecieve, removeToken
+  getRelated, watchListAddRemove, getWatchList, movieWatchUnwatch, setToken, messageRecieve, removeToken,
+  getOldNotifications
 } = require('./../services/movies.service');
 
 const { redisMiddleware } = require('./../services/redis')
@@ -45,6 +46,10 @@ router.post('/movies/watchunwatch', async(req, res) => { // treba redis
 router.delete('/movies/removetoken', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await removeToken(bearer[1]));
+});
+router.get('/movies/oldnotification', async (req, res) => {
+  const bearer = req.headers.authorization.split(" ");
+  res.send(await getOldNotifications(bearer[1]))
 });
 router.post('/movies/notification', async(req, res) => res.send(await messageRecieve(req.body.movie, req.body.to)));
 router.post('/movies/related', async(req, res) => res.send(await getRelated(req.body.genre)));

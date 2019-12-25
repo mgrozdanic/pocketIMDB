@@ -189,3 +189,11 @@ export function* notificationSend({ payload }) {
     console.log(error);
   }
 }
+
+export function* notificationGetOld({ payload }) {
+  try {
+    const { data } = yield call(movieService.getOldNotifications, payload);
+  } catch ( error ) {
+    console.log(error);
+  }
+}

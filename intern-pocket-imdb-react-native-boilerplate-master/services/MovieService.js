@@ -17,7 +17,8 @@ const ENDPOINTS = {
   WATCH_UNWATCH: "/movies/watchunwatch",
   TOKEN: "/movies/token",
   REMOVE_TOKEN: "/movies/removetoken",
-  NOTIFICATION: "/movies/notification"
+  NOTIFICATION: "/movies/notification",
+  OLD_NOTIFICATIONS: "/movies/oldnotification"
 };
 
 class MovieService extends ApiService {
@@ -106,6 +107,11 @@ class MovieService extends ApiService {
 
   sendNotification = async(payload) => {
     const response = this.apiClient.post(ENDPOINTS.NOTIFICATION, payload);
+    return response;
+  }
+
+  getOldNotifications = async() => {
+    const response = this.apiClient.get(ENDPOINTS.OLD_NOTIFICATIONS);
     return response;
   }
 }
