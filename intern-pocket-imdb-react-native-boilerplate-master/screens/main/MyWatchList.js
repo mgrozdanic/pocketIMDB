@@ -35,7 +35,7 @@ const MyWatchList = ({navigation}) => {
 
     const handleRemove = (id) => {
         console.log(id);
-        dispatch(watchListAction({movie: id, action: 'remove'}));
+        dispatch(watchListAction({movie: id, currentPage, action: 'remove'}));
     }
 
     const handleFilter = () => {
