@@ -30,7 +30,7 @@ const MyWatchList = ({navigation}) => {
     }
 
     const handleAction = (movie, action) => {
-        dispatch(movieWatchUnwatchAction({movie:movie, action:action}));
+        dispatch(movieWatchUnwatchAction({movie:movie, currentPage,action:action}));
     }
 
     const handleRemove = (id) => {
