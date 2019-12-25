@@ -114,7 +114,8 @@ export function* addMovieUser({ payload }) {
   try {
     const { data } = yield call(movieService.saveMovie, payload);
     yield put(getMoviesMy({page: 1, filter: 'All', search:'All', flag: 'My'}));
-    yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: 'All'}));
+    client.send("MOVIE_ADDED");
+    //yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: 'All'}));
     } catch (error) {
     console.log({ error }); /*eslint-disable-line*/
   }
