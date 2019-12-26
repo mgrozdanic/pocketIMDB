@@ -64,13 +64,16 @@ const updateUser = async(token, updatedData) => {
   const oldUser = getUserIdFromToken(token);
   const oldUserObj =await User.findById(oldUser);
   const oldEmail = oldUserObj.email;
-
-  let base64String = updatedData.photo.uri;
-  let base64Image = base64String.split(';base64,').pop();
-  fs.writeFile('/Users/milangrozdanic/Desktop/sprint 2/pocketIMDB/intern-pocket-imdb-express-boilerplate-master/src/images/' + oldUser + '.png', base64Image, {encoding: 'base64'}, function(err) {
-    if (err) console.log(err)
-    else console.log('File created');
-  });
+  console.log(updatedData.imageChanged)
+  if (updatedData.imageChanged) {
+    let base64String = updatedData.photo.uri;
+    let base64Image = base64String.split(';base64,').pop();
+    if (base64String)
+    fs.writeFile('/Users/milangrozdanic/Desktop/sprint 2/pocketIMDB/intern-pocket-imdb-express-boilerplate-master/src/images/' + oldUser + '.png', base64Image, {encoding: 'base64'}, function(err) {
+      if (err) console.log(err)
+      else console.log('File created');
+    });
+  }
 
   const user = await User.findByIdAndUpdate(oldUser, 
     {name: updatedData.name, email: updatedData.email, 

@@ -52,7 +52,9 @@ export function* verify({ payload }) {
 
 export function* userChangeProfile({ payload }) {
   try {
-    yield call(AuthService.changeProfile, {name: payload.name, email: payload.email, photo: payload.photo});
+    console.log(payload.imageChanged);
+    yield call(AuthService.changeProfile, {name: payload.name, email: payload.email, photo: payload.photo,
+      imageChanged: payload.imageChanged});
 
     const response = yield call(AuthService.getUser);
     //console.log(response.user);
