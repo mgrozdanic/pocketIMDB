@@ -11,17 +11,24 @@ const index = async (pageParam, filterParam = 'All', search = '', flag = 'All', 
   const page = pageParam || 1;
   let user = getUserIdFromToken(token);
   search = search === 'All' ? '' : search;
+  let movies = [];
+  let nOfMovies = 0;
   try {
-    let movies = (filterParam === 'All') ? await Movie.find({"Title":{$regex:".*" + search + ".*"}}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage) 
-    : await Movie.find({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*", $options: "i"}}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
-    
-    if (flag === 'My') {
-      movies = movies.filter(movie =>  movie.creator == user);
+    if (flag === 'All'){
+      movies = (filterParam === 'All') ? await Movie.find({"Title":{$regex:".*" + search + ".*"}}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage) 
+      : await Movie.find({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*", $options: "i"}}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
+      nOfMovies = (filterParam === 'All') ? await Movie.count({"Title":{$regex:".*" + search + ".*"}}) 
+    : await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*"}});
+    } else {
+      movies = (filterParam === 'All') ? await Movie.find({"Title":{$regex:".*" + search + ".*"}, creator: user}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage) 
+      : await Movie.find({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*", $options: "i"}, creator: user}).skip((resultsPerPage * page) - resultsPerPage).limit(resultsPerPage);
+      nOfMovies = (filterParam === 'All') ? await Movie.count({"Title":{$regex:".*" + search + ".*"}, creator: user}) 
+    : await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*"}, creator: user});
     }
 
     const moviesFinal = await appendActions(movies, user);
-    const nOfMovies = (filterParam === 'All') ? await Movie.count({"Title":{$regex:".*" + search + ".*"}}) 
-    : await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*"}});
+    //const nOfMovies = (filterParam === 'All') ? await Movie.count({"Title":{$regex:".*" + search + ".*"}}) 
+    //: await Movie.count({"Genre":{$regex:".*" + filterParam + ".*"}, "Title":{$regex:".*" + search + ".*"}});
     const retVal = {movies: moviesFinal, currentPage: page, pages: Math.ceil(nOfMovies / resultsPerPage)};
     if (filterParam === 'All' && search === '') {
       addToRedis(page + "_" + flag, JSON.stringify(retVal));
