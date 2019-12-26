@@ -32,10 +32,10 @@ const index = async (pageParam, filterParam = 'All', search = '', flag = 'All', 
   }
 };
 
-const watchListAddRemove = async(token, movie, action, currentPage) => { // treba redis
+const watchListAddRemove = async(token, movie, action, currentPage, myCurrentPage) => { // treba redis
   const user = getUserIdFromToken(token);
   deleteFromRedis(currentPage + "_All");
-  deleteFromRedis(currentPage + "_My");
+  deleteFromRedis(myCurrentPage + "_My");
   if (action === 'add') {
     const entry = new WatchList({user:user, movie: movie, watched: false});
     return entry.save();
@@ -102,7 +102,7 @@ const userActionDo = async(actionObj, token) => {
   const action = actionObj.action;
   const alreadyDidAction = await Likes.findOne({user: user, movie: movie});
   deleteFromRedis(actionObj.currentPage + "_All");
-  deleteFromRedis(actionObj.currentPage + "_My");
+  deleteFromRedis(actionObj.myCurrentPage + "_My");
   if (alreadyDidAction === null){
     const like = new Likes({user, movie, action});
     return like.save();
@@ -168,10 +168,10 @@ const removeToken = userToken => {
   return Token.deleteOne({user});
 }
 
-const movieWatchUnwatch = async(token, movie, action, currentPage) => { // treba redis
+const movieWatchUnwatch = async(token, movie, action, currentPage, myCurrentPage) => { // treba redis
   const user = getUserIdFromToken(token);
   deleteFromRedis(currentPage + "_All");
-  deleteFromRedis(currentPage + "_My");
+  deleteFromRedis(myCurrentPage + "_My");
   return await WatchList.update({user:user, movie:movie}, {watched: action});
 }
 
@@ -203,7 +203,7 @@ const addComment = (token, movie, comment) => {
 
 const addView = movie => { // treba redis
   deleteFromRedis(movie.currentPage + "_All");
-  deleteFromRedis(movie.currentPage + "_My");
+  deleteFromRedis(movie.myCurrentPage + "_My");
   return Movie.update({_id:movie.movie}, {$inc:{views: 1}});
 };
 
@@ -234,7 +234,9 @@ const store = async({Title, Year, Rated, Released, Runtime, Genre, Director, Wri
   const countAll = await Movie.count() + 1;
   const countMy = await Movie.count({creator}) + 1;
   deleteFromRedis(Math.ceil(countAll/10) + "_All");
+  countAll % 10 === 1 ? deleteFromRedis(Math.ceil(countAll/10) - 1) : null;
   deleteFromRedis(Math.ceil(countMy/10) + "_My");
+  countMy % 10 === 1 ? deleteFromRedis(Math.ceil(countMy/10) - 1) : null;
   return movie.save();
   // Done, probably needs changes when adding new fields, also change model
 };
@@ -325,6 +327,30 @@ const getOldNotifications = async(token) => {
   }})();
 }
 
+const getPosition = async movieId => {
+  const movies = await Movie.find();
+  let position = 0;
+  for (let i in movies) {
+    if (movies[i]._id === movieId) {
+      position = i;
+      break;
+    }
+  }
+  return { position: Math.ceil((position + 1)/10) };
+}
+const getMyPosition = async (token, movieId) => {
+  const user = getUserIdFromToken(token);
+  const movies = await Movie.find({creator: user});
+  let position = 0;
+  for (let i in movies) {
+    if (movies[i]._id === movieId) {
+      position = i;
+      break;
+    }
+  }
+  return { position: Math.ceil((position + 1)/10) };
+}
+
 module.exports = {
   index,
   show,
@@ -344,5 +370,7 @@ module.exports = {
   setToken,
   messageRecieve,
   removeToken,
-  getOldNotifications
+  getOldNotifications,
+  getPosition,
+  getMyPosition
 };

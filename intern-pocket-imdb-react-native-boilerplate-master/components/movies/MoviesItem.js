@@ -6,10 +6,10 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { setUserAction, getMoviesAll, sendNotificationAction, getMoviesMy } from "../../store/actions/MovieActions";
 import makeSelectUser from "../../store/selectors/UserSelector";
 
-const MovieItem = ({ movie, navigation, currentPage }) => {
+const MovieItem = ({ movie, navigation, currentPage, myCurrentPage }) => {
 
   const handleNavigate = (user) => {
-    navigation.navigate("MovieDetails", {movie, currentPage, user, wl: false });
+    navigation.navigate("MovieDetails", {movie, currentPage, myCurrentPage, user, wl: false });
   }
 
   const user = useSelector(makeSelectUser());
@@ -22,14 +22,14 @@ const MovieItem = ({ movie, navigation, currentPage }) => {
   const handleLike = () => {
     movie.action = "LIKE";
     dispatch(setUserAction({action: "LIKE", movieId: movie._id, 
-      currentPage, my: user._id === movie.creator, wl: false}));
+      my: user._id === movie.creator, wl: false}));
     sendMessage();
   }
 
   const handleDislike = () => {
     movie.action = "DISLIKE";
     dispatch(setUserAction({action: "DISLIKE", movieId: movie._id,
-      currentPage, my: user._id === movie.creator, wl: false}));
+      my: user._id === movie.creator, wl: false}));
   }
 
   return(

@@ -13,6 +13,7 @@ const MovieDetails = ({navigation}) => {
     const[likes, setLikes] = useState(navigation.getParam('movie').likes);
     const[dislikes, setDislikes] = useState(navigation.getParam('movie').dislikes);
     const currentPage = navigation.getParam('currentPage');
+    const myCurrentPage = navigation.getParam('myCurrentPage');
 
     const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ const MovieDetails = ({navigation}) => {
         setAction("LIKE");
         setLikes(parseInt(likes) + 1);
         dispatch(setUserAction({action: "LIKE", movieId: navigation.getParam('movie')._id, 
-            currentPage, wl: navigation.getParam('wl')}));
+            wl: navigation.getParam('wl')}));
         sendMessage();
     }
 
@@ -37,12 +38,13 @@ const MovieDetails = ({navigation}) => {
         setAction("DISLIKE");
         setDislikes(parseInt(dislikes) + 1);
         dispatch(setUserAction({action: "DISLIKE", movieId: navigation.getParam('movie')._id,
-            currentPage, wl: navigation.getParam('wl')}));
+            wl: navigation.getParam('wl')}));
     }
 
     const handleView = () => {
         let my = navigation.getParam('movie').creator === navigation.getParam('user')._id;
-        dispatch(setView({movie: navigation.getParam('movie')._id, currentPage, my, wl: navigation.getParam('wl') }));
+        dispatch(setView({movie: navigation.getParam('movie')._id, 
+            my, wl: navigation.getParam('wl') }));
     }
 
     const handleSubmit = () => {
@@ -54,7 +56,7 @@ const MovieDetails = ({navigation}) => {
         // add ili remove
         let my = navigation.getParam('movie').creator === navigation.getParam('user')._id;
         dispatch(watchListAction({movie: navigation.getParam('movie')._id, 
-            action: navigation.getParam('movie').onWatchList ? 'remove' : 'add', my, currentPage}));
+            action: navigation.getParam('movie').onWatchList ? 'remove' : 'add', my }));
         navigation.navigate("Home");
     }
 

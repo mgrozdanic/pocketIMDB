@@ -7,6 +7,7 @@ import makeSelectWatchList from '../../store/selectors/WatchListSelector';
 import { TouchableOpacity, ScrollView, TextInput } from 'react-native-gesture-handler';
 import makeSelectUser from '../../store/selectors/UserSelector';
 import makeSelectCurrentPage from '../../store/selectors/CurrentPageSelector';
+import makeSelectMyCurrentPage from '../../store/selectors/MyCurrentPageSelector';
 // import { NavigationEvents } from 'react-navigation';
 
 const MyWatchList = ({navigation}) => {
@@ -18,6 +19,7 @@ const MyWatchList = ({navigation}) => {
 
     const user = useSelector(makeSelectUser());
     const currentPage = useSelector(makeSelectCurrentPage());
+    const myCurrentPage = useSelector(makeSelectMyCurrentPage());
 
     useEffect(() => {
         dispatch(getWatchListAction({title: 'All', filter: 'All'}));
@@ -26,16 +28,16 @@ const MyWatchList = ({navigation}) => {
     const list = useSelector(makeSelectWatchList());
 
     const handleOnPress = (movie) => {
-        navigation.navigate("MovieDetails", {movie, currentPage, user, wl: true});
+        navigation.navigate("MovieDetails", {movie, currentPage, myCurrentPage, user, wl: true});
     }
 
     const handleAction = (movie, action) => {
-        dispatch(movieWatchUnwatchAction({movie:movie, currentPage,action:action}));
+        dispatch(movieWatchUnwatchAction({movie:movie, action:action}));
     }
 
     const handleRemove = (id) => {
         console.log(id);
-        dispatch(watchListAction({movie: id, currentPage, action: 'remove'}));
+        dispatch(watchListAction({movie: id, action: 'remove'}));
     }
 
     const handleFilter = () => {

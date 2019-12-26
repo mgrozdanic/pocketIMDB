@@ -11,6 +11,7 @@ import makeSelectMyNPages from "../../store/selectors/MyNumberOfPagesSelector";
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import ModalDropdown from 'react-native-modal-dropdown';
 import DelayInput from 'react-native-debounce-input';
+import makeSelectCurrentPage from "../../store/selectors/CurrentPageSelector";
 // import { NavigationEvents } from 'react-navigation';
 
 const MyMovies = ({navigation}) => {
@@ -24,6 +25,7 @@ const MyMovies = ({navigation}) => {
   const movies = useSelector(makeSelectMyMoviesList());
   const currentPage = useSelector(makeSelectMyCurrentPage());
   const nPages = useSelector(makeSelectMyNPages());
+  const currentPageAll = useSelector(makeSelectCurrentPage());
 
   const handlePrevious = () => dispatch(getMoviesMy({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'My'}));
   const handleNext = () => dispatch(getMoviesMy({page: parseInt(currentPage) + 1, filter: 'All', search:'All', flag: 'My'}));
@@ -69,7 +71,8 @@ const MyMovies = ({navigation}) => {
         <DelayInput minLength={3} inputRef={inputRef} onChangeText={(text) => handleSearch(text)} 
           delayTimeout={750} placeholder="Search..."/>
       </View>
-      <MoviesList navigation={navigation} movies={movies} currentPage={currentPage} ></MoviesList>
+      <MoviesList navigation={navigation} movies={movies} 
+        currentPage={currentPageAll} myCurrentPage={currentPage} ></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>
         <Text>Previous</Text>

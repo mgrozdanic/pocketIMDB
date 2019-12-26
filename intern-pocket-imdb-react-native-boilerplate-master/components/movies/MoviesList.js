@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 
 import MovieItem from "./MoviesItem";
 
-const MoviesList = ({ movies, currentPage, navigation }) => {
+const MoviesList = ({ movies, currentPage, myCurrentPage, navigation }) => {
   const renderMovie = movie => (
     <MovieItem style={styles.item} navigation={navigation} key={movie.id} movie={movie}
-      currentPage={currentPage} ></MovieItem>
+      currentPage={currentPage} myCurrentPage={myCurrentPage} ></MovieItem>
   );
 
   return <ScrollView>{movies.map(renderMovie)}</ScrollView>;

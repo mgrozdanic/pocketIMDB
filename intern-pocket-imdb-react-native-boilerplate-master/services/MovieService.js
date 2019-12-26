@@ -18,7 +18,9 @@ const ENDPOINTS = {
   TOKEN: "/movies/token",
   REMOVE_TOKEN: "/movies/removetoken",
   NOTIFICATION: "/movies/notification",
-  OLD_NOTIFICATIONS: "/movies/oldnotification"
+  OLD_NOTIFICATIONS: "/movies/oldnotification",
+  GET_POSITION: "/movies/position",
+  GET_POSITION_MY: "/movies/positionmy"
 };
 
 class MovieService extends ApiService {
@@ -114,6 +116,17 @@ class MovieService extends ApiService {
     const response = this.apiClient.get(ENDPOINTS.OLD_NOTIFICATIONS);
     return response;
   }
+
+  getPosition = async(payload) => {
+    const response = this.apiClient.get(ENDPOINTS.GET_POSITION + "/" + payload);
+    return response;
+  }
+
+  getPositionMy = async(payload) => {
+    const response = this.apiClient.get(ENDPOINTS.GET_POSITION_MY + "/" + payload);
+    return response;
+  }
+
 }
 
 export const movieService = new MovieService();

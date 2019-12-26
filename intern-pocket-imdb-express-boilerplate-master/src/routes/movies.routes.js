@@ -5,7 +5,7 @@ const router = express.Router();
 const {
   index, show, destroy, store, update, userActionDo, addView, addComment, getComments, getMostPopular,
   getRelated, watchListAddRemove, getWatchList, movieWatchUnwatch, setToken, messageRecieve, removeToken,
-  getOldNotifications
+  getOldNotifications, getMyPosition, getPosition
 } = require('./../services/movies.service');
 
 const { redisMiddleware } = require('./../services/redis')
@@ -29,7 +29,8 @@ router.post('/movies/token', async(req, res) => {
 router.post('/movies/comments/', async(req, res) => res.send(await getComments(req.body)));
 router.post('/movies/watchlist', async(req, res) => { // treba redis
   const bearer = req.headers.authorization.split(" ");
-  res.send(await watchListAddRemove(bearer[1], req.body.movie, req.body.action, req.body.currentPage));
+  res.send(await watchListAddRemove(bearer[1], req.body.movie, req.body.action, 
+    req.body.currentPage, req.body.myCurrentPage));
 });
 router.post('/movies/token', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
@@ -41,7 +42,8 @@ router.get('/movies/mywatchlist/:title/:filter', async(req, res) => {
 });
 router.post('/movies/watchunwatch', async(req, res) => { // treba redis
   const bearer = req.headers.authorization.split(" ");
-  res.send(await movieWatchUnwatch(bearer[1], req.body.movie, req.body.action, req.body.currentPage));
+  res.send(await movieWatchUnwatch(bearer[1], req.body.movie, req.body.action, 
+    req.body.currentPage, req.body.myCurrentPage));
 });
 router.delete('/movies/removetoken', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
@@ -56,6 +58,11 @@ router.post('/movies/related', async(req, res) => res.send(await getRelated(req.
 router.get('/movies/mostpopular', async(req, res) => {
   const bearer = req.headers.authorization.split(" ");
   res.send(await getMostPopular(bearer[1]));
+});
+router.get('/movies/position/:movieId', async(req, res) => res.send(await getPosition(req.params.movieId)));
+router.get('/movies/positionmy/:movieId', async(req, res) => {
+  const bearer = req.headers.authorization.split(" ");
+  res.send(await getMyPosition(bearer[1], req.params.movieId));
 });
 router.get('/movies/:page/:filter/:search/:flag', redisMiddleware, async (req, res) => { // sklonjen redis middleware
   const bearer = req.headers.authorization.split(" ");

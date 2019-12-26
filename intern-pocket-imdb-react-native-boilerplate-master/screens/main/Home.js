@@ -3,14 +3,15 @@ import { StyleSheet, View, Text, Picker, Button } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { addHeaderLeftNavigator } from "../../helpers";
-import { getMovies, filterAction, getMoviesAll } from "../../store/actions/MovieActions";
+import { getMoviesAll, getMoviesMy } from "../../store/actions/MovieActions";
 import { makeSelectMoviesList } from "../../store/selectors/MoviesSelector";
 import MoviesList from "../../components/movies/MoviesList";
 import makeSelectCurrentPage from "../../store/selectors/CurrentPageSelector";
 import makeSelectNPages from "../../store/selectors/NumberOfPages";
-import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import ModalDropdown from 'react-native-modal-dropdown';
 import DelayInput from 'react-native-debounce-input';
+import makeSelectMyCurrentPage from "../../store/selectors/MyCurrentPageSelector";
 
 export const client = new WebSocket("ws://10.0.46.140:8999");
 
@@ -22,10 +23,14 @@ const Home = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const handleMoviesGet = data => dispatch(getMoviesAll({page: data, filter: 'All', search:'All', flag: 'All'}));
+  const handleMoviesGet = data => {
+    dispatch(getMoviesAll({page: data, filter: 'All', search:'All', flag: 'All'}));
+    dispatch(getMoviesMy({page: data, filter: 'All', search:'All', flag: 'All'}));
+  }
 
   const movies = useSelector(makeSelectMoviesList());
   const currentPage = useSelector(makeSelectCurrentPage());
+  const myCurrentPage = useSelector(makeSelectMyCurrentPage());
   const nPages = useSelector(makeSelectNPages());
 
   const handlePrevious = () => dispatch(getMoviesAll({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'All'}));
@@ -70,7 +75,8 @@ const Home = ({navigation}) => {
         <DelayInput minLength={3} inputRef={inputRef} onChangeText={(text) => handleSearch(text)} 
           delayTimeout={750} placeholder="Search..."/>
       </View>
-      <MoviesList navigation={navigation} movies={movies} currentPage={currentPage} ></MoviesList>
+      <MoviesList navigation={navigation} movies={movies} currentPage={currentPage} 
+        myCurrentPage={myCurrentPage} ></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>
         <Text>Previous</Text>

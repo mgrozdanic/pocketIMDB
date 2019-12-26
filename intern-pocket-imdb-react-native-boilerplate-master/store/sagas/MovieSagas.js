@@ -61,6 +61,10 @@ export function* moviesGetFromOmdb(obj) {
 
 export function* userAction({ payload }) {
   try {
+    const res1 = yield call(movieService.getPosition, payload.movie);
+    const res2 = yield call(movieService.getPositionMy, payload.movie);
+    payload.currentPage = res1.data.position;
+    payload.myCurrentPage = res2.data.position;
     yield call(movieService.saveAction, payload);
     yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: 'All'}));
     if (payload.my) yield put(getMoviesMy({page: 1, filter: 'All', search:'All', flag: 'My'}));
@@ -73,6 +77,10 @@ export function* userAction({ payload }) {
 
 export function* viewAction({ payload }) {
   try {
+    const res1 = yield call(movieService.getPosition, payload.movie);
+    const res2 = yield call(movieService.getPositionMy, payload.movie);
+    payload.currentPage = res1.data.position;
+    payload.myCurrentPage = res2.data.position;
     yield call(movieService.addView, payload);
     yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: 'All'}));
     if (payload.my) yield put(getMoviesMy({page: 1, filter: 'All', search:'All', flag: 'My'}));
@@ -141,6 +149,10 @@ export function* relatedGet({ payload }) {
 
 export function* actionWatchList({ payload }) {
   try {
+    const res1 = yield call(movieService.getPosition, payload.movie);
+    const res2 = yield call(movieService.getPositionMy, payload.movie);
+    payload.currentPage = res1.data.position;
+    payload.myCurrentPage = res2.data.position;
     const { data } = yield call(movieService.watchListAddRemove, payload);
     yield put(getWatchListAction({title: 'All', filter: 'All'}));
     yield put(getMoviesAll({page: 1, filter: 'All', search:'All', flag: 'All'}));
@@ -161,6 +173,10 @@ export function* watchListGet({ payload }) {
 
 export function* watchUnwatchMovie({ payload }) {
   try {
+    const res1 = yield call(movieService.getPosition, payload.movie);
+    const res2 = yield call(movieService.getPositionMy, payload.movie);
+    payload.currentPage = res1.data.position;
+    payload.myCurrentPage = res2.data.position;
     const { data } = yield call(movieService.watchUnwatch, payload);
     yield put(getWatchListAction({title: 'All', filter: 'All'}));
     yield put(getMoviesMy({page: 1, filter: 'All', search:'All', flag: 'My'}));
