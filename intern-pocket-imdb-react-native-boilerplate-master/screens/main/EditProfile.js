@@ -23,8 +23,8 @@ const EditProfile = ({navigation}) => {
         getPermissionAsync();
       }, []);
 
-    const handleProfileChange = () => {
-        if (validateEmail(email) && (
+    const handleProfileChange = async() => {
+        if (validateEmail(email) && await(
             navigation.getParam('user').email !== email ? checkEmailUnique(email) : true)){
             if (name.length < 255){
                 let reload = navigation.getParam('reload');

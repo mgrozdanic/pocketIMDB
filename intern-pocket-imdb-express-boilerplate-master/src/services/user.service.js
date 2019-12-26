@@ -62,7 +62,8 @@ const updatePassword = async userData => {
 
 const updateUser = async(token, updatedData) => {
   const oldUser = getUserIdFromToken(token);
-  const oldEmail =(await User.findById(oldUser).email);
+  const oldUserObj =await User.findById(oldUser);
+  const oldEmail = oldUserObj.email;
 
   let base64String = updatedData.photo.uri;
   let base64Image = base64String.split(';base64,').pop();
@@ -74,7 +75,7 @@ const updateUser = async(token, updatedData) => {
   const user = await User.findByIdAndUpdate(oldUser, 
     {name: updatedData.name, email: updatedData.email, 
       image: '/Users/milangrozdanic/Desktop/sprint 2/pocketIMDB/intern-pocket-imdb-express-boilerplate-master/src/images/' + oldUser + '.png'}, {new: true});
-  await Comment.updateMany({user: oldEmail}, {user: updatedData.email});
+  await Comment.update({user: oldEmail}, {$set:{user: updatedData.email}}, {multi: true});
   try {
     const tokenNew = jwt.sign({ user }, process.env.JWT_SECRET,
       {
