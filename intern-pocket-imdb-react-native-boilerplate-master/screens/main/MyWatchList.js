@@ -18,9 +18,7 @@ const MyWatchList = ({navigation}) => {
     const [title, setTitle] = useState("All");
 
     const user = useSelector(makeSelectUser());
-    const currentPage = useSelector(makeSelectCurrentPage());
-    const myCurrentPage = useSelector(makeSelectMyCurrentPage());
-
+    
     useEffect(() => {
         dispatch(getWatchListAction({title: 'All', filter: 'All'}));
       }, []);
@@ -28,7 +26,7 @@ const MyWatchList = ({navigation}) => {
     const list = useSelector(makeSelectWatchList());
 
     const handleOnPress = (movie) => {
-        navigation.navigate("MovieDetails", {movie, currentPage, myCurrentPage, user, wl: true});
+        navigation.navigate("MovieDetails", {movie, user, wl: true});
     }
 
     const handleAction = (movie, action) => {

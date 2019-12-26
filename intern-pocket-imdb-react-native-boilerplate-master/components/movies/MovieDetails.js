@@ -12,9 +12,6 @@ const MovieDetails = ({navigation}) => {
     const[action, setAction] = useState(navigation.getParam('movie').action);
     const[likes, setLikes] = useState(navigation.getParam('movie').likes);
     const[dislikes, setDislikes] = useState(navigation.getParam('movie').dislikes);
-    const currentPage = navigation.getParam('currentPage');
-    const myCurrentPage = navigation.getParam('myCurrentPage');
-
     const dispatch = useDispatch();
 
     useEffect(() => {

@@ -61,8 +61,8 @@ export function* moviesGetFromOmdb(obj) {
 
 export function* userAction({ payload }) {
   try {
-    const res1 = yield call(movieService.getPosition, payload.movie);
-    const res2 = yield call(movieService.getPositionMy, payload.movie);
+    const res1 = yield call(movieService.getPosition, payload.movieId);
+    const res2 = yield call(movieService.getPositionMy, payload.movieId);
     payload.currentPage = res1.data.position;
     payload.myCurrentPage = res2.data.position;
     yield call(movieService.saveAction, payload);

@@ -23,14 +23,10 @@ const Home = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const handleMoviesGet = data => {
-    dispatch(getMoviesAll({page: data, filter: 'All', search:'All', flag: 'All'}));
-    dispatch(getMoviesMy({page: data, filter: 'All', search:'All', flag: 'All'}));
-  }
+  const handleMoviesGet = data => dispatch(getMoviesAll({page: data, filter: 'All', search:'All', flag: 'All'}));
 
   const movies = useSelector(makeSelectMoviesList());
   const currentPage = useSelector(makeSelectCurrentPage());
-  const myCurrentPage = useSelector(makeSelectMyCurrentPage());
   const nPages = useSelector(makeSelectNPages());
 
   const handlePrevious = () => dispatch(getMoviesAll({page: parseInt(currentPage) - 1, filter: 'All', search:'All', flag: 'All'}));
@@ -75,8 +71,7 @@ const Home = ({navigation}) => {
         <DelayInput minLength={3} inputRef={inputRef} onChangeText={(text) => handleSearch(text)} 
           delayTimeout={750} placeholder="Search..."/>
       </View>
-      <MoviesList navigation={navigation} movies={movies} currentPage={currentPage} 
-        myCurrentPage={myCurrentPage} ></MoviesList>
+      <MoviesList navigation={navigation} movies={movies} ></MoviesList>
       <View style={{alignItems:"center", flexDirection:"row"}}>
       <TouchableOpacity disabled={currentPage == 1} onPress={handlePrevious}>
         <Text>Previous</Text>

@@ -331,24 +331,24 @@ const getPosition = async movieId => {
   const movies = await Movie.find();
   let position = 0;
   for (let i in movies) {
-    if (movies[i]._id === movieId) {
+    if (movies[i]._id == movieId) {
       position = i;
       break;
     }
   }
-  return { position: Math.ceil((position + 1)/10) };
+  return { position: Math.ceil((parseInt(position) + 1)/10) };
 }
 const getMyPosition = async (token, movieId) => {
   const user = getUserIdFromToken(token);
   const movies = await Movie.find({creator: user});
   let position = 0;
   for (let i in movies) {
-    if (movies[i]._id === movieId) {
+    if (movies[i]._id == movieId) {
       position = i;
       break;
     }
   }
-  return { position: Math.ceil((position + 1)/10) };
+  return { position: Math.ceil((parseInt(position) + 1)/10) };
 }
 
 module.exports = {

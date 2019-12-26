@@ -6,10 +6,10 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { setUserAction, getMoviesAll, sendNotificationAction, getMoviesMy } from "../../store/actions/MovieActions";
 import makeSelectUser from "../../store/selectors/UserSelector";
 
-const MovieItem = ({ movie, navigation, currentPage, myCurrentPage }) => {
+const MovieItem = ({ movie, navigation }) => {
 
   const handleNavigate = (user) => {
-    navigation.navigate("MovieDetails", {movie, currentPage, myCurrentPage, user, wl: false });
+    navigation.navigate("MovieDetails", {movie, user, wl: false });
   }
 
   const user = useSelector(makeSelectUser());
