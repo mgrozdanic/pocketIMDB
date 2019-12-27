@@ -2,7 +2,7 @@ FROM node:10-alpine
 
 RUN apk update && apk add python g++ make
 
-WORKDIR /app
+WORKDIR /app/server
 
 COPY package.json yarn.lock ./
 

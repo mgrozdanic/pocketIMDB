@@ -1,5 +1,5 @@
 var redis = require('redis');
-var client = redis.createClient();
+var client = redis.createClient({ host: process.env.REDIS_HOST});
 
 client.on('connect', function() {
     console.log('Redis client connected!\n');
